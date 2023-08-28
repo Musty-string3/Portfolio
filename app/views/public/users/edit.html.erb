@@ -1,0 +1,34 @@
+<div class="container">
+  <h4>ユーザーの編集</h4>
+  <% if flash[:notice] %>
+    <%= flash[:notice] %>
+  <% end %>
+  <%= form_with model: @user, url: users_update_path, method: :post do |f| %>
+    <div class="row">
+      <table class="table table-borderless">
+        <thead>
+          <th></th>
+          <th></th>
+        </thead>
+        <tbody>
+          <tr>
+            <td><%= image_tag @user.get_profile_image(100, 100) %></td>
+            <td><%= f.file_field :profile_image, accept: "image/*" %></td>
+          </tr>
+          <tr>
+            <td><%= f.label :name, "ニックネーム" %></td>
+            <td><%= f.text_field :name %></td>
+          </tr>
+          <tr>
+            <td><%= f.label :name, "自己紹介文(最大100文字)" %></td>
+            <td><%= f.text_area :introduction, size: "30x5" %></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="row">
+      <%= f.submit "変更する", class:"col-lg-2" %>
+      <%= link_to "退会する", unsubscribe_path, class:"col-lg-2" %>
+    </div>
+  <% end %>
+</div>

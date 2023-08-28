@@ -1,4 +1,4 @@
-# My Favorite Tourist spot
+# My Favorite Tourist Spot
 ### サイトテーマ
 行ってみたい観光地や絶景スポットを検索したり、おすすめの観光地を画像と文章を使って投稿することができるSNS系サイト
 ### テーマを選んだ理由

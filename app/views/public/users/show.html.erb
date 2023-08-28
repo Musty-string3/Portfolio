@@ -1,0 +1,26 @@
+<div class="container">
+  <h4>マイページ</h4>
+  <% if flash[:notice] %>
+    <%= flash[:notice] %>
+  <% end %>
+  <div class="row">
+    <div class="col-lg-2">
+      <%= image_tag @user.get_profile_image(100, 100) %>
+    </div>
+    <div class="col-lg-5">
+      <%= @user.name %><br>
+      投稿数<%=%>
+    </div>
+  </div>
+  <div class="row">
+    <p>自己紹介<%= @user.introduction %></p>
+  </div>
+  <div class="row">
+    <%= link_to "プロフィールを編集", users_edit_path, class:"col-lg-2" %>
+    <%= link_to "いいねした一覧(未定)", users_edit_path, class:"col-lg-2" %>
+    <%= link_to "投稿した一覧", posts_path, class:"col-lg-2" %>
+    <%= link_to new_post_path do %>
+      <i class="fa-solid fa-plus"></i>
+    <% end %>
+  </div>
+</div>

@@ -1,0 +1,14 @@
+<div class="container d-flex align-content-start flex-wrap">
+  <div class="row">
+    <div class="col-lg-1"></div>
+    <div class="col-lg-10">
+      <% @posts.each do |post| %>
+        <%= link_to post_path(post) do %>
+          <%= image_tag post.image, size: "150x100" %>
+          <%= post.post_name %>
+        <% end %>
+        <%= post.explanation %>
+      <% end %>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,20 @@
+<div class="container">
+  <h4>新規投稿</h4>
+  <div class="row">
+    <%= render 'layouts/error_messages', resource: @post %>
+    <% if flash[:notice] %>
+      <%= flash[:notice]  %>
+    <% end %>
+    <%= form_with model: @post do |f| %>
+      <%= f.file_field :image, accept: "image/*" %>
+      <br>
+      <%= f.label :post_name, "投稿名" %>
+      <%= f.text_field :post_name %>
+      <br>
+      <%= f.label :explanation, "投稿の説明" %>
+      <%= f.text_field :explanation %>
+      <br>
+      <%= f.submit "投稿する" %>
+    <% end %>
+  </div>
+</div>

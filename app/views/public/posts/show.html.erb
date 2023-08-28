@@ -1,0 +1,24 @@
+<div class="container">
+  <% if flash[:notice] %>
+    <%= flash[:notice] %>
+  <% end %>
+  <div class="row">
+    <div class="col-lg-3">
+      <%= link_to users_show_path(@user.id) do %>
+        <%= image_tag @post.user.get_profile_image(40, 40) %> <%= @post.user.name %>
+      <% end %>
+    </div>
+    <div class="col-lg-offset-2 col-lg-4">
+      <%= @post.post_name %>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-lg-4">
+      <%= image_tag @post.image, size: "200x150" %>
+    </div>
+    <div class="col-lg-offset-1 col-lg-3">
+      <%= @post.explanation %>
+    </div>
+  </div>
+  <%= link_to "投稿を編集する", edit_post_path(@post) %>
+</div>

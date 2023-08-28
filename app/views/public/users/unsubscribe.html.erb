@@ -1,0 +1,10 @@
+<div class="container">
+    <p>
+        退会すると投稿やいいね、コメントの投稿ができなくなります。<br>
+        また、投稿した情報は削除され復元できません。
+    </p>
+    <p>退会しますか？</p>
+    
+    <%= link_to "退会する", withdrawal_path, method: :patch %>
+    <%= link_to "退会しない", users_show_path %>
+</div>
