@@ -13,7 +13,7 @@ class Public::UsersController < ApplicationController
     if @user.update(user_params)
       redirect_to users_show_path, notice: "会員情報の編集に成功しました。"
     else
-      render edit, notice: "会員情報の編集に失敗しました。再度内容をご確認ください。"
+      render :edit, notice: "会員情報の編集に失敗しました。再度内容をご確認ください。"
     end
   end
 

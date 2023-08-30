@@ -13,14 +13,11 @@
     </div>
   </div>
   <div class="row">
-    <p>自己紹介<%= @user.introduction %></p>
+    <p>自己紹介：　<%= @user.introduction %></p>
   </div>
   <div class="row">
     <%= link_to "プロフィールを編集", users_edit_path, class:"col-lg-2" %>
     <%= link_to "いいねした一覧(未定)", users_edit_path, class:"col-lg-2" %>
-    <%= link_to "投稿した一覧", posts_path, class:"col-lg-2" %>
-    <%= link_to new_post_path do %>
-      <i class="fa-solid fa-plus"></i>
-    <% end %>
+    <%= link_to "投稿した一覧", index_current_posts_path, class:"col-lg-2" %>
   </div>
 </div>

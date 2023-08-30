@@ -1,13 +1,19 @@
-<div class="container d-flex align-content-start flex-wrap">
+<div class="container d-flex flex-nowrap">
   <div class="row">
-    <div class="col-lg-1"></div>
-    <div class="col-lg-10">
+    <div class="col-lg-3">
+      <% @tag_list.each do |list| %>
+          <%= list.name %>
+          <%= "(#{list.posts.count})" %>
+        <% end %>
+    </div>
+    <div class="col-lg-5">
       <% @posts.each do |post| %>
         <%= link_to post_path(post) do %>
           <%= image_tag post.image, size: "150x100" %>
           <%= post.post_name %>
         <% end %>
-        <%= post.explanation %>
+        <span class="d-flex flex-wrap"><%= post.explanation %></span>
+        <i class="fa-solid fa-tags"><%= post.tags.map(&:name).join(', ') %></i>
       <% end %>
     </div>
   </div>

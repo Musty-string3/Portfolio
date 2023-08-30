@@ -3,6 +3,7 @@
   <% if flash[:notice] %>
     <%= flash[:notice] %>
   <% end %>
+  <%= render 'layouts/error_messages', resource: @user %>
   <%= form_with model: @user, url: users_update_path, method: :post do |f| %>
     <div class="row">
       <table class="table table-borderless">
