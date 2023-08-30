@@ -1,2 +1,9 @@
-<h1>Searches#search</h1>
-<p>Find me in app/views/searches/search.html.erb</p>
+<div class="container">
+  <% if @model == 'user' %>
+    <h5>検索名：<%= @keyword %>（ユーザー）</h5>
+    <%= render 'public/users/index', users: @records %>
+  <% elsif @model == 'post' %>
+    <h5>検索名：<%= @keyword %>（投稿）</h5>
+    <%= render 'public/posts/search_index', posts: @records %>
+  <% end %>
+</div>

@@ -4,6 +4,8 @@
     <%= render 'layouts/error_messages', resource: @post %>
     <%= form_with model: @post do |f| %>
       <%= render 'form', f: f %>
+      <%= f.text_field :tag, placeholder: "タグを入力", value: @tag_list %>
+      <%= f.submit "投稿する" %>
     <% end %>
   </div>
 </div>

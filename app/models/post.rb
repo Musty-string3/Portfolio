@@ -34,4 +34,8 @@ class Post < ApplicationRecord
       self.tags << new_post_tag
     end
   end
+  
+  def self.search_for(keyword)
+    Post.where('post_name LIKE ?', keyword + '%')
+  end
 end

@@ -28,4 +28,8 @@ class User < ApplicationRecord
     profile_image.variant(resize_to_limit: [width, height]).processed
   end
   
+  def self.search_for(keyword)
+    User.where('name LIKE ?', keyword+'%')
+  end
+  
 end

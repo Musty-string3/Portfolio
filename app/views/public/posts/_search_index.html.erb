@@ -1,0 +1,28 @@
+<table class="table table-borderless">
+  <thead>
+    <th class="col-lg-2"></th>
+    <th class="col-lg-4"></th>
+    <th class="col-lg-2"></th>
+    <th class="col-lg-4"></th>
+  </thead>
+  <tbody>
+    <% posts.each do |post| %>
+      <tr>
+        <td>
+          <%= link_to users_show_path(post.user.id) do %>
+            <%= image_tag post.user.profile_image, size: "20x20" %> <%= post.user.name %>
+          <% end %>
+          <br>
+          <%= link_to post_path(post.id) do %>
+            <%= image_tag post.image, size: "75x75" %>
+          <% end %>
+        </td>
+        <td>
+          <%= link_to post.post_name, post_path(post.id) %>
+          <br>
+          <%= post.explanation %>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
