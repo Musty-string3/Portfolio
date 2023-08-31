@@ -1,0 +1,29 @@
+<div class="container d-flex flex-nowrap">
+  <div class="row">
+    <% @tags.each do |tag| %>
+        <%= tag.name %>
+        <%= "(#{tag.posts.count}件)" %>
+      <% end %>
+    <table class="table table-bordered">
+      <tbody>
+        <% @posts.each do |post| %>
+          <tr>
+            <td class="col-lg-1">
+              <%= link_to admin_user_path(post.user.id) do %>
+                <%= post.user.name%>
+              <% end %>
+              <%= link_to admin_post_path(post.id) do %>
+                <%= image_tag post.image, size: "125x100" %>
+              <% end %>
+            </td>
+            <td class="col-lg-4">
+              <%= post.post_name %><br>
+              <%= post.explanation %><br>
+              <i class="fa-solid fa-tags"><%= post.tags.map(&:name).join(', ') %></i>
+            </td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+</div>

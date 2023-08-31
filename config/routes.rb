@@ -9,7 +9,7 @@ Rails.application.routes.draw do
   devise_for :admins, skip: [:registrations, :passwords], controllers: {
     sessions: "admin/sessions"
   }
-  
+
   get 'search', to: 'searches#search'
 
   #ユーザー用
@@ -29,4 +29,9 @@ Rails.application.routes.draw do
   end
 
   #管理者用
+  namespace :admin do
+    root to: 'posts#top'
+    resources :users, except: %i[new create edit]
+    resources :posts, only: %i[show edit update destroy] 
+  end
 end

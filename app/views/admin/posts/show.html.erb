@@ -4,7 +4,7 @@
   <% end %>
   <div class="row">
     <div class="col-lg-3">
-      <%= link_to users_show_path(@user) do %>
+      <%= link_to admin_user_path(@post.user.id) do %>
         <%= image_tag @post.user.get_profile_image(40, 40) %> <%= @post.user.name %>
       <% end %>
     </div>
@@ -16,7 +16,7 @@
     <div class="col-lg-4">
       <%= image_tag @post.image, size: "200x150" %>
       <br>
-      <% @post_tags.each do |tag| %>
+      <% @tags.each do |tag| %>
         <%= link_to index_current_posts_path do %>
           <%= tag.name %>
         <% end %>
@@ -26,5 +26,5 @@
       <%= @post.explanation %>
     </div>
   </div>
-  <%= link_to "投稿を編集する", edit_post_path(@post) %>
+  <%= link_to "投稿を編集する", edit_admin_post_path(@post) %>
 </div>
