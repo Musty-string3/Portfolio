@@ -7,7 +7,7 @@
     <% users.each do |user| %>
       <tr>
         <td>
-          <%= link_to users_show_path(user.id) do %>
+          <%= link_to user_path(user.id) do %>
             <%= user.name %><br>
             <%= image_tag user.profile_image, size: "75x75" %>
           <% end %>

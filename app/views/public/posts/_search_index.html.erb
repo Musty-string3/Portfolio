@@ -9,7 +9,7 @@
     <% posts.each do |post| %>
       <tr>
         <td>
-          <%= link_to users_show_path(post.user.id) do %>
+          <%= link_to user_path(post.user.id) do %>
             <%= image_tag post.user.profile_image, size: "20x20" %> <%= post.user.name %>
           <% end %>
           <br>

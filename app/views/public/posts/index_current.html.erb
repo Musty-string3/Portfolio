@@ -8,6 +8,7 @@
           <%= post.post_name %>
         <% end %>
         <%= post.explanation %>
+        <p><%= link_to "#{post.comments.count} コメント", post_path(post.id) %></p>
       <% end %>
     </div>
   </div>

@@ -4,6 +4,7 @@ class Public::UsersController < ApplicationController
   before_action :set_current_user
   
   def show
+    @User = User.find(params[:id])
   end
 
   def edit
@@ -11,7 +12,7 @@ class Public::UsersController < ApplicationController
   
   def update
     if @user.update(user_params)
-      redirect_to users_show_path, notice: "会員情報の編集に成功しました。"
+      redirect_to user_path(@user), notice: "会員情報の編集に成功しました。"
     else
       render :edit, notice: "会員情報の編集に失敗しました。再度内容をご確認ください。"
     end

@@ -5,6 +5,6 @@
     </p>
     <p>退会しますか？</p>
     
-    <%= link_to "退会する", withdrawal_path, method: :patch %>
-    <%= link_to "退会しない", users_show_path %>
+    <%= link_to "退会する", withdrawal_user_path, method: :patch %>
+    <%= link_to "退会しない", user_path(@user) %>
 </div>

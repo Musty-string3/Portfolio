@@ -34,6 +34,7 @@ class Public::PostsController < ApplicationController
   def show
     @user = current_user
     @post_tags = @post.tags
+    @comment = Comment.new
   end
 
   def edit

@@ -16,12 +16,15 @@ Rails.application.routes.draw do
   scope module: :public do
     root to: 'homes#top'
     get 'about', to: 'homes#about'
-    get 'users/show'
-    get 'users/edit_information', to: 'users#edit', as: 'users_edit'
-    post 'users/update'
-    get 'users/unsubscribe', to: 'users#unsubscribe', as: 'unsubscribe'
-    patch 'users/withdrawal', to: 'users#withdrawal', as: 'withdrawal'
+    resources :users, only: %i[show update] do
+      member do
+        get 'edit_information', as: 'edit'
+        get 'unsubscribe'
+        patch 'withdrawal'
+      end
+    end
     resources :posts do
+      resources :comments, only: %i[create destroy]
       collection do
         get 'index_current'
       end

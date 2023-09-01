@@ -27,7 +27,7 @@ class Public::SessionsController < Devise::SessionsController
   # end
   
   def after_sign_in_path_for(resource)
-    users_show_path
+    user_path(current_user)
   end
   
   protected
