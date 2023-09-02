@@ -9,6 +9,7 @@ class Post < ApplicationRecord
   
   belongs_to :user
   has_many :comments, dependent: :destroy
+  has_many :likes, dependent: :destroy
   has_many :post_tags, dependent: :destroy
   has_many :tags, through: :post_tags
   # ↑ tagsと多対多の関係であり、post_tagsが中間テーブルという意味　
@@ -38,5 +39,9 @@ class Post < ApplicationRecord
   
   def self.search_for(keyword)
     Post.where('post_name LIKE ?', keyword + '%')
+  end
+  
+  def like?(user)
+    likes.where(user_id: user.id).exists?
   end
 end

@@ -21,13 +21,16 @@ Rails.application.routes.draw do
         get 'edit_information', as: 'edit'
         get 'unsubscribe'
         patch 'withdrawal'
+        get :likes
       end
     end
     resources :posts do
+      resource :likes, only: %i[create destroy]
       resources :comments, only: %i[create destroy]
       collection do
         get 'index_current'
       end
+      
     end
   end
 

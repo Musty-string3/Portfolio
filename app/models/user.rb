@@ -5,6 +5,7 @@ class User < ApplicationRecord
          
   has_many :posts, dependent: :destroy
   has_many :comments, dependent: :destroy
+  has_many :likes, dependent: :destroy
   
   scope :only_active, -> { where(is_deleted: true) }
   #is_deletedがtrue(退会してない)の会員レコードを取得
