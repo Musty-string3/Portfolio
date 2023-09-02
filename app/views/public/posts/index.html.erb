@@ -15,7 +15,7 @@
         <span class="d-flex flex-wrap"><%= post.explanation %></span>
         <i class="fa-solid fa-tags"><%= post.tags.map(&:name).join(', ') %></i>
         <%= link_to "#{post.comments.count} コメント", post_path(post.id) %>
-        <%= render "public/likes/like", post: post %>
+        <p id="post_<%= post.id %>"><%= render "public/likes/like", post: post %></p>
       <% end %>
     </div>
   </div>

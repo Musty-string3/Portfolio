@@ -9,7 +9,7 @@
         <% end %>
         <%= post.explanation %>
         <%= link_to "#{post.comments.count} コメント", post_path(post.id) %>
-        <%= render "public/likes/like", post: post %>
+        <p id="post_<%= post.id %>"><%= render "public/likes/like", post: post %></p>
       <% end %>
     </div>
   </div>

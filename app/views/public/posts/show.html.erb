@@ -29,7 +29,7 @@
   <%= link_to "投稿を編集する", edit_post_path(@post) if @post.user == current_user %>
 
   <p>コメント件数<%= @post.comments.count%>件</p>
-  <p id="like_btn_<%= @post.id %>"><%= render "public/likes/like", post: @post %></p>
+  <p id="post_<%= @post.id %>"><%= render "public/likes/like", post: @post %></p>
   <% @post.comments.each do |comment| %>
     <div class="row">
       <%= link_to user_path(comment.user) do %>
