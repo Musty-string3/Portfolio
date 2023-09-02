@@ -27,6 +27,12 @@ class Public::UsersController < ApplicationController
     redirect_to root_path, notice: "退会処理を実行いたしました"
   end
   
+  def likes
+    likes = Like.where(user_id: current_user).pluck(:post_id)
+    #いいねテーブルのuser_idに現在ログインしているユーザーが存在すれば、いいねした投稿を全部取得する
+    @likes = Post.find(likes)
+  end
+  
   private
   
   def set_current_user

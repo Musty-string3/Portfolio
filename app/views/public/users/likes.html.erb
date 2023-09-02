@@ -1,0 +1,16 @@
+<div class="container d-flex align-content-start flex-wrap">
+  <div class="row">
+    <div class="col-lg-1"></div>
+    <div class="col-lg-10">
+      <% @likes.each do |like| %>
+        <%= link_to post_path(like) do %>
+          <%= image_tag like.image, size: "150x100" %>
+          <%= like.post_name %>
+        <% end %>
+        <%= like.explanation %>
+        <%= link_to "#{like.comments.count} コメント", post_path(like.id) %>
+        <p id="post_<%= like.id %>"><%= render "public/likes/like", post: like %></p>
+      <% end %>
+    </div>
+  </div>
+</div>

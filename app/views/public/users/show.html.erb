@@ -18,7 +18,7 @@
     </div>
     <div class="row">
       <%= link_to "プロフィールを編集", edit_user_path(@user), class:"col-lg-2" %>
-      <%= link_to "いいねした一覧(未定)", edit_user_path, class:"col-lg-2" %>
+      <%= link_to "いいねした一覧", likes_user_path(@user), class:"col-lg-2" %>
       <%= link_to "投稿した一覧", index_current_posts_path, class:"col-lg-2" %>
     </div>
   <% else %>
