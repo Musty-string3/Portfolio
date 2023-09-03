@@ -1,13 +1,11 @@
 class Public::LikesController < ApplicationController
+  #ログインしていないユーザーは機能を使えない
   before_action :authenticate_user!
-  
-  def index
-    @likes = cureent_user.like.all
-  end
   
   def create
     @post = Post.find(params[:post_id])
     like = current_user.likes.new(post_id: params[:post_id])
+    #params[:post_id]の意味はroutesでネストしたpostの
     like.save
   end
   

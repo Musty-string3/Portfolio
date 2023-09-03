@@ -41,6 +41,8 @@ class Post < ApplicationRecord
     Post.where('post_name LIKE ?', keyword + '%')
   end
   
+  #like?(user)メソッドはlikesテーブルに引数で渡されたuser(current_user)が存在(exists)するか調べる
+  #whereはlikesテーブル内にuser.id(current_user)が存在するか全部確認して存在していたらtrueを返し、逆ならfalseを返す
   def like?(user)
     likes.where(user_id: user.id).exists?
   end

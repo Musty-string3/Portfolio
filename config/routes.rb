@@ -10,7 +10,7 @@ Rails.application.routes.draw do
     sessions: "admin/sessions"
   }
 
-  get 'search', to: 'searches#search'
+  get 'search', to: 'searches#search' #検索
 
   #ユーザー用
   scope module: :public do
@@ -21,8 +21,11 @@ Rails.application.routes.draw do
         get 'edit_information', as: 'edit'
         get 'unsubscribe'
         patch 'withdrawal'
-        get :likes
+        get :likes  #いいね一覧
       end
+      resource :relations, only: %i[create destroy]
+      get 'followings', to: 'relations#followings', as: 'followings'
+      get 'followers', to: 'relations#followers', as: 'followers'
     end
     resources :posts do
       resource :likes, only: %i[create destroy]

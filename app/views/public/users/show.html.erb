@@ -5,13 +5,26 @@
       <%= flash[:notice] %>
     <% end %>
     <div class="row">
-      <div class="col-lg-2">
-        <%= image_tag @user.get_profile_image(100, 100) %>
-      </div>
-      <div class="col-lg-5">
-        <%= @user.name %><br>
-        投稿数<%=%>
-      </div>
+      <table class="table">
+        <tr>
+          <td class="col-lg-1">
+            <%= image_tag @user.get_profile_image(100, 100) %>
+          </td>
+          <td class="col-lg-11">
+            <%= @user.name %><br>
+            自己紹介 <%= @user.introduction %><br>
+            投稿数 <%= @user.posts.count%>投稿<br>
+            フォロー 
+            <%= link_to user_followings_path(@user) do %>
+              <%= @user.followings.count %>
+            <% end %>
+            フォロワー 
+            <%= link_to user_followers_path(@user) do %>
+              <%= @user.followers.count %>
+            <% end %>
+          </td>
+        </tr>
+      </table>
     </div>
     <div class="row">
       <p>自己紹介：　<%= @user.introduction %></p>
@@ -27,17 +40,27 @@
       <%= flash[:notice] %>
     <% end %>
     <div class="row">
-      <div class="col-lg-2">
-        <%= image_tag @User.get_profile_image(100, 100) %>
-      </div>
-      <div class="col-lg-5">
-        <%= @User.name %><br>
-        投稿数<%=%>
-      </div>
-    </div>
-    <div class="row">
-      <p>自己紹介：　<%= @User.introduction %></p>
-    </div>
+      <table class="table">
+        <tr>
+          <td class="col-lg-1">
+            <%= image_tag @User.get_profile_image(100, 100) %>
+          </td>
+          <td class="col-lg-11">
+            <%= @User.name %><br>
+            自己紹介 <%= @User.introduction %><br>
+            投稿数 <%= @User.posts.count%>投稿<br>
+            フォロー 
+            <%= link_to user_followings_path(@User) do %>
+              <%= @User.followings.count %>
+            <% end %>
+            フォロワー 
+            <%= link_to user_followers_path(@User) do %>
+              <%= @User.followers.count %>
+            <% end %>
+            <%= render 'public/relations/follow', user: @user %>
+          </td>
+        </tr>
+      </table>
     <div class="row">
     <p>ここに各ユーザーが投稿した内容をつける</p>
     </div>

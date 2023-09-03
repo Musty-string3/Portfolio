@@ -4,7 +4,7 @@
   <% end %>
   <div class="row">
     <div class="col-lg-3">
-      <%= link_to user_path(@user) do %>
+      <%= link_to user_path(@post.user.id) do %>
         <%= image_tag @post.user.get_profile_image(40, 40) %> <%= @post.user.name %>
       <% end %>
     </div>
@@ -29,6 +29,7 @@
   <%= link_to "投稿を編集する", edit_post_path(@post) if @post.user == current_user %>
 
   <p>コメント件数<%= @post.comments.count%>件</p>
+  <!--id="post_ @post.id "の部分はcreate.js.erb, destroy.js.erbで使うため-->
   <p id="post_<%= @post.id %>"><%= render "public/likes/like", post: @post %></p>
   <% @post.comments.each do |comment| %>
     <div class="row">

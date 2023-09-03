@@ -1,9 +1,11 @@
 <div class="container">
   <% if @model == 'user' %>
     <h5>検索名：<%= @keyword %>（ユーザー）</h5>
-    <%= render 'public/users/index', users: @records %>
+    <p>マッチした検索数<%= @records.count %>件</p>
+    <%= render 'public/users/search_index', users: @records %>
   <% elsif @model == 'post' %>
     <h5>検索名：<%= @keyword %>（投稿）</h5>
+    <p>マッチした検索数<%= @records.count %>件</p>
     <%= render 'public/posts/search_index', posts: @records %>
   <% end %>
 </div>

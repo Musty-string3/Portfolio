@@ -2,26 +2,36 @@ class User < ApplicationRecord
 
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable
-         
+
   has_many :posts, dependent: :destroy
   has_many :comments, dependent: :destroy
   has_many :likes, dependent: :destroy
-  
+
+  #フォローした、されたの関係
+  has_many :relations, class_name: "Relation", foreign_key: "follow_id", dependent: :destroy
+  has_many :reverse_relations, class_name: "Relation", foreign_key: "followed_id", dependent: :destroy
+  #class_name: "Relation"でRelationクラスの参照、foreign_key: カラム名で保存するカラムの指定
+
+  #フォロー一覧
+  has_many :followings, through: :relations, source: :follow           #フォロー中
+  has_many :followers, through: :reverse_relations, source: :followed  #フォロワー
+  #through: :名前 で上の中間テーブルを通る、source: :名前  で参照するカラムを指定する
+
   scope :only_active, -> { where(is_deleted: true) }
   #is_deletedがtrue(退会してない)の会員レコードを取得
-         
+
   validates :last_name, presence: true                                #名が空白ならエラー
   validates :first_name, presence: true                               #姓が空白ならエラー
   validates :name, presence: true, uniqueness: true                   #ニックネームが空白＆他の会員とニックネームが一致した場合にエラー
   validates :encrypted_password, length: {minimum: 6}                 #パスワードが空白＆最小文字数が6文字以上でないとエラー
   validates :introduction, length: { maximum: 100 }                   #最大文字数100文字
-  
+
   def full_name
     first_name + " " + last_name
   end
-  
+
   has_one_attached :profile_image
-  
+
   def get_profile_image(width, height)
     unless profile_image.attached?
       file_path = Rails.root.join('app/assets/images/profile_image.jpg')
@@ -29,9 +39,15 @@ class User < ApplicationRecord
     end
     profile_image.variant(resize_to_limit: [width, height]).processed
   end
-  
+
   def self.search_for(keyword)
+    #検索したkeywordがusersテーブルにある場合、その名前を全取得する
     User.where('name LIKE ?', keyword+'%')
   end
-  
+
+  def follow?(user) #フォローしているかの判定
+    #include?で引数のuser(current_user)が1つでもあった場合はtrueを返し、逆ならfalseを返す
+    followings.include?(user)
+  end
+
 end

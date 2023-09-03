@@ -1,9 +1,10 @@
-<% unless post.like?(current_user) %>
-  <%= link_to post_likes_path(post), method: :post, remote: true do %>
-    ♡<%= post.likes.count %>いいね
-  <% end %>
-<% else %>
+<% if post.like?(current_user) %>
+  <!--remote: trueでHTMLリクエストではなくJSのリクエストがlikesコントローラ側に送られる-->
   <%= link_to post_likes_path(post), method: :delete, remote: true do %>
     ♥<%= post.likes.count %>いいね
+  <% end %>
+<% else %>
+  <%= link_to post_likes_path(post), method: :post, remote: true do %>
+    ♡<%= post.likes.count %>いいね
   <% end %>
 <% end %>
