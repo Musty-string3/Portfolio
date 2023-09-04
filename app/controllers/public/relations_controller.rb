@@ -5,7 +5,7 @@ class Public::RelationsController < ApplicationController
   end
 
   def followers # フォロワー一覧
-    @users = User.find(params[:user_id]).user.followers
+    @users = User.find(params[:user_id]).followers
   end
   
   def create #フォローする

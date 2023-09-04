@@ -3,12 +3,12 @@ class Public::PostsController < ApplicationController
   before_action :set_post, only: %i[show edit update destroy]
 
   def index
-    @posts = Post.all
+    @posts = Post.preload(:user)
     @tag_list = Tag.all
   end
 
   def index_current
-    @posts = current_user.posts.all
+    @posts = current_user.posts.preload(:user)
     @tag_list = Tag.all
   end
 

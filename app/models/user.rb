@@ -13,8 +13,8 @@ class User < ApplicationRecord
   #class_name: "Relation"でRelationクラスの参照、foreign_key: カラム名で保存するカラムの指定
 
   #フォロー一覧
-  has_many :followings, through: :relations, source: :follow           #フォロー中
-  has_many :followers, through: :reverse_relations, source: :followed  #フォロワー
+  has_many :followings, through: :relations, source: :followed #フォロー中
+  has_many :followers, through: :reverse_relations, source: :follow  #フォロワー
   #through: :名前 で上の中間テーブルを通る、source: :名前  で参照するカラムを指定する
 
   scope :only_active, -> { where(is_deleted: true) }
@@ -46,7 +46,7 @@ class User < ApplicationRecord
   end
 
   def follow?(user) #フォローしているかの判定
-    #include?で引数のuser(current_user)が1つでもあった場合はtrueを返し、逆ならfalseを返す
+    #include?で引数のuserが1つでもあった場合はtrueを返し、逆ならfalseを返す
     followings.include?(user)
   end
 

@@ -1,5 +1,5 @@
 <div class="container">
-  <% if @User == current_user %>
+  <% if @user == current_user %>
     <h4>マイページ</h4>
     <% if flash[:notice] %>
       <%= flash[:notice] %>
@@ -35,7 +35,7 @@
       <%= link_to "投稿した一覧", index_current_posts_path, class:"col-lg-2" %>
     </div>
   <% else %>
-    <h4><%= @User.name %>さんのマイページ</h4>
+    <h4><%= @user.name %>さんのマイページ</h4>
     <% if flash[:notice] %>
       <%= flash[:notice] %>
     <% end %>
@@ -43,19 +43,19 @@
       <table class="table">
         <tr>
           <td class="col-lg-1">
-            <%= image_tag @User.get_profile_image(100, 100) %>
+            <%= image_tag @user.get_profile_image(100, 100) %>
           </td>
           <td class="col-lg-11">
-            <%= @User.name %><br>
-            自己紹介 <%= @User.introduction %><br>
-            投稿数 <%= @User.posts.count%>投稿<br>
+            <%= @user.name %><br>
+            自己紹介 <%= @user.introduction %><br>
+            投稿数 <%= @user.posts.count%>投稿<br>
             フォロー 
-            <%= link_to user_followings_path(@User) do %>
-              <%= @User.followings.count %>
+            <%= link_to user_followings_path(@user) do %>
+              <%= @user.followings.count %>
             <% end %>
             フォロワー 
-            <%= link_to user_followers_path(@User) do %>
-              <%= @User.followers.count %>
+            <%= link_to user_followers_path(@user) do %>
+              <%= @user.followers.count %>
             <% end %>
             <%= render 'public/relations/follow', user: @user %>
           </td>

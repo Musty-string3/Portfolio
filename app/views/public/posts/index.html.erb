@@ -1,22 +1,3 @@
 <div class="container d-flex flex-nowrap">
-  <div class="row">
-    <div class="col-lg-3">
-      <% @tag_list.each do |list| %>
-          <%= list.name %>
-          <%= "(#{list.posts.count})" %>
-        <% end %>
-    </div>
-    <div class="col-lg-5">
-      <% @posts.each do |post| %>
-        <%= link_to post_path(post) do %>
-          <%= image_tag post.image, size: "150x100" %>
-          <%= post.post_name %>
-        <% end %>
-        <span class="d-flex flex-wrap"><%= post.explanation %></span>
-        <i class="fa-solid fa-tags"><%= post.tags.map(&:name).join(', ') %></i>
-        <%= link_to "#{post.comments.count} コメント", post_path(post.id) %>
-        <p id="post_<%= post.id %>"><%= render "public/likes/like", post: post %></p>
-      <% end %>
-    </div>
-  </div>
+  <%= render partial: 'index', locals: { posts: @posts, tag_list: @tag_list } %>
 </div>
