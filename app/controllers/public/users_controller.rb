@@ -28,9 +28,9 @@ class Public::UsersController < ApplicationController
   end
   
   def likes
-    likes = Like.where(user_id: current_user).pluck(:post_id)
-    #いいねテーブルのuser_idに現在ログインしているユーザーが存在すれば、いいねした投稿を全部取得する
-    @likes = Post.find(likes)
+    @posts = Post.includes(:likes).where(likes: {user_id: current_user.id})
+    #Postに紐付いたlikesテーブルの中で自身がいいねした投稿を取り出す
+    #where(likes: {user_id: current_user.id})でlikesテーブルのuser_idはcurrent_userと指定する
   end
   
   private

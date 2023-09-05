@@ -1,23 +1,23 @@
 <div class="container d-flex align-content-start flex-wrap">
   <table class="table table-bordered">
-    <% @likes.each do |like| %>
+    <% @posts.each do |post| %>
       <tr>
         <td>
-          <%= link_to user_path(like.user) do %>
-            <%= image_tag like.user.get_profile_image(40, 40) %>
-            <%= like.user.name %>
+          <%= link_to user_path(post.user) do %>
+            <%= image_tag post.user.get_profile_image(40, 40) %>
+            <%= post.user.name %>
             <br>
           <% end %>
-          <%= link_to post_path(like) do %>
-            <%= like.post_name %><br>
-            <%= image_tag like.image, size: "150x100" %>
+          <%= link_to post_path(post) do %>
+            <%= post.post_name %><br>
+            <%= image_tag post.image, size: "150x100" %>
           <% end %>
         </td>
         <td>
-          <%= like.explanation %><br>
-          <i class="fa-solid fa-tags"><%= like.tags.map(&:name).join(', ') %></i><br>
-          <span id="post_<%= like.id %>"><%= render "public/likes/like", post: like %></span>
-          <%= link_to "#{like.comments.count}コメント", post_path(like.id) %>
+          <%= post.explanation %><br>
+          <i class="fa-solid fa-tags"><%= post.tags.map(&:name).join(', ') %></i><br>
+          <span id="post_<%= post.id %>"><%= render "public/likes/like", post: post %></span>
+          <%= link_to "#{post.comments.count}コメント", post_path(post.id) %>
         </td>
       </tr>
     <% end %>

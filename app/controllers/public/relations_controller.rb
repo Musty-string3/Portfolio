@@ -1,5 +1,5 @@
 class Public::RelationsController < ApplicationController
-  
+
   def followings # フォロー一覧
     @users = User.find(params[:user_id]).followings
   end
@@ -7,14 +7,15 @@ class Public::RelationsController < ApplicationController
   def followers # フォロワー一覧
     @users = User.find(params[:user_id]).followers
   end
-  
+
   def create #フォローする
+    @user = User.find(params[:user_id])
     current_user.relations.create(followed_id: params[:user_id])
-    redirect_to request.referer
   end
-  
+
   def destroy #フォロー外す
+    @user = User.find(params[:user_id])
     current_user.relations.find_by(followed_id: params[:user_id]).destroy
-    redirect_to request.referer
+    # redirect_to request.referer 前のページに戻る redirect_backではない
   end
 end

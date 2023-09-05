@@ -1,0 +1,16 @@
+<p>コメント件数<%= post.comments.count%>件</p>
+<!--id="post_ @post.id "の部分はcreate.js.erb, destroy.js.erbで使うため-->
+<p id="post_<%= post.id %>"><%= render "public/likes/like", post: post %></p>
+<% post.comments.each do |comment| %>
+  <div class="row">
+    <%= link_to user_path(comment.user) do %>
+      <%= image_tag comment.user.get_profile_image(40, 40) %>
+      <%= comment.user.name %>
+    <% end %>
+    <%= comment.created_at.strftime('%Y/%m/%d %H:%M:%S') %>
+    <%= link_to "コメントを削除", post_comment_path(comment.post, comment), method: :delete, remote: true if comment.user == current_user %>
+    <br>
+    <%= comment.text %>
+    <br>
+  </div>
+<% end %>

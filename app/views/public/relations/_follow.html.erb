@@ -1,5 +1,14 @@
+フォロー中
+<%= link_to user_followings_path(@user) do %>
+  <%= @user.followings.count %>
+<% end %>
+フォロワー 
+<%= link_to user_followers_path(@user) do %>
+  <%= @user.followers.count %>
+<% end %>
+
 <% if current_user.follow?(user) %>
-  <%= link_to "フォローを解除する", user_relations_path(user.id), method: :delete %>
+  <%= link_to "フォローを解除する", user_relations_path(user.id), method: :delete, remote: true %>
 <% else %>
-  <%= link_to "フォローする", user_relations_path(user.id), method: :post %>
+  <%= link_to "フォローする", user_relations_path(user.id), method: :post, remote: true %>
 <% end %>

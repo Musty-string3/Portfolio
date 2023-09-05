@@ -14,7 +14,7 @@
             <%= @user.name %><br>
             自己紹介 <%= @user.introduction %><br>
             投稿数 <%= @user.posts.count%>投稿<br>
-            フォロー 
+            フォロー中
             <%= link_to user_followings_path(@user) do %>
               <%= @user.followings.count %>
             <% end %>
@@ -49,15 +49,9 @@
             <%= @user.name %><br>
             自己紹介 <%= @user.introduction %><br>
             投稿数 <%= @user.posts.count%>投稿<br>
-            フォロー 
-            <%= link_to user_followings_path(@user) do %>
-              <%= @user.followings.count %>
-            <% end %>
-            フォロワー 
-            <%= link_to user_followers_path(@user) do %>
-              <%= @user.followers.count %>
-            <% end %>
-            <%= render 'public/relations/follow', user: @user %>
+            <div id="follow_<%= @user.id %>">
+              <%= render 'public/relations/follow', user: @user %>
+            </div>
           </td>
         </tr>
       </table>

@@ -13,9 +13,10 @@ class User < ApplicationRecord
   #class_name: "Relation"でRelationクラスの参照、foreign_key: カラム名で保存するカラムの指定
 
   #フォロー一覧
-  has_many :followings, through: :relations, source: :followed #フォロー中
-  has_many :followers, through: :reverse_relations, source: :follow  #フォロワー
+  has_many :followings, through: :relations, source: :followed #フォロー中のユーザー一覧
+  has_many :followers, through: :reverse_relations, source: :follow  #フォロワーのユーザー一覧
   #through: :名前 で上の中間テーブルを通る、source: :名前  で参照するカラムを指定する
+  #User.find(1).followingsでフォローしてくれたユーザーの 一覧
 
   scope :only_active, -> { where(is_deleted: true) }
   #is_deletedがtrue(退会してない)の会員レコードを取得

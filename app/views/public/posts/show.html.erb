@@ -28,27 +28,11 @@
   </div>
   <%= link_to "投稿を編集する", edit_post_path(@post) if @post.user == current_user %>
 
-  <p>コメント件数<%= @post.comments.count%>件</p>
-  <!--id="post_ @post.id "の部分はcreate.js.erb, destroy.js.erbで使うため-->
-  <p id="post_<%= @post.id %>"><%= render "public/likes/like", post: @post %></p>
-  <% @post.comments.each do |comment| %>
-    <div class="row">
-      <%= link_to user_path(comment.user) do %>
-        <%= image_tag comment.user.get_profile_image(40, 40) %>
-        <%= comment.user.name %>
-      <% end %>
-      <%= comment.created_at.strftime('%Y/%m/%d %H:%M:%S') %>
-      <%= link_to "コメントを削除", post_comment_path(comment.post, comment), method: :delete if comment.user == current_user %>
-      <br>
-      <%= comment.text %>
-      <br>
-    </div>
-  <% end %>
-  <div class="row">
-    <%= form_with model: [@post, @comment] do |f| %>
-      <%= f.text_area :text, placeholder: "コメント入力欄" %><br>
-      <%= f.submit "コメントする" %>
-    <% end %>
+  <div id="comment_area">
+    <%= render 'public/comments/post_comments', post: @post %>
+  </div>
+  <div id="comment_new", class="row">
+    <%= render 'public/comments/form', post: @post, comment: @comment %>
   </div>
 </div>
 
