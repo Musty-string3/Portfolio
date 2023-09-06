@@ -1,3 +1,11 @@
-<div class="container d-flex flex-nowrap">
-  <%= render partial: 'index', locals: { posts: @posts, tag_list: @tag_list } %>
+<div class="container">
+  <% if @posts.present? %>
+    <%= render 'index', posts: @posts, tag_list: @tag_list %>
+  <% else %>
+    <h5>
+      投稿はまだありません。<br>
+      ユーザーの皆さんに自身の投稿を見てもらえるよう<br>
+      画面上部の「新規投稿」から投稿してみよう！！
+    </h5>
+  <% end %>
 </div>

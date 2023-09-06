@@ -1,16 +1,12 @@
 <div class="container">
-  <div class="row">
-    <% @tag_counts.each do |tag_name, count| %>
-      <%= tag_name %>
-      <%= "(#{count}件)" %>
-    <% end %>
-    <%# @tag_lists.each do |list| %>
-      <%#= list.name %>
-      <%#= "(#{list.posts.count}件)" %>
-    <%# end %>
-  </div>
-  <div class="container d-flex align-content-start flex-wrap">
-    <% if @posts.present? %>
+  <% if @posts.present? %>
+    <div class="row">
+      <% @tag_list.each do |list| %>
+        <%= list.name %>
+        <%= "(#{list.posts.count}件)" %>
+      <% end %>
+    </div>
+    <div class="row">
       <table class="table table-bordered">
         <% @posts.each do |post| %>
           <tr>
@@ -34,10 +30,13 @@
           </tr>
         <% end %>
       </table>
-    <% else %>
-      <h5>
-        いいねした投稿はまだありません。
-      </h5>
-    <% end %>
-  </div>
+    </div>
+  <% else %>
+    <h4>
+      ここにはフォローしたユーザーの最新の投稿が<br>
+      タイムラインとして表示されます。<br>
+      まだフォローしているユーザーがいないので<br>
+      気になったユーザーがいればフォローしてみよう！
+    </h4>
+  <% end %>
 </div>

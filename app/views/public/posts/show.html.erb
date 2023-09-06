@@ -17,7 +17,7 @@
       <%= image_tag @post.image, size: "200x150" %>
       <br>
       <% @post_tags.each do |tag| %>
-        <%= link_to index_current_posts_path do %>
+        <%= link_to posts_path do %>
           <%= tag.name %>
         <% end %>
       <% end %>
@@ -31,8 +31,12 @@
   <div id="comment_area">
     <%= render 'public/comments/post_comments', post: @post %>
   </div>
-  <div id="comment_new", class="row">
-    <%= render 'public/comments/form', post: @post, comment: @comment %>
+  <div id="comments_error">
+    <%= render 'layouts/error_messages', resource: @comment %>
   </div>
+  <%= form_with model: [@post, @comment], local: false do |f| %>
+    <%= f.text_area :text, placeholder: "コメント入力欄" %><br>
+    <%= f.submit "コメントする" %>
+  <% end %>
 </div>
 
