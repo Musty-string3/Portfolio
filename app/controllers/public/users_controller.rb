@@ -1,10 +1,15 @@
 class Public::UsersController < ApplicationController
-
+  
+  include TagCount  # app/concerns/tag_count.rbが使える
   before_action :authenticate_user!
   before_action :set_current_user, except: %i[show]
 
   def show
     @user = User.find(params[:id])
+    @post_counts = Post.where(user_id: @user).count
+    @user_posts = Post.includes(:user).where(user: { id: @user})
+    @tag_counts = set_tag_count(@user_posts)
+    # Relation.where(follow_id: 1).count　フォローしたカウント
   end
 
 
@@ -33,19 +38,14 @@ class Public::UsersController < ApplicationController
     #Postに紐付いたlikesテーブルの中で自身がいいねした投稿を取り出す
     #where(likes: {user_id: current_user.id})でlikesテーブルのuser_id(current_user)がある部分を全取得する
     # @tag_lists = Tag.all
-    @tag_counts = Hash.new(0)
-    @posts.each do |post|
-      post.tags.each do |tag|
-        @tag_counts[tag.name] += 1
-      end
-    end
+    @tag_counts = set_tag_count(@posts)
   end
 
   def timeline
     @posts = Post.where(user_id: [*current_user.followings.ids])
     #postsテーブルのuser_id(ログインしているユーザー)のフォローしているユーザーの全ての投稿を取得する
     #[*]は[1, 2, 3]と同じ意味で、末尾の.idsはwhereメソッドを使っているため複数のidを取得するから(idの複数形がids)
-    @tag_list = Tag.all
+    @tag_counts = set_tag_count(@posts)
   end
 
   private

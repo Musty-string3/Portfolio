@@ -1,43 +1,9 @@
 <div class="container">
-  <div class="row">
-    <% @tag_counts.each do |tag_name, count| %>
-      <%= tag_name %>
-      <%= "(#{count}件)" %>
-    <% end %>
-    <%# @tag_lists.each do |list| %>
-      <%#= list.name %>
-      <%#= "(#{list.posts.count}件)" %>
-    <%# end %>
-  </div>
-  <div class="container d-flex align-content-start flex-wrap">
-    <% if @posts.present? %>
-      <table class="table table-bordered">
-        <% @posts.each do |post| %>
-          <tr>
-            <td>
-              <%= link_to user_path(post.user) do %>
-                <%= image_tag post.user.get_profile_image(40, 40) %>
-                <%= post.user.name %>
-                <br>
-              <% end %>
-              <%= link_to post_path(post) do %>
-                <%= post.post_name %><br>
-                <%= image_tag post.image, size: "150x100" %>
-              <% end %>
-            </td>
-            <td>
-              <%= post.explanation %><br>
-              <i class="fa-solid fa-tags"><%= post.tags.map(&:name).join(', ') %></i><br>
-              <span id="post_<%= post.id %>"><%= render "public/likes/like", post: post %></span>
-              <%= link_to "#{post.comments.count}コメント", post_path(post.id) %>
-            </td>
-          </tr>
-        <% end %>
-      </table>
-    <% else %>
-      <h5>
-        いいねした投稿はまだありません。
-      </h5>
-    <% end %>
-  </div>
+  <% if @posts.present? %>
+    <%= render 'public/posts/index', posts: @posts, tag_counts: @tag_counts %>
+  <% else %>
+    <h5>
+      いいねした投稿はまだありません。
+    </h5>
+  <% end %>
 </div>

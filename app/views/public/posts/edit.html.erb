@@ -7,5 +7,6 @@
       <%= f.text_field :tag, placeholder: "タグを入力", value: @tag_list %>
       <%= f.submit "投稿する" %>
     <% end %>
+    <%= link_to "この投稿を削除する", post_path(@post.id), method: :delete %>
   </div>
 </div>

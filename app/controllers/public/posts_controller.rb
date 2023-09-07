@@ -1,14 +1,17 @@
 class Public::PostsController < ApplicationController
+  
+  include TagCount  # app/concerns/tag_count.rbが使える
   before_action :authenticate_user!
   before_action :set_post, only: %i[show edit update destroy]
 
   def index
-    @tag_list = Tag.all
     if params[:current_user?] == 'Yes'
       @posts = current_user.posts.preload(:user)
     else
       @posts = Post.preload(:user)
     end
+    @tag_counts = set_tag_count(@posts)
+    # User.find(1).includes(:posts) ユーザー1の全投稿取得
   end
 
   def new
@@ -55,7 +58,7 @@ class Public::PostsController < ApplicationController
 
   def destroy
     @post.destroy
-    redirect_to post_path(@post)
+    redirect_to posts_path
   end
 
 

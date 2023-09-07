@@ -47,4 +47,5 @@ class Post < ApplicationRecord
   def like?(user)
     likes.where(user_id: user.id).exists?
   end
+  
 end

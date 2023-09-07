@@ -1,70 +1,57 @@
 <div class="container">
   <% if @user == current_user %>
     <h4>マイページ</h4>
-    <% if flash[:notice] %>
-      <%= flash[:notice] %>
-    <% end %>
-    <div class="row">
-      <table class="table">
-        <tr>
-          <td class="col-lg-1">
-            <%= image_tag @user.get_profile_image(100, 100) %>
-          </td>
-          <td class="col-lg-11">
-            <%= @user.name %><br>
-            自己紹介 <%= @user.introduction %><br>
-            投稿数 <%= @user.posts.count%>投稿<br>
-            フォロー中
-            <%= link_to user_followings_path(@user) do %>
-              <%= @user.followings.count %>
-            <% end %>
-            フォロワー 
-            <%= link_to user_followers_path(@user) do %>
-              <%= @user.followers.count %>
-            <% end %>
-          </td>
-        </tr>
-      </table>
-    </div>
-    <div class="row">
-      <p>自己紹介：　<%= @user.introduction %></p>
-    </div>
-    <div class="row">
+  <% else %>
+    <h4><%= @user.name %>さんのマイページ</h4>
+  <% end %>
+  <% if flash[:notice] %>
+    <%= flash[:notice] %>
+  <% end %>
+  <div class="row">
+    <table class="table">
+      <tr>
+        <td class="col-lg-1">
+          <%= image_tag @user.get_profile_image(100, 100) %>
+        </td>
+        <td class="col-lg-11">
+          <%= @user.name %><br>
+          自己紹介 <%= @user.introduction %><br>
+          投稿数 <%= @post_counts %>投稿<br>
+          フォロー中
+          <%= link_to user_followings_path(@user) do %>
+            <%= @user.followings.count %>
+          <% end %>
+          フォロワー 
+          <%= link_to user_followers_path(@user) do %>
+            <%= @user.followers.count %>
+          <% end %>
+        </td>
+      </tr>
+    </table>
+  </div>
+  <div class="row">
+    <p>自己紹介：　<%= @user.introduction %></p>
+  </div>
+  <div class="row">
+    <% if @user == current_user %>
       <%= link_to "プロフィールを編集", edit_user_path(@user), class:"col-lg-2" %>
       <%= link_to "いいねした一覧", likes_user_path(@user), class:"col-lg-2" %>
-      
+        
       <!--以下はログインしているユーザーが自身の投稿一覧を閲覧したい場合の処理-->
       <div class="col-lg-2"> 
         <%= form_with model: @user, url: posts_path, method: :get do |f| %>
-          <%= hidden_field_tag :current_user?, 'Yes' %>
-          <%= f.submit "投稿した一覧" %>
-        <% end %>
-      </div>
+           <%= hidden_field_tag :current_user?, 'Yes' %>
+           <%= f.submit "投稿した一覧" %>
+         <% end %>
+       </div>
       <!--ここまで-->
-    </div>
-  <% else %>
-    <h4><%= @user.name %>さんのマイページ</h4>
-    <% if flash[:notice] %>
-      <%= flash[:notice] %>
+     <% end %>
+    <% if @user_posts.present? %>
+      <%= render 'public/posts/index', posts: @user_posts, tag_counts: @tag_counts %>
+    <% else %>
+      <h5>
+        投稿はまだありません。
+      </h5>
     <% end %>
-    <div class="row">
-      <table class="table">
-        <tr>
-          <td class="col-lg-1">
-            <%= image_tag @user.get_profile_image(100, 100) %>
-          </td>
-          <td class="col-lg-11">
-            <%= @user.name %><br>
-            自己紹介 <%= @user.introduction %><br>
-            投稿数 <%= @user.posts.count%>投稿<br>
-            <div id="follow_<%= @user.id %>">
-              <%= render 'public/relations/follow', user: @user %>
-            </div>
-          </td>
-        </tr>
-      </table>
-    <div class="row">
-    <p>ここに各ユーザーが投稿した内容をつける</p>
-    </div>
-  <% end %>
+  </div>
 </div>
