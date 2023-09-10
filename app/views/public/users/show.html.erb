@@ -17,15 +17,11 @@
           <%= @user.name %><br>
           自己紹介 <%= @user.introduction %><br>
           投稿数 <%= @post_counts %>投稿<br>
-          フォロー中
-          <%= link_to user_followings_path(@user) do %>
-            <%= @user.followings.count %>
-          <% end %>
-          フォロワー 
-          <%= link_to user_followers_path(@user) do %>
-            <%= @user.followers.count %>
-          <% end %>
+          <div id="follow_<%= @user.id %>">
+            <%= render 'public/relations/follow', user: @user %>
+          </div>
         </td>
+        <td></td>
       </tr>
     </table>
   </div>

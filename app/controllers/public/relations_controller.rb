@@ -11,6 +11,7 @@ class Public::RelationsController < ApplicationController
   def create #フォローする
     @user = User.find(params[:user_id])
     current_user.relations.create(followed_id: params[:user_id])
+    @user.create_notification_follow!(current_user)
   end
 
   def destroy #フォロー外す

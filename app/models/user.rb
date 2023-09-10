@@ -17,6 +17,10 @@ class User < ApplicationRecord
   has_many :followers, through: :reverse_relations, source: :follow  #フォロワーのユーザー一覧
   #through: :名前 で上の中間テーブルを通る、source: :名前  で参照するカラムを指定する
   #User.find(1).followingsでフォローしてくれたユーザーの 一覧
+  
+  # 通知機能のアソシエーション
+  has_many :myself_notifications, class_name: 'Notification', foreign_key: 'visitor_id', dependent: :destroy
+  has_many :other_notifications, class_name: 'Notification', foreign_key: 'visited_id', dependent: :destroy
 
   scope :only_active, -> { where(is_deleted: true) }
   #is_deletedがtrue(退会してない)の会員レコードを取得
@@ -49,6 +53,23 @@ class User < ApplicationRecord
   def follow?(user) #フォローしているかの判定
     #include?で引数のuserが1つでもあった場合はtrueを返し、逆ならfalseを返す
     followings.include?(user)
+  end
+  
+  def create_notification_follow!(current_user)
+    # 連続でフォローボタンを押すことに備えて、同じ通知レコードが存在しないときだけレコードを作成する
+    temp = Notification.where(["visitor_id = ? and visited_id = ? and action = ?", current_user, id, 'follow'])
+    if temp.blank?
+      notification = current_user.myself_notifications.new(
+        visited_id: id,
+        action: 'follow'
+      )
+      # バリエーションエラーではなかった場合にnotificationをセーブする
+      notification.save if notification.valid?
+    end
+  end
+  
+  def unchecked_notifications
+    other_notifications.where(checked: false).count
   end
 
 end

@@ -13,7 +13,8 @@ class Post < ApplicationRecord
   has_many :liked_user, through: :likes, source: :user
   has_many :post_tags, dependent: :destroy
   has_many :tags, through: :post_tags
-  # ↑ tagsと多対多の関係であり、post_tagsが中間テーブルという意味　
+  # ↑ tagsと多対多の関係であり、post_tagsが中間テーブルという意味
+  has_many :notifications, dependent: :destroy
   
   def save_tag(sent_tags)
     
@@ -42,10 +43,53 @@ class Post < ApplicationRecord
     Post.where('post_name LIKE ?', keyword + '%')
   end
   
-  #like?(user)メソッドはlikesテーブルに引数で渡されたuser(current_user)が存在(exists)するか調べる
-  #whereはlikesテーブル内にuser.id(current_user)が存在するか全部確認して存在していたらtrueを返し、逆ならfalseを返す
+  # like?(user)メソッドはlikesテーブルに引数で渡されたuser(current_user)が存在(exists)するか調べる
+  # whereはlikesテーブル内にuser.id(current_user)が存在するか全部確認して存在していたらtrueを返し、逆ならfalseを返す
   def like?(user)
     likes.where(user_id: user.id).exists?
+  end
+  
+  # いいね通知
+  def create_notification_like!(current_user)
+    # 連続でいいねをすることに備えて、同じ通知レコードが存在しないときだけレコードを作成する
+    temp = Notification.where(["visitor_id = ? and visited_id = ? and post_id = ? and action = ? ", current_user.id, user_id, id, 'like'])
+    if temp.blank? # tempの値がnilだったら(present?の逆)
+      notification = current_user.myself_notifications.new(
+        post_id: id,
+        visited_id: user_id,
+        action: 'like'
+      )
+      # 自身の投稿にいいねした場合はcheckedカラムをtrueにして通知済みとする
+      if notification.visitor_id == notification.visited_id
+        notification.checked = true
+      end
+      # バリエーションエラーではなかった場合にnotificationをセーブする
+      notification.save if notification.valid?
+    end
+  end
+  
+  # コメント通知
+  def create_notification_comment!(current_user, comment_id)
+    temp_ids = Comment.select(:user_id).where(post_id: id).where.not(user_id: current_user.id).distinct
+    temp_ids.each do |temp_id|
+      save_notification_comment(current_user, comment_id, temp_id['user_id'])
+    end
+    # まだ誰もコメントしていない場合は投稿者に通知を送る
+    save_notification_comment(current_user, comment_id, user_id) if temp_ids.blank?
+  end
+  
+  def save_notification_comment(current_user, comment_id, visited_id)
+    notification  = current_user.myself_notifications.new(
+      post_id: id,
+      comment_id: comment_id,
+      visited_id: visited_id,
+      action: 'comment'
+    )
+    # 自身の投稿にコメントした場合はcheckedカラムをtrueにして通知済みとする
+    if notification.visitor_id == notification.visited_id
+      notification.checked = true
+    end
+    notification.save if notification.valid?
   end
   
 end

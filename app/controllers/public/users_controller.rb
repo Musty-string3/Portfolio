@@ -1,5 +1,5 @@
 class Public::UsersController < ApplicationController
-  
+
   include TagCount  # app/concerns/tag_count.rbが使える
   before_action :authenticate_user!
   before_action :set_current_user, except: %i[show]

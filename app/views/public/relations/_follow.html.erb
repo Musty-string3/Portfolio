@@ -7,8 +7,10 @@
   <%= @user.followers.count %>
 <% end %>
 
-<% if current_user.follow?(user) %>
-  <%= link_to "フォローを解除する", user_relations_path(user.id), method: :delete, remote: true %>
-<% else %>
-  <%= link_to "フォローする", user_relations_path(user.id), method: :post, remote: true %>
+<% unless user == current_user %>
+  <% if current_user.follow?(user) %>
+    <%= link_to "フォローを解除する", user_relations_path(user), method: :delete, remote: true %>
+  <% else %>
+    <%= link_to "フォローする", user_relations_path(user), method: :post, remote: true %>
+  <% end %>
 <% end %>

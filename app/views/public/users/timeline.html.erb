@@ -1,9 +1,9 @@
 <div class="container">
   <% if @posts.present? %>
     <div class="row">
-      <% @tag_list.each do |list| %>
-        <%= list.name %>
-        <%= "(#{list.posts.count}件)" %>
+      <% @tag_counts.each do |name, counts| %>
+        <%= name %>
+        <%= "(#{counts}件)" %>
       <% end %>
     </div>
     <div class="row">

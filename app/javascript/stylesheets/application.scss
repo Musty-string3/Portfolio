@@ -1,1 +1,27 @@
 @use '~bootstrap/scss/bootstrap';
+
+
+.icon_layers_icon{
+	left: 0;
+	display: inline-block;
+	width: 100%;
+	text-align: center;
+	font-size: 3em;
+}
+
+.icon_layers_counter{
+	position: absolute;
+	top: 0;
+	right: -5px;
+	display: inline-block;
+	padding: 3px 5px;
+	line-height: 1;
+	color: #fff;
+	background: #ff3333;
+	font-size: 0.6em;
+	border-radius: 1em;
+	-webkit-border-radius: 1em;
+	-moz-border-radius: 1em;
+}
+
+

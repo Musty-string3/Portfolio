@@ -1,0 +1,17 @@
+<% notifications.each do |notification| %>
+  <div class="row">
+    <%= notification.id %>
+    <%= image_tag notification.visitor.get_profile_image(40, 40) %>
+    <%= notification.visitor.name %>さんが
+    <% if notification.action == 'like' %>
+      <%= link_to "あなたの投稿", post_path(notification.post_id) %>
+      にいいねしました。
+    <% elsif notification.action == 'comment' %>
+      <%= link_to notification.visited.name+"の投稿", post_path(notification.comment.post) %>
+      にコメントしました。
+    <% else %>
+      あなたをフォローしました。
+    <% end %>
+    <i class="far fa-clock clock-icon"></i><%= time_ago_in_words(notification.created_at) %>前
+  </div>
+<% end %>
