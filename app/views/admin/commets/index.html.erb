@@ -1,0 +1,27 @@
+<div class="container">
+  <div class="col-lg-offset-5 col-lg-2" style="border:solid 1px #333;">
+  </div>
+  <table class="table table-bordered">
+    <thead>
+      <th>コメントしたユーザー</th>
+      <th>コメントされた投稿</th>
+      <th>コメントされたユーザー</th>
+      <th>コメント内容</th>
+      <th>コメントされた日時</th>
+    </thead>
+    <tbody>
+      <% @comments.each do |comment| %>
+        <tr>
+          <td><%= link_to comment.user.name, admin_user_path(comment.user) %></td>
+          <td>
+            <%= link_to comment.post.post_name, admin_post_path(comment.post) %>
+            (コメント件数<%= @comment_count[comment.post_id] %>件)
+          </td>
+          <td><%= comment.text %></td>
+          <td><%= comment.text %></td>
+          <td><%= comment.created_at.strftime('%Y/%m/%d %H:%M:%S') %></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>

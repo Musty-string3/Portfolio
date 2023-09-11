@@ -6,9 +6,9 @@ class Public::PostsController < ApplicationController
 
   def index
     if params[:current_user?] == 'Yes'
-      @posts = current_user.posts.preload(:user)
+      @posts = current_user.posts.includes(:user)
     else
-      @posts = Post.preload(:user)
+      @posts = Post.includes(:user)
     end
     @tag_counts = set_tag_count(@posts)
     # User.find(1).includes(:posts) ユーザー1の全投稿取得

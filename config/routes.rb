@@ -39,6 +39,7 @@ Rails.application.routes.draw do
   namespace :admin do
     root to: 'posts#top'
     resources :users, except: %i[new create edit]
-    resources :posts, only: %i[show edit update destroy] 
+    resources :posts, only: %i[show edit update destroy]
+    resources :commets, only: %i[index destroy]
   end
 end

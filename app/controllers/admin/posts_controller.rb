@@ -8,7 +8,8 @@ class Admin::PostsController < ApplicationController
   end
 
   def show
-    @tags = @post.tags
+    @posts = Post.includes(:user, :comments).where(id: @post)
+    @tags = PostTag.where(post_id: @post)
   end
 
   def edit

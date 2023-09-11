@@ -17,9 +17,7 @@
       <%= image_tag @post.image, size: "200x150" %>
       <br>
       <% @tags.each do |tag| %>
-        <%= link_to index_current_posts_path do %>
-          <%= tag.name %>
-        <% end %>
+        <%= tag.tag.name %>
       <% end %>
     </div>
     <div class="col-lg-offset-1 col-lg-3">
@@ -27,4 +25,20 @@
     </div>
   </div>
   <%= link_to "投稿を編集する", edit_admin_post_path(@post) %>
+  
+  <div class="row">
+    コメント件数<%= @post.comments.count%>件<br>
+  </div>
+  <% @posts.each do |post| %>
+    <% post.comments.each do |comment| %>
+      <div class="row">
+        <%= link_to admin_user_path(comment.user) do %>
+          <%= image_tag comment.user.get_profile_image(45, 45) %>
+          <%= comment.user.name %>
+        <% end %>
+        <%= comment.text %>
+        <%= comment.created_at.strftime('%Y/%m/%d %H:%M:%S') %>
+      </div>
+    <% end %>
+  <% end %>
 </div>

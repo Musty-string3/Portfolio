@@ -31,7 +31,7 @@
               <li class="nav-item" >
                 <%= link_to notifications_path, class: 'nav-link text-dark' do %>
                   <% if current_user.unchecked_notifications == 0 %>
-                     <i class="far fa-bell fa-lg icon_layers_icon" style="font-size: 1.5em;"></i>
+                     <i class="far fa-bell fa-lg icon_layers_icon" style="font-size: 1.2em;"></i>
                   <% else %>
                     <span class="fa-layers" style="position: relative;">
                       <i class="far fa-bell fa-lg icon_layers_icon" style="font-size: 1.5em;"></i>
@@ -57,7 +57,7 @@
                 <%= link_to "投稿一覧", admin_root_path, class: 'nav-link text-dark' %>
               </li>
               <li class="nav-item" >
-                <%= link_to "コメント一覧", new_user_session_path, class: 'nav-link text-dark' %>
+                <%= link_to "コメント一覧", admin_commets_path, class: 'nav-link text-dark' %>
               </li>
               <li class="nav-item" >
                 <%= link_to "ログアウト", destroy_admin_session_path, method: :delete, class: 'nav-link text-dark' %>
