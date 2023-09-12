@@ -4,6 +4,7 @@ class Admin::CommetsController < ApplicationController
   def index
     @comments = Comment.includes(:user, :post).order(created_at: :desc)
     @comment_count = Comment.group(:post_id).count
+    @comment_count = Comment.group(:post_id)
     # コメントテーブルのpost_idカラムごとにグループ(ハッシュ)を作成してカウントを数える
   end
   

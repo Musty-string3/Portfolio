@@ -33,6 +33,8 @@ Rails.application.routes.draw do
       resources :comments, only: %i[create destroy]
     end
     resources :notifications, only: %i[index]
+    resources :rooms, only: %i[show create]
+    resources :messages, only: %i[create]
   end
 
   # 管理者用

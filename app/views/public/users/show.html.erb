@@ -20,6 +20,21 @@
           <div id="follow_<%= @user.id %>">
             <%= render 'public/relations/follow', user: @user %>
           </div>
+          <!--DM機能-->
+          <!--ログインしているユーザーが現在表示しているユーザーではないか & 相互フォローか？-->
+          <% if @user != current_user && current_user.follow?(@user) && @user.follow?(current_user) %>
+            <% if @isRoom %>
+              <%#= link_to 'チャットへGO!', room_path(@room_id) %>
+            <% else %>
+             <%= form_with model @room, url: rooms_path, method: :post do |f| %>
+               <%= fields_for @entry do |entry| %>
+                 <%= entry.hidden_field :user_id, @user.id %>
+               <% end %>
+               <%= f.submit "チャットを始めよう！" %>
+             <% end %>
+            <% end %>
+          <% end %>
+          <!--DM機能ここまで-->
         </td>
         <td></td>
       </tr>

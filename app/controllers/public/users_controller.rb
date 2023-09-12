@@ -9,7 +9,26 @@ class Public::UsersController < ApplicationController
     @post_counts = Post.where(user_id: @user).count
     @user_posts = Post.includes(:user).where(user: { id: @user})
     @tag_counts = set_tag_count(@user_posts)
-    # Relation.where(follow_id: 1).count　フォローしたカウント
+    
+    # DM機能
+    current_user_entry = Entry.where(user_id: current_user)
+    user_entry = Entry.where(user_id: @user)
+    @isRoom = false
+    unless @user == current_user
+      current_user_entry.each do |current|
+        user_entry.each do |user|
+          # ログインユーザーとフォローしているユーザーのroom_idが一致した場合
+          if current.room_id == user.room_id
+            @isRoom = true
+            @room_id = current.room_id
+          end
+        end
+      end 
+      unless @isRoom
+        @room = Room.new
+        @entry = Entry.new
+      end
+    end
   end
 
 

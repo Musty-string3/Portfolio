@@ -6,6 +6,10 @@ class User < ApplicationRecord
   has_many :posts, dependent: :destroy
   has_many :comments, dependent: :destroy
   has_many :likes, dependent: :destroy
+  
+  # DM機能
+  has_many :entries, dependent: :destroy
+  has_many :messages, dependent: :destroy
 
   #フォローした、されたの関係
   has_many :relations, class_name: "Relation", foreign_key: "follow_id", dependent: :destroy
