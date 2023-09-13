@@ -1,2 +1,42 @@
-<h1>Public::Rooms#show</h1>
-<p>Find me in app/views/public/rooms/show.html.erb</p>
+<div class="container">
+  <div class="row">
+    <div class="col-lg-3">
+      <h4>Room番号：<%= @room.id %></h4>
+    </div>
+    <p class="col-lg-8">
+      <%= image_tag @current_entry.user.get_profile_image(40, 40), class:"border border-dark rounded-circle" %>
+      <%= @current_entry.user.name %>(あなた)と
+      <%= image_tag @another_entry.user.get_profile_image(40, 40), class:"border border-dark rounded-circle" %>
+      <%= @another_entry.user.name %>さんのチャットルームです
+    </p>
+     <div class="col-lg-1">
+      ・・・
+     </div>
+  </div>
+  <% if @messages.present? %>
+  <table class="table table-bordered">
+    <thead>
+      <th>名前</th>
+      <th>テキスト文</th>
+    </thead>
+  </table>
+    <% @messages.each do |message| %>
+      <div class="row">
+        <p>
+          <%= image_tag message.user.get_profile_image(30, 30), class:"border border-dark rounded-circle" %>
+          <%= message.user.name %>
+          <%= message.created_at.strftime("%Y-%m-%d %H:%M")%>
+        </p>
+      </div>
+    <% end %>
+  <% else %>
+      初めてのチャットを送ってみよう！！
+  <% end %>
+  <div class="row">
+    <%= form_with model: @message, url: messages_path, method: :post do |f| %>
+      <%= f.text_field :text, size: 50, placeholder: ",メッセージを入力してください" %>
+      <%= f.hidden_field :room_id, value: @room.id %>
+      <%= f.submit "送信", class:"rounded-pill" %>
+    <% end %>
+  </div>
+</div>

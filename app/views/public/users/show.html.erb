@@ -24,11 +24,11 @@
           <!--ログインしているユーザーが現在表示しているユーザーではないか & 相互フォローか？-->
           <% if @user != current_user && current_user.follow?(@user) && @user.follow?(current_user) %>
             <% if @isRoom %>
-              <%#= link_to 'チャットへGO!', room_path(@room_id) %>
+              <%= link_to 'チャットへGO!', room_path(@room_id) %>
             <% else %>
-             <%= form_with model @room, url: rooms_path, method: :post do |f| %>
+             <%= form_with model: @room, url: rooms_path, method: :post do |f| %>
                <%= fields_for @entry do |entry| %>
-                 <%= entry.hidden_field :user_id, @user.id %>
+                 <%= entry.hidden_field :user_id, value: @user.id %>
                <% end %>
                <%= f.submit "チャットを始めよう！" %>
              <% end %>
