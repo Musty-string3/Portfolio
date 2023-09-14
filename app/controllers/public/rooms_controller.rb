@@ -3,13 +3,14 @@ class Public::RoomsController < ApplicationController
 
   def create
     room = Room.create
-    curent_entry = Entry.create(room_id: room.id, user_id: current_user.id)
-    another_entry = Entry.create(room_id: room.id, user_id: params[:entry][:user_id])
+    Entry.create(room_id: room.id, user_id: current_user.id)
+    Entry.create(room_id: room.id, user_id: params[:entry][:user_id])
     redirect_to room_path(room)
   end
   
   def index
-    
+    @entries = Entry.includes(:user).where(user_id: current_user.id)
+    @my_room_id = User.joins(:entries).select("entries.*").where(id: current_user.id)
   end
 
   def show

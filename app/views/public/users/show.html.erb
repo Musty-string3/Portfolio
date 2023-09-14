@@ -11,15 +11,21 @@
     <table class="table">
       <tr>
         <td class="col-lg-1">
-          <%= image_tag @user.get_profile_image(100, 100) %>
+          <%= image_tag @user.get_profile_image(100, 100), class:"border border-dark rounded-circle" %>
         </td>
         <td class="col-lg-11">
           <%= @user.name %><br>
           自己紹介 <%= @user.introduction %><br>
           投稿数 <%= @post_counts %>投稿<br>
+          <!--フォロー、フォロワー数-->
           <div id="follow_<%= @user.id %>">
             <%= render 'public/relations/follow', user: @user %>
           </div>
+          <% if @entries.present? %>
+            <%= link_to rooms_path do %>
+              やりとり一覧(DMしているユーザーは<%= @entries %>人です)
+            <% end %>
+          <% end %>
           <!--DM機能-->
           <!--ログインしているユーザーが現在表示しているユーザーではないか & 相互フォローか？-->
           <% if @user != current_user && current_user.follow?(@user) && @user.follow?(current_user) %>
@@ -30,24 +36,19 @@
                <%= fields_for @entry do |entry| %>
                  <%= entry.hidden_field :user_id, value: @user.id %>
                <% end %>
-               <%= f.submit "チャットを始めよう！" %>
+               <%= f.submit "チャットを始めてみよう！" %>
              <% end %>
             <% end %>
           <% end %>
           <!--DM機能ここまで-->
         </td>
-        <td></td>
       </tr>
     </table>
   </div>
   <div class="row">
-    <p>自己紹介：　<%= @user.introduction %></p>
-  </div>
-  <div class="row">
     <% if @user == current_user %>
-      <%= link_to "プロフィールを編集", edit_user_path(@user), class:"col-lg-2" %>
+      <%= link_to "プロフィールを編集", edit_user_path(@user), class:"col-lg-3" %>
       <%= link_to "いいねした一覧", likes_user_path(@user), class:"col-lg-2" %>
-        
       <!--以下はログインしているユーザーが自身の投稿一覧を閲覧したい場合の処理-->
       <div class="col-lg-2"> 
         <%= form_with model: @user, url: posts_path, method: :get do |f| %>
@@ -57,12 +58,10 @@
        </div>
       <!--ここまで-->
      <% end %>
+  </div>
     <% if @user_posts.present? %>
       <%= render 'public/posts/index', posts: @user_posts, tag_counts: @tag_counts %>
     <% else %>
-      <h5>
-        投稿はまだありません。
-      </h5>
+      <h5>投稿はまだありません。</h5>
     <% end %>
-  </div>
 </div>

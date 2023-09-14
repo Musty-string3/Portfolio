@@ -10,7 +10,7 @@
       <tr>
         <td>
           <%= link_to user_path(post.user) do %>
-            <%= image_tag post.user.get_profile_image(40, 40) %>
+            <%= image_tag post.user.get_profile_image(40, 40), class:"border border-dark rounded-circle" %>
             <%= post.user.name %>
             <br>
           <% end %>

@@ -1,0 +1,24 @@
+<div class="container">
+  <h5>あなたと連絡を取り合っているユーザー数は<%= @entries.count %>人です</h5>
+  <table class="table">
+    <thead>
+      <th class="col-lg-1">アイコン</th>
+      <th>ユーザー説明</th>
+      <th>最後に連絡した時間</th>
+    </thead>
+    <tbody>
+      <% @entries.each do |entry| %>
+        <tr>
+          <td>
+            <%= image_tag entry.user.get_profile_image(40, 40), class:"border border-dark rounded-circle" %>
+          </td>
+          <td>
+            <%= entry.user.name %><br>
+            <%= entry.user.introduction %>
+          </td>
+          <td><%= time_ago_in_words(@entries.created_at)+'前' %></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>

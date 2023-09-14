@@ -14,27 +14,15 @@
      </div>
   </div>
   <% if @messages.present? %>
-  <table class="table table-bordered">
-    <thead>
-      <th>名前</th>
-      <th>テキスト文</th>
-    </thead>
-  </table>
-    <% @messages.each do |message| %>
-      <div class="row">
-        <p>
-          <%= image_tag message.user.get_profile_image(30, 30), class:"border border-dark rounded-circle" %>
-          <%= message.user.name %>
-          <%= message.created_at.strftime("%Y-%m-%d %H:%M")%>
-        </p>
-      </div>
-    <% end %>
+    <div id="messages">
+      <%= render 'public/messages/messages', messages: @messages %>
+    </div>
   <% else %>
       初めてのチャットを送ってみよう！！
   <% end %>
   <div class="row">
-    <%= form_with model: @message, url: messages_path, method: :post do |f| %>
-      <%= f.text_field :text, size: 50, placeholder: ",メッセージを入力してください" %>
+    <%= form_with model: @message, url: messages_path, method: :post, local: false do |f| %>
+      <%= f.text_field :text, size: 50, placeholder: "メッセージを入力してください" %>
       <%= f.hidden_field :room_id, value: @room.id %>
       <%= f.submit "送信", class:"rounded-pill" %>
     <% end %>

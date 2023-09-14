@@ -1,0 +1,33 @@
+<table class="table table-borderless">
+  <thead>
+    <th class="offset-lg-1"></th>
+    <th class="col-lg-4"></th>
+    <th class="offset-lg-1"></th>
+    <th class="col-lg-4"></th>
+    <th class="offset-lg-1"></th>
+  </thead>
+  <% messages.each do |message| %>
+    <tbody>
+      <tr>
+        <% unless message.user.id == current_user.id %>
+          <td></td>
+          <td>
+            <%= image_tag message.user.get_profile_image(30, 30), class:"border border-dark rounded-circle" %>
+            <%= message.text %>
+            <br>
+            <%= time_ago_in_words(message.created_at)+'前'%>
+          </td>
+        <% else %>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td>
+          <%= message.text %>
+            <br>
+            <%= time_ago_in_words(message.created_at)+'前'%>
+          </td>
+        <% end %>
+      </tr>
+    </tbody>
+  <% end %>
+</table>

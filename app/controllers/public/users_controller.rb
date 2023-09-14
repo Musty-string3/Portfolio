@@ -9,7 +9,8 @@ class Public::UsersController < ApplicationController
     @post_counts = Post.where(user_id: @user).count
     @user_posts = Post.includes(:user).where(user: { id: @user})
     @tag_counts = set_tag_count(@user_posts)
-    
+    @entries = Entry.where(user_id: @user.id).count
+
     # DM機能
     current_user_entry = Entry.where(user_id: current_user)
     user_entry = Entry.where(user_id: @user)
@@ -23,7 +24,7 @@ class Public::UsersController < ApplicationController
             @room_id = current.room_id
           end
         end
-      end 
+      end
       unless @isRoom
         @room = Room.new
         @entry = Entry.new
