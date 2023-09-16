@@ -1,6 +1,6 @@
 <div class="container">
-   <% if @nocurrent_user_notifications.present? %>
-     <%= render 'notification', notifications: @nocurrent_user_notifications %>
+   <% if @notifications.present? %>
+     <%= render 'notification', notifications: @notifications %>
     <% else %>
       <h4>通知はありません。</h4>
    <% end %>

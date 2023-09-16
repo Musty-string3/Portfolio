@@ -1,18 +1,17 @@
 <table class="table table-hover">
-  <thead>
-    <th class="col-lg-2">ユーザー</th>
-    <th>自己紹介文</th>
-  </thead>
   <tbody>
     <% users.each do |user| %>
-      <tr>
-        <td>
-          <%= link_to user_path(user.id) do %>
-            <%= user.name %><br>
-            <%= image_tag user.profile_image, size: "75x75" %>
-          <% end %>
+      <tr onclick='window.location="<%= user_path(user) %>"' role="link">
+        <td class="offset-lg-2"></td>
+        <td class="col-lg-1">
+          <%= image_tag user.profile_image, size: "75x75", class:"rounded-circle border border-dark" %>
         </td>
-        <td><%= user.introduction %></td>
+        <td>
+          <%= user.name %><br>
+          <%= user.introduction %><br>
+          フォロー中<%= user.followings.count %>
+          フォロワー<%= user.followers.count %>
+        </td>
       </tr>
     <% end %>
   </tbody>

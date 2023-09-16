@@ -1,6 +1,5 @@
 <div class="row">
   <% tag_counts.each do |tag_name, count| %>
-  <%# byebug%>
     <%= link_to tag_name[:name], tag_path(tag_name[:id]) %>
     <%= "(#{count}件)" %>
   <% end %>

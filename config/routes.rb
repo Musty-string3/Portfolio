@@ -15,6 +15,7 @@ Rails.application.routes.draw do
   # ユーザー用
   scope module: :public do
     root to: 'homes#top'
+    get 'guest_sign_in', to: 'homes#guest_sign_in'
     get 'about', to: 'homes#about'
     resources :users, only: %i[show update] do
       member do

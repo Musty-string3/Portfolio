@@ -1,28 +1,30 @@
-<table class="table table-borderless">
-  <thead>
-    <th class="col-lg-2"></th>
-    <th class="col-lg-4"></th>
-    <th class="col-lg-2"></th>
-    <th class="col-lg-4"></th>
-  </thead>
-  <tbody>
+<div class="row">
+  <table class="table table-bordered">
     <% posts.each do |post| %>
       <tr>
         <td>
-          <%= link_to user_path(post.user.id) do %>
-            <%= image_tag post.user.profile_image, size: "20x20" %> <%= post.user.name %>
+          <%= link_to user_path(post.user) do %>
+            <%= image_tag post.user.get_profile_image(40, 40), class:"border border-dark rounded-circle" %>
+            <%= post.user.name %>
+            <br>
           <% end %>
-          <br>
-          <%= link_to post_path(post.id) do %>
-            <%= image_tag post.image, size: "75x75" %>
+          <%= link_to post_path(post) do %>
+            <%= post.post_name %><br>
+            <%= image_tag post.image, size: "150x100" %>
           <% end %>
         </td>
         <td>
-          <%= link_to post.post_name, post_path(post.id) %>
+          <%= post.explanation %><br>
+          <% post.tags.each do |tag| %>
+            <%= link_to tag_path(tag.id) do %>
+              #<%= tag.name %>
+            <% end %>
+          <% end %>
           <br>
-          <%= post.explanation %>
+          <span id="post_<%= post.id %>"><%= render "public/likes/like", post: post %></span>
+          <%= link_to "#{post.comments.count}コメント", post_path(post.id) %>
         </td>
       </tr>
     <% end %>
-  </tbody>
-</table>
+  </table>
+</div>
