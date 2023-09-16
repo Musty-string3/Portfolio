@@ -32,6 +32,7 @@ Rails.application.routes.draw do
       resource :likes, only: %i[create destroy]
       resources :comments, only: %i[create destroy]
     end
+    resources :tags, only: %i[show]
     resources :notifications, only: %i[index]
     resources :rooms, only: %i[index show create]
     resources :messages, only: %i[create]

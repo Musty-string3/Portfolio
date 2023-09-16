@@ -4,7 +4,7 @@
 <% post.comments.each do |comment| %>
   <div class="row">
     <%= link_to user_path(comment.user) do %>
-      <%= image_tag comment.user.get_profile_image(40, 40) %>
+      <%= image_tag comment.user.get_profile_image(40, 40), class:"border border-dark rounded-circle" %>
       <%= comment.user.name %>
     <% end %>
     <%= comment.text %>

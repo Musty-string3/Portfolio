@@ -16,6 +16,7 @@ class Post < ApplicationRecord
   # ↑ tagsと多対多の関係であり、post_tagsが中間テーブルという意味
   has_many :notifications, dependent: :destroy
   
+  # タグ機能
   def save_tag(sent_tags)
     
     # タグが存在していれば、タグの名前を配列として全て取得 pluck=カラムの中身を展開
@@ -39,6 +40,7 @@ class Post < ApplicationRecord
     end
   end
   
+  # 検索機能
   def self.search_for(keyword)
     Post.where('post_name LIKE ?', keyword + '%')
   end

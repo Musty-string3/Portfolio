@@ -21,7 +21,7 @@
           <div id="follow_<%= @user.id %>">
             <%= render 'public/relations/follow', user: @user %>
           </div>
-          <% if @entries.present? %>
+          <% if @user == current_user && @entries > 0 %>
             <%= link_to rooms_path do %>
               やりとり一覧(DMしているユーザーは<%= @entries %>人です)
             <% end %>
@@ -49,18 +49,10 @@
     <% if @user == current_user %>
       <%= link_to "プロフィールを編集", edit_user_path(@user), class:"col-lg-3" %>
       <%= link_to "いいねした一覧", likes_user_path(@user), class:"col-lg-2" %>
-      <!--以下はログインしているユーザーが自身の投稿一覧を閲覧したい場合の処理-->
-      <div class="col-lg-2"> 
-        <%= form_with model: @user, url: posts_path, method: :get do |f| %>
-           <%= hidden_field_tag :current_user?, 'Yes' %>
-           <%= f.submit "投稿した一覧" %>
-         <% end %>
-       </div>
-      <!--ここまで-->
-     <% end %>
+    <% end %>
   </div>
     <% if @user_posts.present? %>
-      <%= render 'public/posts/index', posts: @user_posts, tag_counts: @tag_counts %>
+      <%= render 'public/posts/index', posts: @user_posts, tag_counts: @tags %>
     <% else %>
       <h5>投稿はまだありません。</h5>
     <% end %>

@@ -1,16 +1,13 @@
 class Public::PostsController < ApplicationController
   
-  include TagCount  # app/concerns/tag_count.rbが使える
+  include TagCount  # app/controllers/concerns/tag_count.rbが使える
   before_action :authenticate_user!
-  before_action :set_post, only: %i[show edit update destroy]
+  before_action :set_post, only: %i[edit update destroy]
 
   def index
-    if params[:current_user?] == 'Yes'
-      @posts = current_user.posts.includes(:user)
-    else
-      @posts = Post.includes(:user)
-    end
-    @tag_counts = set_tag_count(@posts)
+    @posts = Post.includes(:user)
+    tags = Tag.joins(:posts).select(:id, :name)
+    @tags = set_tag_count(tags)
     # User.find(1).includes(:posts) ユーザー1の全投稿取得
   end
 
@@ -34,7 +31,8 @@ class Public::PostsController < ApplicationController
   end
 
   def show
-    @post_tags = @post.tags
+    @post = Post.includes(:user).find(params[:id])
+    @post_tags = Post.includes(:tags).find(params[:id])
     @comment = Comment.new
   end
 

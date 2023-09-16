@@ -1,22 +1,19 @@
 <div class="container">
-  <h5>あなたと連絡を取り合っているユーザー数は<%= @entries.count %>人です</h5>
+  <h5 class="offset-lg-3">あなたと連絡を取り合っているユーザー数は<%= @entries.count %>人です</h5>
   <table class="table">
-    <thead>
-      <th class="col-lg-1">アイコン</th>
-      <th>ユーザー説明</th>
-      <th>最後に連絡した時間</th>
-    </thead>
     <tbody>
-      <% @entries.each do |entry| %>
-        <tr>
-          <td>
+      <% @another_entries.each do |entry| %>
+        <tr onclick='window.location="<%= room_path(entry.room.id) %>"' role="link">
+          <td class="offset-lg-2"></td>
+          <td class="col-lg-1">
             <%= image_tag entry.user.get_profile_image(40, 40), class:"border border-dark rounded-circle" %>
           </td>
-          <td>
+          <td class="col-lg-6">
             <%= entry.user.name %><br>
             <%= entry.user.introduction %>
           </td>
-          <td><%= time_ago_in_words(@entries.created_at)+'前' %></td>
+          <td class="col-lg-1"><%= time_ago_in_words(entry.created_at)+'前' %></td>
+          <td class="offset-lg-2"></td>
         </tr>
       <% end %>
     </tbody>

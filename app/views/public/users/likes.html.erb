@@ -1,6 +1,6 @@
 <div class="container">
   <% if @posts.present? %>
-    <%= render 'public/posts/index', posts: @posts, tag_counts: @tag_counts %>
+    <%= render 'public/posts/index', posts: @posts, tag_counts: @tags %>
   <% else %>
     <h5>
       いいねした投稿はまだありません。

@@ -26,8 +26,10 @@ class User < ApplicationRecord
   has_many :myself_notifications, class_name: 'Notification', foreign_key: 'visitor_id', dependent: :destroy
   has_many :other_notifications, class_name: 'Notification', foreign_key: 'visited_id', dependent: :destroy
 
-  scope :only_active, -> { where(is_deleted: true) }
   #is_deletedがtrue(退会してない)の会員レコードを取得
+  scope :only_active, -> { where(is_deleted: true) }
+  # 投稿に紐付いたタグテーブルのidカラムとnameカラムをjoins(内部結合)にて新テーブルを作成
+  scope :tag_joins_posts, -> { Tag.joins(:posts).select(:id, :name) }
 
   validates :last_name, presence: true                                #名が空白ならエラー
   validates :first_name, presence: true                               #姓が空白ならエラー
@@ -41,6 +43,7 @@ class User < ApplicationRecord
 
   has_one_attached :profile_image
 
+  # ユーザーのプロフィール画像
   def get_profile_image(width, height)
     unless profile_image.attached?
       file_path = Rails.root.join('app/assets/images/profile_image.jpg')
@@ -49,12 +52,14 @@ class User < ApplicationRecord
     profile_image.variant(resize_to_limit: [width, height]).processed
   end
 
+  # 検索機能
   def self.search_for(keyword)
     #検索したkeywordがusersテーブルにある場合、その名前を全取得する
     User.where('name LIKE ?', keyword+'%')
   end
 
-  def follow?(user) #フォローしているかの判定
+  # フォローしているかの判定
+  def follow?(user)
     #include?で引数のuserが1つでもあった場合はtrueを返し、逆ならfalseを返す
     followings.include?(user)
   end

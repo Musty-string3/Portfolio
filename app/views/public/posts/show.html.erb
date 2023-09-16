@@ -5,7 +5,8 @@
   <div class="row">
     <div class="col-lg-3">
       <%= link_to user_path(@post.user.id) do %>
-        <%= image_tag @post.user.get_profile_image(40, 40) %> <%= @post.user.name %>
+        <%= image_tag @post.user.get_profile_image(40, 40), class:"border border-dark rounded-circle" %> 
+        <%= @post.user.name %>
       <% end %>
     </div>
     <div class="col-lg-offset-2 col-lg-4">
@@ -16,8 +17,8 @@
     <div class="col-lg-4">
       <%= image_tag @post.image, size: "200x150" %>
       <br>
-      <% @post_tags.each do |tag| %>
-        <%= link_to posts_path do %>
+      <% @post_tags.tags.each do |tag| %>
+        <%= link_to tag_path(tag) do %>
           <%= tag.name %>
         <% end %>
       <% end %>

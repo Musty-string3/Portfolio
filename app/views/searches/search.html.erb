@@ -1,11 +1,31 @@
 <div class="container">
   <% if @model == 'user' %>
-    <h5>検索名：<%= @keyword %>（ユーザー）</h5>
-    <p>マッチした検索数<%= @records.count %>件</p>
-    <%= render 'public/users/search_index', users: @records %>
+    <div class="d-flex">
+      <% unless @keyword == '' %>
+        <h5>検索名：<%= @keyword %>（ユーザー）</h5>
+      <% else %>
+        <h5>検索名：全ユーザー</h5>
+      <% end %>
+      <p>（マッチした検索数<%= @records.count %>件）</p>
+    </div>
+    <% if @records.present? %>
+      <%= render 'public/users/search_index', users: @records %>
+    <% else %>
+      検索したユーザーは見つかりませんでした。
+    <% end %>
   <% elsif @model == 'post' %>
-    <h5>検索名：<%= @keyword %>（投稿）</h5>
-    <p>マッチした検索数<%= @records.count %>件</p>
-    <%= render 'public/posts/search_index', posts: @records %>
+    <div class="d-flex">
+      <% unless @keyword == '' %>
+        <h5>検索名：<%= @keyword %>（投稿）</h5>
+      <% else %>
+        <h5>検索名：全投稿</h5>
+      <% end %>
+      <p>（マッチした検索数<%= @records.count %>件）</p>
+    </div>
+    <% if @records.present? %>
+      <%= render 'public/posts/search_index', posts: @records %>
+    <% else %>
+      検索した投稿は見つかりませんでした。
+    <% end %>
   <% end %>
 </div>

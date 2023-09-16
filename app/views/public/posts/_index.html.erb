@@ -1,6 +1,7 @@
 <div class="row">
   <% tag_counts.each do |tag_name, count| %>
-    <%= tag_name %>
+  <%# byebug%>
+    <%= link_to tag_name[:name], tag_path(tag_name[:id]) %>
     <%= "(#{count}件)" %>
   <% end %>
 </div>
@@ -21,7 +22,12 @@
         </td>
         <td>
           <%= post.explanation %><br>
-          <i class="fa-solid fa-tags"><%= post.tags.map(&:name).join(', ') %></i><br>
+          <% post.tags.each do |tag| %>
+            <%= link_to tag_path(tag.id) do %>
+              #<%= tag.name %>
+            <% end %>
+          <% end %>
+          <br>
           <span id="post_<%= post.id %>"><%= render "public/likes/like", post: post %></span>
           <%= link_to "#{post.comments.count}コメント", post_path(post.id) %>
         </td>
