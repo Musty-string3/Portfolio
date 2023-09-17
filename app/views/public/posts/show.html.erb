@@ -3,41 +3,45 @@
     <%= flash[:notice] %>
   <% end %>
   <div class="row">
-    <div class="col-lg-3">
+    <div class="offset-lg-1">
       <%= link_to user_path(@post.user.id) do %>
         <%= image_tag @post.user.get_profile_image(40, 40), class:"border border-dark rounded-circle" %> 
         <%= @post.user.name %>
       <% end %>
     </div>
-    <div class="col-lg-offset-2 col-lg-4">
-      <%= @post.post_name %>
-    </div>
   </div>
   <div class="row">
-    <div class="col-lg-4">
+    <div class="offset-lg-1">
       <%= image_tag @post.image, size: "200x150" %>
       <br>
+    </div>
+    <div class="offset-lg-1 col-lg-4">
+      <h5><%= @post.post_name %></h5>
+      <p><%= @post.explanation %></p>
       <% @post_tags.tags.each do |tag| %>
         <%= link_to tag_path(tag) do %>
-          <%= tag.name %>
+          #<%= tag.name %>
         <% end %>
       <% end %>
-    </div>
-    <div class="col-lg-offset-1 col-lg-3">
-      <%= @post.explanation %>
+      <!--id="post_ @post.id "の部分はcreate.js.erb, destroy.js.erbで使うため-->
+      <p id="post_<%= @post.id %>"><%= render "public/likes/like", post: @post %></p>
+      <%= link_to "投稿を編集する", edit_post_path(@post) if @post.user == current_user %>
     </div>
   </div>
-  <%= link_to "投稿を編集する", edit_post_path(@post) if @post.user == current_user %>
-
   <div id="comment_area">
+    <div class="offset-lg-1">
+      <h5>コメントのupdate機能未実装</h5>
+      <p>コメント件数<%= @post.comments.count %>件</p>
+      <%= form_with model: [@post, @comment], local: false do |f| %>
+        <%= f.text_area :text, size: "35x2", placeholder: "コメント入力欄" %>
+        <%= f.submit "コメントする" %>
+      <% end %>
+    </div>
     <%= render 'public/comments/post_comments', post: @post %>
   </div>
+  
   <div id="comments_error">
     <%= render 'layouts/error_messages', resource: @comment %>
   </div>
-  <%= form_with model: [@post, @comment], local: false do |f| %>
-    <%= f.text_area :text, placeholder: "コメント入力欄" %><br>
-    <%= f.submit "コメントする" %>
-  <% end %>
 </div>
 

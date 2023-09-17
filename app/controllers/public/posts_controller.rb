@@ -1,14 +1,24 @@
 class Public::PostsController < ApplicationController
-  
+
   include TagCount  # app/controllers/concerns/tag_count.rbが使える
   before_action :authenticate_user!
   before_action :set_post, only: %i[edit update destroy]
 
   def index
-    @posts = Post.includes(:user)
-    tags = Tag.joins(:posts).select(:id, :name)
+    if params[:index] == "like"
+      @posts = Post.includes(:likes).sort_by {|x| x.likes.size}.reverse
+      @index = "いいね順"
+    elsif params[:index] == "likes_in_week"
+      to  = Time.current.at_end_of_day
+      from  = (to - 6.day).at_beginning_of_day
+      @posts = Post.includes(:likes).sort_by {|x| x.likes.where(created_at: from...to).size}.reverse
+      @index = "直近1週間のいいね順"
+    else
+      @posts = Post.includes(:user).order(created_at: :desc)
+      @index = "新着投稿順"
+    end
+    tags = User.tag_joins_posts
     @tags = set_tag_count(tags)
-    # User.find(1).includes(:posts) ユーザー1の全投稿取得
   end
 
   def new

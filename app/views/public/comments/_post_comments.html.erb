@@ -1,14 +1,22 @@
-<p>コメント件数<%= post.comments.count%>件</p>
-<!--id="post_ @post.id "の部分はcreate.js.erb, destroy.js.erbで使うため-->
-<p id="post_<%= post.id %>"><%= render "public/likes/like", post: post %></p>
-<% post.comments.each do |comment| %>
-  <div class="row">
-    <%= link_to user_path(comment.user) do %>
-      <%= image_tag comment.user.get_profile_image(40, 40), class:"border border-dark rounded-circle" %>
-      <%= comment.user.name %>
-    <% end %>
-    <%= comment.text %>
-    <%= comment.created_at.strftime('%Y/%m/%d %H:%M:%S') %>
-    <%= link_to "コメントを削除", post_comment_path(comment.post, comment), method: :delete, remote: true if comment.user == current_user %>
-  </div>
-<% end %>
+<table class="table">
+  <% post.comments.each do |comment| %>
+    <tr>
+      <td class="offset-lg-1"></td>
+      <td>
+        <%= link_to user_path(comment.user) do %>
+          <%= image_tag comment.user.get_profile_image(25, 25), class:"border border-dark rounded-circle" %>
+          <% if comment.user == post.user %>
+            <%= comment.user.name %>(投稿者)
+          <% else %>
+            <%= comment.user.name %>
+          <% end %>
+        <% end %>
+      </td>
+      <td><%= comment.text %></td>
+      <td>
+        <%= comment.created_at.strftime('%Y/%m/%d %H:%M') %>
+        <%= link_to "コメントを削除", post_comment_path(comment.post, comment), method: :delete, remote: true if comment.user == current_user %>
+      </td>
+    </tr>
+  <% end %>
+</table>

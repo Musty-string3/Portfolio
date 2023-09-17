@@ -1,8 +1,21 @@
 <div class="row">
-  <% tag_counts.each do |tag_name, count| %>
-    <%= link_to tag_name[:name], tag_path(tag_name[:id]) %>
-    <%= "(#{count}件)" %>
-  <% end %>
+  <div class="offset-lg-1 col-lg-5">
+    <h5><%= @index %>で表示しています</h5>
+  </div>
+  <div class="offset-lg-3">
+    <%= form_with url: posts_path, method: :get do |f| %>
+      <%= f.select :index, options_for_select({"新着投稿"=>"new", "いいね順"=>"like", "直近のいいね順"=>"likes_in_week" }) %>
+      <%= f.submit "検索する" %>
+    <% end %>
+  </div>
+</div>
+<div class="row">
+  <div class="col-lg-6">
+    <% tag_counts.each do |tag_name, count| %>
+      <%= link_to tag_name[:name], tag_path(tag_name[:id]) %>
+      <%= "(#{count}件)" %>
+    <% end %>
+  </div>
 </div>
 <div class="row">
   <table class="table table-bordered">
@@ -29,6 +42,8 @@
           <br>
           <span id="post_<%= post.id %>"><%= render "public/likes/like", post: post %></span>
           <%= link_to "#{post.comments.count}コメント", post_path(post.id) %>
+          <br>
+          <%= post.likes.where(created_at: (Time.current.at_end_of_day - 6.day).at_beginning_of_day...Time.current.at_end_of_day).size %>
         </td>
       </tr>
     <% end %>
