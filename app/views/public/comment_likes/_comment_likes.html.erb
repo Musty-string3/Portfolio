@@ -1,0 +1,9 @@
+<% if comment.comment_likes?(comment, current_user) %>
+  <%= link_to post_comment_comment_likes_path(post, comment), method: :post, remote: true do %>
+    <i class="fa-regular fa-heart"></i>
+  <% end %>
+<% else %>
+  <%= link_to post_comment_comment_likes_path(post, comment), method: :delete, remote: true do %>
+    <i class="fa-solid fa-heart"></i>
+  <% end %>
+<% end %>

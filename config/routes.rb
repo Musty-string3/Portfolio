@@ -5,6 +5,9 @@ Rails.application.routes.draw do
     registrations: "public/registrations",
     sessions: 'public/sessions'
   }
+  devise_scope :user do
+    post 'guest_sign_in', to: 'users/sessions#guest_sign_in'
+  end
   # 管理者ログイン
   devise_for :admins, skip: [:registrations, :passwords], controllers: {
     sessions: "admin/sessions"
@@ -15,7 +18,6 @@ Rails.application.routes.draw do
   # ユーザー用
   scope module: :public do
     root to: 'homes#top'
-    get 'guest_sign_in', to: 'homes#guest_sign_in'
     get 'about', to: 'homes#about'
     resources :users, only: %i[show update] do
       member do
@@ -31,7 +33,9 @@ Rails.application.routes.draw do
     end
     resources :posts do
       resource :likes, only: %i[create destroy]
-      resources :comments, only: %i[create destroy]
+      resources :comments, only: %i[create destroy] do
+        resource :comment_likes, only: %i[create destroy]
+      end
     end
     resources :tags, only: %i[show]
     resources :notifications, only: %i[index]

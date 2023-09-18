@@ -6,7 +6,9 @@ class User < ApplicationRecord
   has_many :posts, dependent: :destroy
   has_many :comments, dependent: :destroy
   has_many :likes, dependent: :destroy
-  
+  # コメントに対するいいね
+  has_many :comment_likes, dependent: :destroy
+
   # DM機能
   has_many :entries, dependent: :destroy
   has_many :messages, dependent: :destroy
@@ -19,9 +21,9 @@ class User < ApplicationRecord
   #フォロー一覧
   has_many :followings, through: :relations, source: :followed #フォロー中のユーザー一覧
   has_many :followers, through: :reverse_relations, source: :follow  #フォロワーのユーザー一覧
-  #through: :名前 で上の中間テーブルを通る、source: :名前  で参照するカラムを指定する
-  #User.find(1).followingsでフォローしてくれたユーザーの 一覧
-  
+  #through: :名前 でその中間テーブルを通る、source: :名前  で参照するカラムを指定する
+  #User.find(1).followingsでフォローしてくれたユーザーの一覧
+
   # 通知機能のアソシエーション
   has_many :myself_notifications, class_name: 'Notification', foreign_key: 'visitor_id', dependent: :destroy
   has_many :other_notifications, class_name: 'Notification', foreign_key: 'visited_id', dependent: :destroy
@@ -55,7 +57,7 @@ class User < ApplicationRecord
   # 検索機能
   def self.search_for(keyword)
     #検索したkeywordがusersテーブルにある場合、その名前を全取得する
-    User.where('name LIKE ?', keyword+'%')
+    User.includes(:followings, :followers).where('name LIKE ?', keyword+'%')
   end
 
   # フォローしているかの判定
@@ -63,7 +65,7 @@ class User < ApplicationRecord
     #include?で引数のuserが1つでもあった場合はtrueを返し、逆ならfalseを返す
     followings.include?(user)
   end
-  
+
   def create_notification_follow!(current_user)
     # 連続でフォローボタンを押すことに備えて、同じ通知レコードが存在しないときだけレコードを作成する
     temp = Notification.where(["visitor_id = ? and visited_id = ? and action = ?", current_user, id, 'follow'])
@@ -76,7 +78,7 @@ class User < ApplicationRecord
       notification.save if notification.valid?
     end
   end
-  
+
   def unchecked_notifications
     other_notifications.where(checked: false).count
   end

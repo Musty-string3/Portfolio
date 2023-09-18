@@ -1,12 +1,12 @@
 class Post < ApplicationRecord
-  
+
   with_options presence: true do
     validates :post_name
     validates :explanation
   end
-  
+
   has_one_attached :image
-  
+
   belongs_to :user
   has_many :comments, dependent: :destroy
   has_many :likes, dependent: :destroy
@@ -15,42 +15,42 @@ class Post < ApplicationRecord
   has_many :tags, through: :post_tags
   # ↑ tagsと多対多の関係であり、post_tagsが中間テーブルという意味
   has_many :notifications, dependent: :destroy
-  
+
   # タグ機能
   def save_tag(sent_tags)
-    
+
     # タグが存在していれば、タグの名前を配列として全て取得 pluck=カラムの中身を展開
     current_tags = self.tags.pluck(:name) unless self.tags.nil?
-    
+
     # ↑で取得したタグ(current_tags)から送られてきたタグ(sent_tags)を除いたタグがoldtag
     old_tags = current_tags - sent_tags
-    
+
     # 送信されてきたタグ(sent_tags)から現在存在するタグ(current_tags)を除いたタグがnew_tags
     new_tags = sent_tags - current_tags
-    
+
     # 古いタグ(old_tags)を消す
     old_tags.each do |old|
       self.tags.delete　Tag.find_by(name: old)
     end
-    
+
     # 新しいタグ(new_tags)を保存
     new_tags.each do |new|
       new_post_tag = Tag.find_or_create_by(name: new)
       self.tags << new_post_tag
     end
   end
-  
+
   # 検索機能
   def self.search_for(keyword)
     Post.where('post_name LIKE ?', keyword + '%')
   end
-  
+
   # like?(user)メソッドはlikesテーブルに引数で渡されたuser(current_user)が存在(exists)するか調べる
   # whereはlikesテーブル内にuser.id(current_user)が存在するか全部確認して存在していたらtrueを返し、逆ならfalseを返す
   def like?(user)
     likes.where(user_id: user.id).exists?
   end
-  
+
   # いいね通知
   def create_notification_like!(current_user)
     # 連続でいいねをすることに備えて、同じ通知レコードが存在しないときだけレコードを作成する
@@ -69,7 +69,7 @@ class Post < ApplicationRecord
       notification.save if notification.valid?
     end
   end
-  
+
   # コメント通知
   def create_notification_comment!(current_user, comment_id)
     temp_ids = Comment.select(:user_id).where(post_id: id).where.not(user_id: current_user.id).distinct
@@ -79,7 +79,7 @@ class Post < ApplicationRecord
     # まだ誰もコメントしていない場合は投稿者に通知を送る
     save_notification_comment(current_user, comment_id, user_id) if temp_ids.blank?
   end
-  
+
   def save_notification_comment(current_user, comment_id, visited_id)
     notification  = current_user.myself_notifications.new(
       post_id: id,
@@ -93,5 +93,5 @@ class Post < ApplicationRecord
     end
     notification.save if notification.valid?
   end
-  
+
 end

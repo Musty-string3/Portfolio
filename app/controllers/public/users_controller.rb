@@ -3,6 +3,7 @@ class Public::UsersController < ApplicationController
   include TagCount  # app/concerns/tag_count.rbが使える
   before_action :authenticate_user!
   before_action :set_current_user, except: %i[show]
+  before_action :guest_user, only: %i[edit_information update withdrawal]
 
   def show
     @user = User.find(params[:id])
@@ -75,6 +76,13 @@ class Public::UsersController < ApplicationController
 
   def set_current_user
     @user = current_user
+  end
+
+  def guest_user
+    if resource.email == 'guest@sample.com'
+      redirect_back fallback_location: root_path
+      flash[:alert] = "ゲストユーザーの更新・削除はできません。"
+    end
   end
 
   def user_params
