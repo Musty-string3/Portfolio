@@ -8,6 +8,7 @@ class User < ApplicationRecord
   has_many :likes, dependent: :destroy
   # コメントに対するいいね
   has_many :comment_likes, dependent: :destroy
+  has_many :view_counts, dependent: :destroy
 
   # DM機能
   has_many :entries, dependent: :destroy

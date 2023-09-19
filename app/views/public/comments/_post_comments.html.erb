@@ -15,7 +15,7 @@
       <td><%= comment.text %></td>
       <td>
         <div id="comment_likes_<%= comment.id %>">
-          <%= render partial: 'public/comment_likes/comment_likes', locals: {post: post, comment: comment} %>
+          <%= render 'public/comment_likes/comment_likes', post: post, comment: comment %>
         </div>
       </td>
       <td>

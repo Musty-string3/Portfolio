@@ -5,7 +5,7 @@
   <div class="row">
     <div class="offset-lg-1">
       <%= link_to user_path(@post.user.id) do %>
-        <%= image_tag @post.user.get_profile_image(40, 40), class:"border border-dark rounded-circle" %> 
+        <%= image_tag @post.user.get_profile_image(40, 40), class:"border border-dark rounded-circle" %>
         <%= @post.user.name %>
       <% end %>
     </div>
@@ -23,11 +23,17 @@
           #<%= tag.name %>
         <% end %>
       <% end %>
-      <!--id="post_ @post.id "の部分はcreate.js.erb, destroy.js.erbで使うため-->
+      <!--いいね機能-->
       <p id="post_<%= @post.id %>"><%= render "public/likes/like", post: @post %></p>
+      <!--いいね機能ここまで-->
+      閲覧数(<%= @post.view_counts.count %>)
+      本日の閲覧数(<%= @post.today_view_count(@post) %>)
+      <br>
+      <i class="fa-regular fa-clock"></i><%= time_ago_in_words(@post.created_at)+"前に投稿" %>
       <%= link_to "投稿を編集する", edit_post_path(@post) if @post.user == current_user %>
     </div>
   </div>
+  <!--コメント機能-->
   <div id="comment_area">
     <div class="offset-lg-1">
       <h5>コメントのupdate機能未実装</h5>
@@ -39,7 +45,8 @@
     </div>
     <%= render 'public/comments/post_comments', post: @post %>
   </div>
-  
+  <!--コメント機能ここまで-->
+
   <div id="comments_error">
     <%= render 'layouts/error_messages', resource: @comment %>
   </div>

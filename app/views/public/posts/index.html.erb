@@ -1,5 +1,16 @@
 <div class="container">
   <% if @posts.present? %>
+  <div class="row">
+    <div class="offset-lg-1 col-lg-5">
+      <h5><%= @index %>で表示しています</h5>
+    </div>
+    <div class="offset-lg-3">
+      <%= form_with url: posts_path, method: :get do |f| %>
+        <%= f.select :index, options_for_select({"新着投稿"=>"new", "いいね順"=>"like", "直近のいいね順"=>"likes_in_week" }) %>
+        <%= f.submit "検索する" %>
+      <% end %>
+    </div>
+  </div>
     <%= render 'index', posts: @posts, tag_counts: @tags %>
   <% else %>
     <h5>

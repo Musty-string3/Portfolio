@@ -15,6 +15,7 @@ class Post < ApplicationRecord
   has_many :tags, through: :post_tags
   # ↑ tagsと多対多の関係であり、post_tagsが中間テーブルという意味
   has_many :notifications, dependent: :destroy
+  has_many :view_counts, dependent: :destroy
 
   # タグ機能
   def save_tag(sent_tags)
@@ -49,6 +50,15 @@ class Post < ApplicationRecord
   # whereはlikesテーブル内にuser.id(current_user)が存在するか全部確認して存在していたらtrueを返し、逆ならfalseを返す
   def like?(user)
     likes.where(user_id: user.id).exists?
+  end
+  
+  # 1週間のいいね数
+  def likes_in_week
+    likes.where(created_at: (Time.current.at_end_of_day - 6.day).at_beginning_of_day...Time.current.at_end_of_day).size
+  end
+  
+  def today_view_count(post)
+    view_counts.where(created_at: Time.zone.now.all_day, post_id: post).count
   end
 
   # いいね通知
