@@ -41,6 +41,7 @@ Rails.application.routes.draw do
     resources :notifications, only: %i[index]
     resources :rooms, only: %i[index show create]
     resources :messages, only: %i[create]
+    resources :room_groups #グループチャット
   end
 
   # 管理者用

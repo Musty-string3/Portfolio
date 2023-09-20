@@ -9,6 +9,10 @@ class User < ApplicationRecord
   # コメントに対するいいね
   has_many :comment_likes, dependent: :destroy
   has_many :view_counts, dependent: :destroy
+  
+  # グループチャットのアソシエーション
+  has_many :user_groups, dependent: :destroy
+  has_many :room_groups, through: :user_groups
 
   # DM機能
   has_many :entries, dependent: :destroy
@@ -28,6 +32,7 @@ class User < ApplicationRecord
   # 通知機能のアソシエーション
   has_many :myself_notifications, class_name: 'Notification', foreign_key: 'visitor_id', dependent: :destroy
   has_many :other_notifications, class_name: 'Notification', foreign_key: 'visited_id', dependent: :destroy
+
 
   #is_deletedがtrue(退会してない)の会員レコードを取得
   scope :only_active, -> { where(is_deleted: true) }

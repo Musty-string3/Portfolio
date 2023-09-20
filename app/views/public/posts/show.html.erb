@@ -26,8 +26,7 @@
       <!--いいね機能-->
       <p id="post_<%= @post.id %>"><%= render "public/likes/like", post: @post %></p>
       <!--いいね機能ここまで-->
-      閲覧数(<%= @post.view_counts.count %>)
-      本日の閲覧数(<%= @post.today_view_count(@post) %>)
+      <i class="fa-solid fa-eye"></i><%= @post.view_counts.count %>
       <br>
       <i class="fa-regular fa-clock"></i><%= time_ago_in_words(@post.created_at)+"前に投稿" %>
       <%= link_to "投稿を編集する", edit_post_path(@post) if @post.user == current_user %>

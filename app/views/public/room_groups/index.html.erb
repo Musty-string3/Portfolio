@@ -1,0 +1,24 @@
+<div class="container">
+  <div class="row">
+    <% if @groups.present? %>
+      <table class="table">
+        <tbody>
+          <% @groups.each do |group| %>
+            <tr>
+              <td class="col-lg-3"><%= group.name %></td>
+              <td><%= group.group_description %></td>
+              <td>グループチャット管理者：<%= group.user.name %></td>
+              <td>メンバー数<%= group.user.name %>人</td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+    <% else %>
+      まだグループチャットルームは作られていません。<br>
+      グループチャットを作るからチャットルームを作ってみよう！！
+    <% end %>
+  </div>
+  <div class="row">
+    <%= link_to "グループチャットを作る", new_room_group_path, class:"btn btn-outline-success" %>
+  </div>
+</div>

@@ -1,0 +1,26 @@
+<div class="container">
+  <div class="row">
+    <%= form_with model: @group, url: room_groups_path, method: :post do |f| %>
+      <%= render 'layouts/error_messages', resource: @group %>
+      <table class="table">
+        <thead>
+          <tr>
+            <td>
+              <%= f.label :name, "グループチャット名" %><br>
+              <%= f.text_field :name, size: "25x10", placeholder: "グループチャット名を入力" %>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <%= f.label :group_description, "チャットルームの説明(100文字以内)" %><br>
+              <%= f.text_area :group_description, size: "30x5", placeholder: "チャットルームの説明を入力" %>
+            </td>
+          </tr>
+          <tr>
+            <td><%= f.submit "グループチャットを作成する", class:"btn btn-success" %></td>
+          </tr>
+        </thead>
+      </table>
+    <% end %>
+  </div>
+</div>

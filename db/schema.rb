@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2023_09_19_120058) do
+ActiveRecord::Schema.define(version: 2023_09_20_082519) do
 
   create_table "active_storage_attachments", force: :cascade do |t|
     t.string "name", null: false
@@ -142,6 +142,15 @@ ActiveRecord::Schema.define(version: 2023_09_19_120058) do
     t.datetime "updated_at", precision: 6, null: false
   end
 
+  create_table "room_groups", force: :cascade do |t|
+    t.integer "user_id", null: false
+    t.string "name", null: false
+    t.text "group_description", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["user_id"], name: "index_room_groups_on_user_id"
+  end
+
   create_table "rooms", force: :cascade do |t|
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
@@ -151,6 +160,15 @@ ActiveRecord::Schema.define(version: 2023_09_19_120058) do
     t.string "name"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+  end
+
+  create_table "user_groups", force: :cascade do |t|
+    t.integer "user_id", null: false
+    t.integer "room_groups_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["room_groups_id"], name: "index_user_groups_on_room_groups_id"
+    t.index ["user_id"], name: "index_user_groups_on_user_id"
   end
 
   create_table "users", force: :cascade do |t|
@@ -195,6 +213,9 @@ ActiveRecord::Schema.define(version: 2023_09_19_120058) do
   add_foreign_key "notifications", "posts"
   add_foreign_key "post_tags", "posts"
   add_foreign_key "post_tags", "tags"
+  add_foreign_key "room_groups", "users"
+  add_foreign_key "user_groups", "room_groups", column: "room_groups_id"
+  add_foreign_key "user_groups", "users"
   add_foreign_key "view_counts", "posts"
   add_foreign_key "view_counts", "users"
 end

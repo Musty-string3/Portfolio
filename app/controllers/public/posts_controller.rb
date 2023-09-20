@@ -44,7 +44,6 @@ class Public::PostsController < ApplicationController
     @post = Post.includes(:user).find(params[:id])
     @post_tags = Post.includes(:tags).find(params[:id])
     @comment = Comment.new
-    @today_view_counts = ViewCount.where(created_at: Time.zone.now.all_day, post_id: @post).count
     unless ViewCount.find_by(user_id: current_user.id, post_id: @post.id)
       current_user.view_counts.create(post_id: @post.id)
     end
