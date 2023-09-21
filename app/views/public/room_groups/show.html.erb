@@ -1,3 +1,13 @@
 <div class="container">
-  
+  <%= flash[:notice] if flash[:notice] %>
+  <%= @group.name %>
+  参加しているユーザー数<%= @group_users.count %>
+  参加しているユーザー
+  <% @group_users.each do |group_user| %>
+    <%= image_tag group_user.user.get_profile_image(30, 30), class:"border border-dark rounded-circle" %>
+    <%= group_user.user.name %>
+  <% end %>
+  <% if @leader.user_id == current_user.id %>
+    <%= link_to "グループチャットを編集する", edit_room_group_path(@group) %>
+  <% end %>
 </div>

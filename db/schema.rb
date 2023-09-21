@@ -143,12 +143,10 @@ ActiveRecord::Schema.define(version: 2023_09_20_082519) do
   end
 
   create_table "room_groups", force: :cascade do |t|
-    t.integer "user_id", null: false
     t.string "name", null: false
     t.text "group_description", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.index ["user_id"], name: "index_room_groups_on_user_id"
   end
 
   create_table "rooms", force: :cascade do |t|
@@ -164,10 +162,11 @@ ActiveRecord::Schema.define(version: 2023_09_20_082519) do
 
   create_table "user_groups", force: :cascade do |t|
     t.integer "user_id", null: false
-    t.integer "room_groups_id", null: false
+    t.integer "room_group_id", null: false
+    t.boolean "is_leader", default: false, null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.index ["room_groups_id"], name: "index_user_groups_on_room_groups_id"
+    t.index ["room_group_id"], name: "index_user_groups_on_room_group_id"
     t.index ["user_id"], name: "index_user_groups_on_user_id"
   end
 
@@ -213,8 +212,7 @@ ActiveRecord::Schema.define(version: 2023_09_20_082519) do
   add_foreign_key "notifications", "posts"
   add_foreign_key "post_tags", "posts"
   add_foreign_key "post_tags", "tags"
-  add_foreign_key "room_groups", "users"
-  add_foreign_key "user_groups", "room_groups", column: "room_groups_id"
+  add_foreign_key "user_groups", "room_groups"
   add_foreign_key "user_groups", "users"
   add_foreign_key "view_counts", "posts"
   add_foreign_key "view_counts", "users"

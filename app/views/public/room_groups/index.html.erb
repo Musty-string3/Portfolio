@@ -1,14 +1,13 @@
 <div class="container">
   <div class="row">
     <% if @groups.present? %>
-      <table class="table">
+      <table class="table table-hover">
         <tbody>
           <% @groups.each do |group| %>
-            <tr>
+            <tr onclick='window.location="<%= room_group_path(group) %>"' role="link">
               <td class="col-lg-3"><%= group.name %></td>
               <td><%= group.group_description %></td>
-              <td>グループチャット管理者：<%= group.user.name %></td>
-              <td>メンバー数<%= group.user.name %>人</td>
+              <td>メンバー数<%= group.user_groups.count %>人</td>
             </tr>
           <% end %>
         </tbody>

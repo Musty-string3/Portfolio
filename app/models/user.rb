@@ -12,7 +12,7 @@ class User < ApplicationRecord
   
   # グループチャットのアソシエーション
   has_many :user_groups, dependent: :destroy
-  has_many :room_groups, through: :user_groups
+  has_many :room_groups, dependent: :destroy
 
   # DM機能
   has_many :entries, dependent: :destroy

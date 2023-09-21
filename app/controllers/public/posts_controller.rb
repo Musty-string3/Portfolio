@@ -31,7 +31,6 @@ class Public::PostsController < ApplicationController
     # 受け取った値を,で区切って配列にする。split=分割して配列を作る
     tag_list = params[:post][:tag].split('、')
     if post.save
-      # postモデルで定義したsave_tagでタグを保存
       post.save_tag(tag_list)
       redirect_to post_path(post), notice: "投稿されました！"
     else
