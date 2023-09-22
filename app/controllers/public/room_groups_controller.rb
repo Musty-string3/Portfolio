@@ -34,23 +34,24 @@ class Public::RoomGroupsController < ApplicationController
 
   def update
     if @group.update(room_group_params)
-      redirect_to room_group_path(@group.id), notice: "グループチャットを作成しました！"
+      redirect_to room_group_path(@group.id), notice: "グループチャットを更新しました！"
     else
       render :edit
     end
   end
 
   def destroy
-
+    @group.destroy
+    redirect_to room_groups_path
   end
 
   private
-  
+
   def set_room_groups
     @group = RoomGroup.find(params[:id])
   end
 
   def room_group_params
-    params.require(:room_group).permit(:name, :group_description)
+    params.require(:room_group).permit(:name, :group_description, :count)
   end
 end

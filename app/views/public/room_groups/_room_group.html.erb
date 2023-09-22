@@ -1,0 +1,36 @@
+<%= render 'layouts/error_messages', resource: group %>
+<table class="table">
+  <tbody>
+    <tr>
+      <td>
+        <%= f.label :name, "グループチャット名" %><br>
+        <%= f.text_field :name, size: "25x10", placeholder: "グループチャット名を入力" %>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <%= f.label :group_description, "チャットルームの説明(100文字以内)" %><br>
+        <%= f.text_area :group_description, size: "30x5", placeholder: "チャットルームの説明を入力" %>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <%= f.label :count, "人数制限(2人～10人まで)" %><br>
+        <% unless group.id == nil %>
+          <%= f.text_field :count %>
+        <% else %>
+          <%= f.text_field :count, value: 10 %>
+        <% end %>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <% unless group.id == nil %>
+          <%= f.submit "グループチャットを更新する", class:"btn btn-success" %>
+        <% else %>
+          <%= f.submit "グループチャットを作成する", class:"btn btn-success" %>
+        <% end %>
+        </td>
+    </tr>
+  </tbody>
+</table>

@@ -145,6 +145,7 @@ ActiveRecord::Schema.define(version: 2023_09_20_082519) do
   create_table "room_groups", force: :cascade do |t|
     t.string "name", null: false
     t.text "group_description", null: false
+    t.integer "count", default: 10, null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
   end
