@@ -7,11 +7,17 @@
     参加しているユーザー数<%= @group_users.count %>
     参加しているユーザー
     <% @group_users.each do |group_user| %>
-      <%= image_tag group_user.user.get_profile_image(30, 30), class:"border border-dark rounded-circle" %>
-      <%= group_user.user.name %>
+      <%= image_tag group_user.get_profile_image(30, 30), class:"border border-dark rounded-circle" %>
     <% end %>
+  </div>
+  <div class="row">
+    <%= link_to "グループチャットのメンバー", room_group_user_groups_path(@group), class:"btn btn-primary" %>
+  </div>
+  <div class="row">
+
+    <%= link_to '退会する', withdrawal_room_group_user_group_path(@group.id, @current_user_group.id), class:"btn btn-danger" %>
     <% if @leader.user_id == current_user.id %>
-      <%= link_to "グループチャットを編集する", edit_room_group_path(@group) %>
+      <%= link_to "グループチャットを編集する", edit_room_group_path(@group), class:"btn btn-success" %>
     <% end %>
   </div>
 </div>

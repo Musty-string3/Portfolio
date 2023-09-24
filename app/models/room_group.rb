@@ -10,7 +10,10 @@ class RoomGroup < ApplicationRecord
   # 整数のみ許可
   validates :count, presence: true, numericality: {only_integer: true }
   # 文字数制限は2文字以上～10文字以内
-  validates_inclusion_of :count, in: 2..10
+  validates_inclusion_of :count, in: 3..10
 
-
+  def include?(user)
+    return false if user.nil?
+    UserGroup.where(room_group_id: id, user_id: user.id).exists?
+  end
 end

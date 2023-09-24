@@ -1,0 +1,23 @@
+<div class="container">
+  <%= flash[:notice] if flash[:notice] %>
+  <table class="table table-hover">
+    <tbody>
+      <% @user_groups.each do |user_group| %>
+        <tr>
+          <td>
+            <%= link_to user_path(user_group.user.id) do %>
+              <%= image_tag user_group.get_profile_image(30, 30), class:"border border-dark rounded-circle" %>
+              <%= user_group.role_name %>
+            <% end %>
+          </td>
+          <td><%= user_group.user.introduction %></td>
+          <td>
+            <% unless @user_group.present? && user_group.is_leader %>
+              <%= link_to "退会させる", withdrawal_room_group_user_group_path(@group.id, user_group.id, removed?: true), class:"btn btn-danger" %>
+            <% end %>
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>

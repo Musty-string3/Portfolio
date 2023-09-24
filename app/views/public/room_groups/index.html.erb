@@ -1,14 +1,30 @@
 <div class="container">
+  <%= flash[:notice] if flash[:notice] %>
   <div class="row">
     <% if @groups.present? %>
       <table class="table table-hover">
         <tbody>
           <% @groups.each do |group| %>
-            <tr onclick='window.location="<%= room_group_path(group) %>"' role="link">
-              <td class="col-lg-3"><%= group.name %></td>
-              <td><%= group.group_description %></td>
-              <td>メンバー数<%= group.user_groups.count %>人</td>
-              <td>最大人数<%= group.count %>人</td>
+            <% if group.include?(current_user) %>
+              <tr onclick='window.location="<%= room_group_path(group) %>"' role="link">
+            <% else %>
+              <tr>
+            <% end %>
+              <td class="col-lg-2"><%= group.name %></td>
+              <td class="col-lg-3"><%= group.group_description %></td>
+              <td class="col-lg-2">
+                メンバー数<%= group.user_groups.count %>人<br>
+                最大人数<%= group.count %>人
+              </td>
+              <% if group.include?(current_user) %>
+                <td class="col-lg-2">
+                  <p class="text-success">参加済み</p>
+                </td>
+              <% else %>
+                <td class="col-lg-2">
+                  <%= link_to "参加する", room_group_user_groups_path(group.user_groups.ids, group_id: group.id), method: :post, class:"btn btn-outline-success"%>
+                </td>
+              <% end %>
             </tr>
           <% end %>
         </tbody>

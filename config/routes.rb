@@ -41,7 +41,13 @@ Rails.application.routes.draw do
     resources :notifications, only: %i[index]
     resources :rooms, only: %i[index show create]
     resources :messages, only: %i[create]
-    resources :room_groups #グループチャット
+    resources :room_groups do #グループチャット
+      resources :user_groups, only: %i[create index update destroy]do
+        member do
+          get 'withdrawal', as: 'withdrawal' #as指定できない？
+        end
+      end
+    end
   end
 
   # 管理者用

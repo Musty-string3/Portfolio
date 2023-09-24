@@ -9,7 +9,7 @@ class User < ApplicationRecord
   # コメントに対するいいね
   has_many :comment_likes, dependent: :destroy
   has_many :view_counts, dependent: :destroy
-  
+
   # グループチャットのアソシエーション
   has_many :user_groups, dependent: :destroy
   has_many :room_groups, dependent: :destroy
@@ -36,6 +36,7 @@ class User < ApplicationRecord
 
   #is_deletedがtrue(退会してない)の会員レコードを取得
   scope :only_active, -> { where(is_deleted: true) }
+
   # 投稿に紐付いたタグテーブルのidカラムとnameカラムをjoins(内部結合)にて新テーブルを作成
   scope :tag_joins_posts, -> { Tag.joins(:posts).select(:id, :name) }
 
@@ -46,10 +47,11 @@ class User < ApplicationRecord
   validates :introduction, length: { maximum: 100 }                   #最大文字数100文字
 
   def full_name
-    first_name + " " + last_name
+    "#{first_name} #{last_name}"
   end
 
   has_one_attached :profile_image
+
 
   # ユーザーのプロフィール画像
   def get_profile_image(width, height)
