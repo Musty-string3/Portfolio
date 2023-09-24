@@ -15,10 +15,8 @@
     </tr>
     <tr>
       <td>
-        <%= f.label :count, "人数制限(3人～10人まで)" %><br>
-        <% unless group.id == nil %>
-          <%= f.text_field :count %>
-        <% else %>
+        <% if group.id == nil %>
+          <%= f.label :count, "人数制限(3人～10人まで)" %><br>
           <%= f.text_field :count, value: 10 %>
         <% end %>
       </td>

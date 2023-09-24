@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2023_09_20_082519) do
+ActiveRecord::Schema.define(version: 2023_09_24_044730) do
 
   create_table "active_storage_attachments", force: :cascade do |t|
     t.string "name", null: false
@@ -87,6 +87,16 @@ ActiveRecord::Schema.define(version: 2023_09_20_082519) do
     t.datetime "updated_at", precision: 6, null: false
     t.index ["post_id"], name: "index_likes_on_post_id"
     t.index ["user_id"], name: "index_likes_on_user_id"
+  end
+
+  create_table "message_groups", force: :cascade do |t|
+    t.integer "user_id", null: false
+    t.integer "room_group_id", null: false
+    t.text "text"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["room_group_id"], name: "index_message_groups_on_room_group_id"
+    t.index ["user_id"], name: "index_message_groups_on_user_id"
   end
 
   create_table "messages", force: :cascade do |t|
@@ -207,6 +217,8 @@ ActiveRecord::Schema.define(version: 2023_09_20_082519) do
   add_foreign_key "entries", "users"
   add_foreign_key "likes", "posts"
   add_foreign_key "likes", "users"
+  add_foreign_key "message_groups", "room_groups"
+  add_foreign_key "message_groups", "users"
   add_foreign_key "messages", "rooms"
   add_foreign_key "messages", "users"
   add_foreign_key "notifications", "comments"

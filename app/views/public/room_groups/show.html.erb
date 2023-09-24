@@ -3,18 +3,73 @@
     <%= flash[:notice] if flash[:notice] %>
   </div>
   <div class="row">
-    <%= @group.name %>
-    参加しているユーザー数<%= @group_users.count %>
+    <h5><%= @group.name %></h5>
+  </div>
+  <div class="row">
+    参加しているユーザー数<%= @group_users.count %>人
     参加しているユーザー
     <% @group_users.each do |group_user| %>
       <%= image_tag group_user.get_profile_image(30, 30), class:"border border-dark rounded-circle" %>
     <% end %>
+    <%= link_to "ユーザーを見る", room_group_user_groups_path(@group), class:"text-dark" %>
   </div>
   <div class="row">
-    <%= link_to "グループチャットのメンバー", room_group_user_groups_path(@group), class:"btn btn-primary" %>
-  </div>
-  <div class="row">
+    <% if @message_groups.present? %>
+      <table class="table table-borderless">
+        <tbody>
+          <% @message_groups.each do |message_group| %>
+            <tr>
+              <td class="offset-lg-1"></td>
+              <td class="col-lg-4">
+                <% unless message_group.user == current_user %>
+                  <div>
+                    <%= image_tag message_group.get_profile_image(30, 30), class:"border border-dark rounded-circle" %>
+                    <%= message_group.user.name %>
+                  </div>
+                  <div style="margin-left: 30px;">
+                    <div class="p-3 mb-2 bg-info text-white rounded-pill">
+                      <%= message_group.text %>
+                    </div>
+                    <div style="margin-left: 10px;">
+                      <%= time_ago_in_words(message_group.created_at)+'前'%>
+                    </div>
+                  </div>
+                <% end %>
+              </td>
+              <td class="offset-lg-1"></td>
+              <td class="col-lg-4" style="text-align: right;">
+                <% if message_group.user == current_user %>
+                  <div>
+                    <div class="p-3 mb-2 bg-primary text-white rounded-pill">
+                      <%= message_group.text %>
+                    </div>
+                    <div style="margin-right: 10px;">
+                      <%= time_ago_in_words(message_group.created_at)+'前'%>
+                    </div>
+                  </div>
+                <% end %>
+              </td>
+              <td class="offset-lg-1"></td>
 
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+    <% else %>
+      <h4>グループチャットメンバーと話してみよう！</h4>
+    <% end %>
+  </div>
+  <div class="row">
+    <div class="offset-lg-3 col-lg-6">
+      <%= form_with model: @message_group, url: polymorphic_path([@group, :message_groups]), method: :post do |f| %>
+        <%= f.text_field :text, size: 40, placeholder: "メッセージを入力してください" %>
+        <%= f.hidden_field :room_group_id, value: @group.id %>
+        <%= f.submit "送信" %>
+      <% end %>
+    </div>
+  </div>
+  <h6 style="color: red;">参加、退会時のテキスト未追加</h6>
+  <div class="row">
     <%= link_to '退会する', withdrawal_room_group_user_group_path(@group.id, @current_user_group.id), class:"btn btn-danger" %>
     <% if @leader.user_id == current_user.id %>
       <%= link_to "グループチャットを編集する", edit_room_group_path(@group), class:"btn btn-success" %>

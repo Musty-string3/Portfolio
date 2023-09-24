@@ -29,13 +29,13 @@ class Public::UserGroupsController < ApplicationController
   def destroy
     # 退会のURLをbefore_actionで制限しないとハッキングされる？
     if @user_group.is_leader == false && params[:removed?]
-      # @user_group.destroy
+      @user_group.destroy
       redirect_to room_group_path(@group), notice: "#{@user_group.user.name}さんを強制退会させました。"
     elsif @user_group.is_leader
-      # @user_group.room_group.destroy
+      @user_group.room_group.destroy
       redirect_to room_groups_path, notice: "グループチャットを削除しました。"
     else
-      # @user_group.destroy
+      @user_group.destroy
       redirect_to room_groups_path, notice: "グループチャットを退会しました。"
     end
   end

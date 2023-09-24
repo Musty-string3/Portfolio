@@ -1,32 +1,30 @@
-<table class="table table-borderless">
-  <thead>
-    <th class="offset-lg-1"></th>
-    <th class="col-lg-4"></th>
-    <th class="offset-lg-1"></th>
-    <th class="col-lg-4"></th>
-    <th class="offset-lg-1"></th>
-  </thead>
+<table class="table table-bordered">
   <% messages.each do |message| %>
     <tbody>
       <tr>
-        <% unless message.user.id == current_user.id %>
-          <td></td>
-          <td>
-            <%= image_tag message.user.get_profile_image(30, 30), class:"border border-dark rounded-circle" %>
-            <%= message.text %>
-            <br>
-            <%= time_ago_in_words(message.created_at)+'前'%>
-          </td>
-        <% else %>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td>
-          <%= message.text %>
-            <br>
-            <%= time_ago_in_words(message.created_at)+'前'%>
-          </td>
-        <% end %>
+        <td class="offset-lg-1"></td>
+        <td class="col-lg-4">
+          <% unless message.user.id == current_user.id %>
+            <div>
+              <%= image_tag message.user.get_profile_image(30, 30), class:"border border-dark rounded-circle" %>
+              <%= message.user.name %>
+            </div>
+            <div style="margin-left: 30px;">
+              <div class="p-3 mb-2 bg-info text-white rounded-pill"><%= message.text %></div>
+              <div style="margin-left: 10px;"><%= time_ago_in_words(message.created_at)+'前'%></div>
+            </div>
+          <% end %>
+        </td>
+        <td class="offset-lg-1"></td>
+        <td class="col-lg-4" style="text-align: right;">
+          <% if message.user.id == current_user.id %>
+            <div style="margin-right: 30px;">
+              <div class="p-3 mb-2 bg-primary text-white rounded-pill"><%= message.text %>><br></div>
+              <div style="margin-right: 10px;"><%= time_ago_in_words(message.created_at)+'前'%></div>
+            </div>
+          <% end %>
+        </td>
+        <td class="offset-lg-1"></td>
       </tr>
     </tbody>
   <% end %>

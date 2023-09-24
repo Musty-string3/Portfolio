@@ -3,14 +3,15 @@ class RoomGroup < ApplicationRecord
   # グループチャットのアソシエーション
   has_many :user_groups, dependent: :destroy
   has_many :users, through: :user_groups, dependent: :destroy
+  has_many :message_groups, dependent: :destroy
+  has_many :users, through: :messages_groups, dependent: :destroy
 
-  # グループ名が空白＆名前が同じの場合はバリエーションエラー
-  validates :name, presence: true, uniqueness: true
+  # バリエーション
+  validates :name, presence: true, uniqueness: true # グループ名が空白＆名前が同じの場合はバリエーションエラー
   validates :group_description, presence: true
-  # 整数のみ許可
-  validates :count, presence: true, numericality: {only_integer: true }
-  # 文字数制限は2文字以上～10文字以内
-  validates_inclusion_of :count, in: 3..10
+  validates :count, presence: true, numericality: {only_integer: true } # 整数のみ許可
+  validates_inclusion_of :count, in: 3..10  # 文字数制限は2文字以上～10文字以内
+
 
   def include?(user)
     return false if user.nil?

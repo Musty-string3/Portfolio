@@ -29,6 +29,9 @@ class Public::RoomGroupsController < ApplicationController
     @leader = UserGroup.find_by(room_group_id: @group.id, is_leader: true)
     @group_users = UserGroup.includes(:user).where(room_group_id: @group.id)
     @current_user_group = UserGroup.user_group_join?(current_user, @group)
+    # message_groupsの作成
+    @message_group = MessageGroup.new
+    @message_groups = MessageGroup.includes(:user).where(room_group_id: @group)
   end
 
   def edit

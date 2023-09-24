@@ -12,7 +12,7 @@
           </td>
           <td><%= user_group.user.introduction %></td>
           <td>
-            <% unless @user_group.present? && user_group.is_leader %>
+            <% if @user_group.present? && user_group.is_leader == false %>
               <%= link_to "退会させる", withdrawal_room_group_user_group_path(@group.id, user_group.id, removed?: true), class:"btn btn-danger" %>
             <% end %>
           </td>
