@@ -1,10 +1,18 @@
-<%= f.file_field :image, accept: "image/*" %>
-<br>
-<%= f.label :post_name, "投稿名" %>
-<%= f.text_field :post_name %>
-<br>
-<%= f.label :explanation, "投稿の説明" %>
-<%= f.text_area :explanation %>
-<br>
-<%= f.label :tag, "タグ (、で区切ると複数タグ登録できます)" %>
-<br>
+<div id="post_error">
+  <%= form_with model: post do |f| %>
+    <%= f.file_field :image, accept: "image/*" %>
+    <br>
+    <%= f.label :post_name, "投稿名" %>
+    <span id="name", class="post">
+      <%= f.text_field :post_name %>
+    </span>
+    <br>
+    <%= f.label :explanation, "投稿の説明" %>
+    <%= f.text_area :explanation %>
+    <br>
+    <%= f.label :tag, "タグ (、で区切ると複数タグ登録できます)" %>
+    <br>
+    <%= f.text_field :tag, placeholder: "タグを入力" %>
+    <%= f.submit "投稿する" %>
+  <% end %>
+</div>

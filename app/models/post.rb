@@ -3,6 +3,7 @@ class Post < ApplicationRecord
   with_options presence: true do
     validates :post_name
     validates :explanation
+    validates :image
   end
 
   has_one_attached :image
@@ -51,12 +52,13 @@ class Post < ApplicationRecord
   def like?(user)
     likes.where(user_id: user.id).exists?
   end
-  
+
   # 1週間のいいね数
   def likes_in_week
     likes.where(created_at: (Time.current.at_end_of_day - 6.day).at_beginning_of_day...Time.current.at_end_of_day).size
   end
-  
+
+  # 本日の投稿閲覧回数
   def today_view_count(post)
     view_counts.where(created_at: Time.zone.now.all_day, post_id: post).count
   end

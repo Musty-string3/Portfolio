@@ -29,11 +29,13 @@
             <% end %>
           <% end %>
           <br>
+          <!--いいね機能の非同期通信-->
           <span id="post_<%= post.id %>"><%= render "public/likes/like", post: post %></span>
           <%= link_to "#{post.comments.count}コメント", post_path(post.id) %>
           <br>
-          直近1週間のいいね数：<i class="fa-solid fa-heart"></i><%= post.likes_in_week %>いいね
-          <br>
+          <!--直近1週間のいいね数：<i class="fa-solid fa-heart"></i><%#= post.likes_in_week %>いいね-->
+          <!--<br>-->
+          <!--ビューカウント-->
           <i class="fa-solid fa-eye"></i><%= post.view_counts.count %>
           <br>
           <i class="fa-regular fa-clock"></i><%= time_ago_in_words(post.created_at)+"前に投稿" %>

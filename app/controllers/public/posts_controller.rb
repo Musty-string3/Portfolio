@@ -27,15 +27,15 @@ class Public::PostsController < ApplicationController
   end
 
   def create
-    post = current_user.posts.new(post_params)
+    @post = current_user.posts.new(post_params)
     # 受け取った値を,で区切って配列にする。split=分割して配列を作る
     tag_list = params[:post][:tag].split('、')
-    if post.save
-      post.save_tag(tag_list)
-      redirect_to post_path(post), notice: "投稿されました！"
+    if @post.save
+      @post.save_tag(tag_list)
+      redirect_to post_path(@post), notice: "投稿されました！"
     else
-      @post = Post.new
-      render :new
+      @tag_list = Tag.new
+      render :new, notice: "投稿できませんでした。"
     end
   end
 
@@ -44,7 +44,8 @@ class Public::PostsController < ApplicationController
     @post_tags = Post.includes(:tags).find(params[:id])
     @comment = Comment.new
     unless ViewCount.find_by(user_id: current_user.id, post_id: @post.id)
-      current_user.view_counts.create(post_id: @post.id)
+      # ログインユーザーの投稿 == 自分自身の投稿だった場合、閲覧カウントしない
+      current_user.view_counts.create(post_id: @post.id) unless @post.user == current_user
     end
   end
 
