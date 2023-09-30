@@ -10,7 +10,7 @@ class Post < ApplicationRecord
 
   # 投稿画像が5枚以上の場合にバリエーションエラー発動
   def validates_images_count
-    if images.attached? && images.length > 5
+    if images.attached? && images.length > 6
       errors.add(:images, 'は5枚までしか投稿できません。')
     end
   end

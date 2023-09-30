@@ -1,6 +1,8 @@
 <% if resource.errors.any? %>
   <div>
-    <h2><%= resource.errors.count %>件のエラーが発生しました。以下ご確認お願いいたします。</h2>
+    <h5>
+      <%= resource.errors.count %>件のエラーが発生しました。以下ご確認お願いいたします。
+    </h5>
     <ul>
       <% resource.errors.full_messages.each do |message| %>
         <li><%= message %></li>

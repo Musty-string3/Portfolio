@@ -46,3 +46,10 @@
 	border: green 1.5px solid;
 	border-radius: 4px;
 }
+
+.preview_img {
+	width: 100px;
+	height: 100px;
+	object-fit: cover;
+	border: black 1px solid;
+}
