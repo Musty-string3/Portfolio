@@ -18,7 +18,9 @@
           <% end %>
           <%= link_to post_path(post) do %>
             <%= post.post_name %><br>
-            <%= image_tag post.image, size: "150x100" %>
+            <% post.images.each do |image| %>
+              <%= image_tag image, size: "150x100" %>
+            <% end %>
           <% end %>
         </td>
         <td>

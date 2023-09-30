@@ -78,10 +78,11 @@ class Public::UsersController < ApplicationController
     @user = current_user
   end
 
+  # ゲストユーザーはプロフィール編集ができないよう設定している
   def guest_user
-    if resource.email == 'guest@sample.com'
+    if @user.email == 'guest@sample.com'
       redirect_back fallback_location: root_path
-      flash[:alert] = "ゲストユーザーの更新・削除はできません。"
+      flash[:notice] = "ゲストユーザーのプロフィール編集はできません。"
     end
   end
 

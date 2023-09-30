@@ -47,7 +47,7 @@ class Public::RoomGroupsController < ApplicationController
 
   def destroy
     @group.destroy
-    redirect_to room_groups_path
+    redirect_to room_groups_path, notice: "グループチャットを削除しました。"
   end
 
   private

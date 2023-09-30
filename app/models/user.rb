@@ -88,8 +88,21 @@ class User < ApplicationRecord
     end
   end
 
+  # 通知機能のチェックしていない通知のカウント
   def unchecked_notifications
     other_notifications.where(checked: false).count
+  end
+
+  # ゲストログイン
+  def self.guest
+    find_or_create_by!(email: 'guest@sample.com') do |user|
+      user.password = SecureRandom.urlsafe_base64
+      # SecureRandom.urlsafe_base64はランダム文字列でパスワードを生成する
+      user.last_name = "ゲスト"
+      user.first_name = "ユーザー"
+      user.name = "ゲストユーザー"
+      user.introduction = "こちらはゲストユーザーです。"
+    end
   end
 
 end

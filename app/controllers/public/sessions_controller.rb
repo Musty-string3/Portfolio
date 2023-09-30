@@ -25,23 +25,29 @@ class Public::SessionsController < Devise::SessionsController
   # def configure_sign_in_params
   #   devise_parameter_sanitizer.permit(:sign_in, keys: [:attribute])
   # end
-  
+
   def after_sign_in_path_for(resource)
+    flash[:notice] = "#{current_user.name}さんでログインしました"
     user_path(current_user)
   end
-  
+
+  def after_sign_out_path_for(resource)
+    flash[:notice] = "ログアウトしました"
+    root_path
+  end
+
   protected
-  
+
   # 退会しているかを判断するメソッド
   def user_status
-    @user = User.find_by(email: params[:user][:email])          
+    @user = User.find_by(email: params[:user][:email])
       #入力されたemailからアカウントを1件取得
-    return if !@user                                            
+    return if !@user
       # アカウントを取得できなかった場合、メソッドを終了する
-    if @user.valid_password?(params[:user][:password]) && @user.is_deleted 
+    if @user.valid_password?(params[:user][:password]) && @user.is_deleted
       #取得したアカウントのパスワードと入力されたパスワードが一致してるかを判別 & is_deletedの値がtrueの場合
       redirect_to new_user_session_path, notice: "お客様は退会済みです。申し訳ございませんが、別のメールアドレスをお使いください。"
     end
   end
-  
+
 end

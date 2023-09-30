@@ -6,7 +6,7 @@ class Post < ApplicationRecord
     validates :image
   end
 
-  has_one_attached :image
+  has_many_attached :images
 
   belongs_to :user
   has_many :comments, dependent: :destroy

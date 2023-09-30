@@ -1,11 +1,16 @@
 <div id="post_error">
   <%= form_with model: post do |f| %>
-    <%= f.file_field :image, accept: "image/*" %>
+  <%= f.label :images, "画像(複数投稿可)" %>
+    <%= f.file_field :images, accept: "image/*", multiple: true %>
     <br>
-    <%= f.label :post_name, "投稿名" %>
-    <span id="name", class="post">
-      <%= f.text_field :post_name %>
-    </span>
+    <div>
+      <%= f.label :post_name, "投稿名" %>
+      <span id="name_field", class="post">
+        <%= f.text_field :post_name %>
+      </span>
+      <p>入力した値：<span id="name"></span></p>
+      <p style="font-size: 12px;">OK</p>
+    </div>
     <br>
     <%= f.label :explanation, "投稿の説明" %>
     <%= f.text_area :explanation %>
@@ -13,6 +18,13 @@
     <%= f.label :tag, "タグ (、で区切ると複数タグ登録できます)" %>
     <br>
     <%= f.text_field :tag, placeholder: "タグを入力" %>
-    <%= f.submit "投稿する" %>
+    <br>
+    <%= f.submit "投稿する", class:"btn btn-outline-info" %>
   <% end %>
 </div>
+
+<script>
+  $('#name_field').on('click', function(){
+
+  })
+</script>

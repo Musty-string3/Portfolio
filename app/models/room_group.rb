@@ -4,7 +4,7 @@ class RoomGroup < ApplicationRecord
   has_many :user_groups, dependent: :destroy
   has_many :users, through: :user_groups, dependent: :destroy
   has_many :message_groups, dependent: :destroy
-  has_many :users, through: :messages_groups, dependent: :destroy
+  has_many :users, through: :message_groups, dependent: :destroy
 
   # バリエーション
   validates :name, presence: true, uniqueness: true # グループ名が空白＆名前が同じの場合はバリエーションエラー
