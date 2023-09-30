@@ -3,7 +3,16 @@ class Post < ApplicationRecord
   with_options presence: true do
     validates :post_name
     validates :explanation
-    validates :image
+    validates :images
+  end
+
+  validate :validates_images_count
+
+  # 投稿画像が5枚以上の場合にバリエーションエラー発動
+  def validates_images_count
+    if images.attached? && images.length > 5
+      errors.add(:images, 'は5枚までしか投稿できません。')
+    end
   end
 
   has_many_attached :images

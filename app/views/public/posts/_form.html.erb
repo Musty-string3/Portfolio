@@ -1,18 +1,20 @@
-<div id="post_error">
+<div class="offset-lg-2 col-lg-4">
+  <h4 style="text-align: center;">入力欄</h4>
   <%= form_with model: post do |f| %>
-  <%= f.label :images, "画像(複数投稿可)" %>
+  <%= f.label :images, "画像(5枚まで投稿可)" %>
     <%= f.file_field :images, accept: "image/*", multiple: true %>
     <br>
     <div>
       <%= f.label :post_name, "投稿名" %>
-      <span id="name_field", class="post">
-        <%= f.text_field :post_name %>
-      </span>
-      <p>入力した値：<span id="name"></span></p>
-      <p style="font-size: 12px;">OK</p>
+      <div>
+        <span><%= f.text_field :post_name %></span>
+        <p class="error_message_post_name">投稿名を入力してください。</p>
+      </div>
+      <p class="ok_message_post_name">OK</p>
     </div>
     <br>
     <%= f.label :explanation, "投稿の説明" %>
+    <br>
     <%= f.text_area :explanation %>
     <br>
     <%= f.label :tag, "タグ (、で区切ると複数タグ登録できます)" %>
@@ -22,9 +24,54 @@
     <%= f.submit "投稿する", class:"btn btn-outline-info" %>
   <% end %>
 </div>
+<div class="col-lg-4">
+  <h4 style="text-align: center;">入力内容</h4>
+  <p>投稿画像：<img id="preview", style="width: 100px; height: 100px;"></p>
+  <p>投稿名：<span id="check_post_name"></span></p>
+</div>
 
 <script>
-  $('#name_field').on('click', function(){
+  $('#post_post_name').focus(function(){
+    //テキストボックスがフォーカスされたら発動
+  }).blur(function() {
+    $(this).css('background-color', 'white');
+    //テキストボックスのフォーカスが外れたら発動
+    if ($(this).val().trim() === "") {
+      // inputが空の場合の処理
+      $(this).addClass('ok_post_name');
+      $(this).removeClass('error_post_name');
+      $(".error_message_post_name").show();
+      $('.ok_message_post_name').hide();
+    } else {
+      // inputに文字が入力されている場合の処理
+      $(this).addClass('error_post_name');
+      $(this).removeClass('ok_post_name');
+      $(".error_message_post_name").hide();
+      $(".ok_message_post_name").show();
+    }
+  });
 
-  })
+  // 投稿画像入力時に画面に画像を表示する
+  $('#post_images').on('change', function(e){
+    // post_images(file_field)の中身が変更されたら
+    const reader = new FileReader();
+    reader.onload = function(e){
+      $('#preview').attr('src', e.target.result);
+    }
+    reader.readAsDataURL(e.target.files[0]);
+  });
+
+  // 投稿名入力時に値を取得し、画面に1文字ずつ表示する
+  const name = $("#post_post_name");
+  name.on("input", function() {
+    $("#check_post_name").text(name.val());
+  });
+
 </script>
+
+<!--const text = $("#post_post_name");-->
+<!--text.on("input", function() {-->
+<!--  $(this).blur(function(){-->
+<!--    $("#post_name").text(text.val());-->
+<!--  });-->
+<!--});-->
