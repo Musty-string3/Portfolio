@@ -1,46 +1,79 @@
 <div class="offset-lg-2 col-lg-4">
   <h4 style="text-align: center;">入力欄</h4>
   <%= form_with model: post, html: {onsubmit: "return validateForm()"} do |f| %>
-    <%= f.label :images, "画像(6枚まで投稿可)" %>
-    <%= f.file_field :images, accept: "image/*", multiple: true, onchange: "loadImage(this)" %>
-    <div class="text-danger">
-      <span class="post_images_error d-none">ファイルは1から6枚まで</span>
-    </div>
-    <br>
+
+    <!--投稿画像の設定-->
     <div class="form-group">
-      <%= f.label :post_name, "投稿名" %>
-      <div>
-        <span><%= f.text_field :post_name, class: "form-control valid-check" %></span>
-        <p class="error_message_post_name">投稿名を入力してください。</p>
+      <%= f.label :images, "画像(6枚まで投稿可)" %>
+      <span class="form_essential">※必須</span>
+      <%= f.file_field :images, accept: "image/*", multiple: true, onchange: "loadImage(this)" %>
+      <div class="text-danger">
+        <span class="post_images_error d-none">ファイルは1から6枚まで</span>
       </div>
-      <p class="ok_message_post_name">OK</p>
-    </div>
-    <div class="form-group">
-      <%= f.label :explanation, "投稿の説明" %>
-      <%= f.text_area :explanation, class: "form-control valid-check" %>
     </div>
 
+    <!--投稿名の設定-->
+    <div class="form-group">
+      <%= f.label :post_name, "投稿名" %>
+      <span class="form_essential">※必須</span>
+      <span><%= f.text_field :post_name, class: "form-control valid-check" %></span>
+      <div class="valid-feedback">OK</div>
+      <div class="invalid-feedback">投稿名を入力してください。</div>
+    </div>
+
+    <!--投稿の説明の設定-->
+    <div class="form-group">
+      <%= f.label :explanation, "投稿の説明" %>
+      <span class="form_essential">※必須</span>
+      <%= f.text_area :explanation, class: "form-control valid-check" %>
+      <div class="valid-feedback">OK</div>
+    </div>
+
+    <!--タグの設定-->
     <div class="form-group">
       <%= f.label :tag, "タグ (、で区切ると複数タグ登録できます)" %>
       <%= f.text_field :tag, placeholder: "タグを入力", class: "form-control" %>
     </div>
-    <br>
+
+
+<div id="test"></div>
+
+<script>
+  $(document).on('turbolinks:load', function() {
+    let elem = document.querySelector('#test');
+    if (elem == null) return;
+
+    elem.innerHTML = ""
+    let opt = {
+      starOn: "<%= asset_path('star-on.png') %>",
+      starOff: "<%= asset_path('star-off.png') %>",
+      starHalf: "<%= asset_path('star-half.png') %>",
+      scoreName: 'book[star]',
+    };
+    raty(elem, opt);
+  });
+</script>
+
     <%= f.submit "投稿する", id: "submit-btn", class:"btn btn-outline-info" %>
   <% end %>
+  <!--form_withここまで-->
 </div>
-<div class="col-lg-4">
+
+<!--入力内容の確認の設定-->
+<div class="col-lg-5">
   <h4 style="text-align: center;">入力内容</h4>
-  <p>投稿画像：</p>
+  <p class="font-weight-bold">投稿画像：</p>
   <div id="preview"></div>
   <div id="error_message_post_image" class="text-danger"></div>
   <p>投稿名：<span id="check_post_name"></span></p>
+  <p>投稿の説明：<span id="check_post_explanation"></span></p>
 </div>
 
 
 <script>
 
   // ref: https://blog.ver001.com/javascript-image-preview-multiple/
-  
+
   // 投稿画像入力時に画面に画像を表示する
   function loadImage(obj){
     let fileReader;
@@ -61,9 +94,18 @@
   }
 
   // 投稿名入力時に値を取得し、画面に1文字ずつ表示する
-  const name = $("#post_post_name");
-  name.on("input", function() {
-    $("#check_post_name").text(name.val());
+  const text_name = $("#post_post_name");
+  text_name.on("input", function() {
+    $(this).blur(function(){
+      $("#check_post_name").text(text_name.val());
+    });
+  });
+
+  const text_explanation = $('#post_explanation');
+  text_explanation.on('input', function(){
+    $(this).blur(function(){
+      $("#check_post_explanation").text(text_explanation.val());
+    });
   });
 
   // バリエーションエラー表示
@@ -119,6 +161,8 @@
   }
 
 </script>
+
+<!--FIXME https://itsakura.com/js-textbox#s12-->
 
 <!--const text = $("#post_post_name");-->
 <!--text.on("input", function() {-->
