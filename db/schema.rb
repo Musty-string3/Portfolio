@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2023_09_24_044730) do
+ActiveRecord::Schema.define(version: 2023_10_02_104748) do
 
   create_table "active_storage_attachments", force: :cascade do |t|
     t.string "name", null: false
@@ -139,10 +139,19 @@ ActiveRecord::Schema.define(version: 2023_09_24_044730) do
 
   create_table "posts", force: :cascade do |t|
     t.integer "user_id", null: false
-    t.string "post_name", null: false # FIXME post_name => post
+    t.string "post_name", null: false
     t.text "explanation", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+  end
+
+  create_table "rates", force: :cascade do |t|
+    t.integer "user_id", null: false
+    t.string "star", null: false
+    t.text "text"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["user_id"], name: "index_rates_on_user_id"
   end
 
   create_table "relations", force: :cascade do |t|
@@ -225,6 +234,7 @@ ActiveRecord::Schema.define(version: 2023_09_24_044730) do
   add_foreign_key "notifications", "posts"
   add_foreign_key "post_tags", "posts"
   add_foreign_key "post_tags", "tags"
+  add_foreign_key "rates", "users"
   add_foreign_key "user_groups", "room_groups"
   add_foreign_key "user_groups", "users"
   add_foreign_key "view_counts", "posts"

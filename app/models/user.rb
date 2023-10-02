@@ -34,6 +34,9 @@ class User < ApplicationRecord
   has_many :myself_notifications, class_name: 'Notification', foreign_key: 'visitor_id', dependent: :destroy
   has_many :other_notifications, class_name: 'Notification', foreign_key: 'visited_id', dependent: :destroy
 
+  # サイトのレビューのアソシエーション
+  has_many :rates, dependent: :destroy
+
 
   #is_deletedがtrue(退会してない)の会員レコードを取得
   scope :only_active, -> { where(is_deleted: true) }
@@ -95,7 +98,7 @@ class User < ApplicationRecord
 
   # ゲストログイン
   def self.guest
-    find_or_create_by!(email: 'guest@sample.com') do |user|
+    find_or_create_by(email: 'guest@sample.com') do |user|
       user.password = SecureRandom.urlsafe_base64
       # SecureRandom.urlsafe_base64はランダム文字列でパスワードを生成する
       user.last_name = "ゲスト"

@@ -35,25 +35,6 @@
       <%= f.text_field :tag, placeholder: "タグを入力", class: "form-control" %>
     </div>
 
-
-<div id="test"></div>
-
-<script>
-  $(document).on('turbolinks:load', function() {
-    let elem = document.querySelector('#test');
-    if (elem == null) return;
-
-    elem.innerHTML = ""
-    let opt = {
-      starOn: "<%= asset_path('star-on.png') %>",
-      starOff: "<%= asset_path('star-off.png') %>",
-      starHalf: "<%= asset_path('star-half.png') %>",
-      scoreName: 'book[star]',
-    };
-    raty(elem, opt);
-  });
-</script>
-
     <%= f.submit "投稿する", id: "submit-btn", class:"btn btn-outline-info" %>
   <% end %>
   <!--form_withここまで-->

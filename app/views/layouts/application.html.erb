@@ -18,20 +18,27 @@
           <ul class="navbar-nav ml-auto">
             <% if user_signed_in? %>
               <li class="nav-item" >
+                <%= link_to "レビュー", new_rate_path, class: 'nav-link text-dark' %>
+              </li>
+              <!--ユーザー詳細-->
+              <li class="nav-item" >
                 <%= link_to user_path(current_user), class: 'nav-link text-dark' do %>
                   <i class="fa-solid fa-user"></i>
                 <% end %>
               </li>
+              <!--タイムライン-->
               <li class="nav-item" >
                 <%= link_to timeline_user_path(current_user), class: 'nav-link text-dark' do %>
                   <i class="fa-solid fa-house"></i>
                 <% end %>
               </li>
+              <!--新規投稿-->
               <li class="nav-item" >
                 <%= link_to new_post_path, class: 'nav-link text-dark' do %>
                   <i class="fa-solid fa-plus"></i>
                 <% end %>
               </li>
+              <!--通知-->
               <li class="nav-item" >
                 <%= link_to notifications_path, class: 'nav-link text-dark' do %>
                   <% if current_user.unchecked_notifications == 0 %>
@@ -44,17 +51,21 @@
                   <% end %>
                 <% end %>
               </li>
+              <!--投稿一覧-->
               <li class="nav-item" >
                 <%= link_to "投稿一覧", posts_path, class: 'nav-link text-dark' %>
               </li>
+              <!--グループチャット-->
               <li class="nav-item" >
                 <%= link_to "グループチャット", room_groups_path, class: 'nav-link text-dark' %>
               </li>
+              <!--ログアウト-->
               <li class="nav-item" >
                 <%= link_to destroy_user_session_path, method: :delete, class: 'nav-link text-dark' do %>
                   <i class="fa-solid fa-right-from-bracket"></i>
                 <% end %>
               </li>
+              <!--検索-->
               <li>
                 <%= render 'layouts/search' %>
               </li>

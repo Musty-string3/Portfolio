@@ -48,10 +48,12 @@ Rails.application.routes.draw do
       resources :message_groups, only: %i[create]
       resources :user_groups, only: %i[create index update destroy] do
         member do
-          get 'withdrawal', as: 'withdrawal' #as指定できない？
+          get 'withdrawal', as: 'withdrawal' 
+          #TODO as指定できない？
         end
       end
     end
+    resources :rates, only: %i[new create]
   end
 
   # 管理者用

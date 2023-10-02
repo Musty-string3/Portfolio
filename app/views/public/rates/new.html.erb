@@ -1,0 +1,47 @@
+<div class="container">
+  <% unless @is_rate %>
+    <div class="row">
+      <h5>このサイトを使ってみた感想を教えてください</h5>
+    </div>
+    <div class="row">
+      <%= form_with model: @rate do |f| %>
+
+        <!--星5評価-->
+        <div class="form-group">
+          <%= f.label "使ってみた評価をお願いします。" %>
+          ※<span style="color: red;">必須</span>
+          <%= f.hidden_field :star, id: :review_star %>
+          <div id="rate"></div>
+        </div>
+
+        <!--評価に対する意見、要望-->
+        <div class="form-group">
+          <%= f.label :text, "評価に対する意見があればお聞かせください。※任意" %>
+          <%= f.text_area :text, placeholder: "意見、要望があればお願いします", class:"form-control" %>
+        </div>
+        <%= f.submit "送信する" %>
+      <% end %>
+    </div>
+  <% else %>
+    <h5>
+      評価をありがとうございました！<br>
+      レビューを参考にサイトを改良していきます！
+    </h5>
+  <% end %>
+</div>
+
+<script>
+  $(document).on('turbolinks:load', function() {
+    let elem = document.querySelector('#rate');
+    if (elem == null) return;
+
+    elem.innerHTML = ""
+    let opt = {
+      starOn: "<%= asset_path('star-on.png') %>",
+      starOff: "<%= asset_path('star-off.png') %>",
+      starHalf: "<%= asset_path('star-half.png') %>",
+      scoreName: 'rate[star]',
+    };
+    raty(elem, opt);
+  });
+</script>
