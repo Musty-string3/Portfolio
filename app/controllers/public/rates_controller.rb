@@ -8,18 +8,18 @@ class Public::RatesController < ApplicationController
   end
 
   def create
-    Rate.find_or_create_by(user_id: current_user.id) do |rate|
-      rate.star = params[:rate][:star]
-      rate.text = params[:rate][:text]
+    unless Rate.find_by(user_id: current_user.id)
+      rate = Rate.create(rate_params)
+      flash[:danger] = rate.errors.full_messages unless rate.save
+      redirect_to new_rate_path
     end
-    redirect_to new_rate_path
   end
 
   # TODO
-  # private
+  private
 
-  # def rate_params
-  #   params.require(:rate).permit(:star, :text)
-  # end
+  def rate_params
+    params.require(:rate).permit(:star, :text).merge(user_id: current_user.id)
+  end
 
 end

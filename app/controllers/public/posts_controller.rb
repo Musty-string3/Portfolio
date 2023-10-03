@@ -35,17 +35,15 @@ class Public::PostsController < ApplicationController
       redirect_to post_path(@post), notice: "投稿されました！"
     else
       @tag_list = Tag.new
-      render :new, notice: "投稿できませんでした。"
     end
   end
 
   def show
-    @post = Post.includes(:user).find(params[:id])
-    @post_tags = Post.includes(:tags).find(params[:id])
+    @post = Post.find(params[:id])
     @comment = Comment.new
-    unless ViewCount.find_by(user_id: current_user.id, post_id: @post.id)
+    unless @post.user == current_user
       # ログインユーザーの投稿 == 自分自身の投稿だった場合、閲覧カウントしない
-      current_user.view_counts.create(post_id: @post.id) unless @post.user == current_user
+      ViewCount.find_or_create_by(user_id: current_user.id, post_id: @post.id)
     end
   end
 

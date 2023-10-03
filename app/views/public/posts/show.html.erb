@@ -12,24 +12,22 @@
   </div>
   <div class="row">
     <div class="offset-lg-1">
-      <% if @post.images.attached? %>
-        <% @post.images.each do |image| %>
-          <%= image_tag image, style:"width: 100px; height: 100px;" %>
-        <% end %>
+      <% @post.images.each do |image| %>
+        <%= image_tag image, size: "150x100" %>
       <% end %>
-      <br>
     </div>
     <div class="offset-lg-1 col-lg-4">
       <h5><%= @post.post_name %></h5>
       <p><%= @post.explanation %></p>
-      <% @post_tags.tags.each do |tag| %>
+      <% @post.tags.each do |tag| %>
         <%= link_to tag_path(tag) do %>
           #<%= tag.name %>
         <% end %>
       <% end %>
-      <!--いいね機能-->
+
+      <!--いいね機能(非同期通信)-->
       <p id="post_<%= @post.id %>"><%= render "public/likes/like", post: @post %></p>
-      <!--いいね機能ここまで-->
+
       <i class="fa-solid fa-eye"></i><%= @post.view_counts.count %>
       <br>
       <i class="fa-regular fa-clock"></i><%= time_ago_in_words(@post.created_at)+"前に投稿" %>

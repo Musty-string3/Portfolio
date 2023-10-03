@@ -10,6 +10,8 @@ import "channels"
 
 import "jquery";
 import "popper.js";
+import Swiper from 'swiper/swiper-bundle.js';
+import 'swiper/swiper-bundle.css';
 import "bootstrap";
 import "../stylesheets/application";
 

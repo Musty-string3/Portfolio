@@ -18,9 +18,20 @@
           <% end %>
           <%= link_to post_path(post) do %>
             <%= post.post_name %><br>
-            <% post.images.each do |image| %>
-              <%= image_tag image, size: "150x100" %>
-            <% end %>
+
+            <!--投稿画像のスライドショー(swiper)-->
+            <div class="swiper">
+              <div class="swiper-wrapper">
+                <% post.images.each do |image| %>
+                  <div class="swiper-slide">
+                    <%= image_tag image, size: "150x100" %>
+                  </div>
+                <% end %>
+              </div>
+              <div class="swiper-pagination"></div>
+              <div class="swiper-button-prev"></div>
+              <div class="swiper-button-next"></div>
+            </div>
           <% end %>
         </td>
         <td>

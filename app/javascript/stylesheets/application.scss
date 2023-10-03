@@ -45,3 +45,13 @@
 	object-fit: cover;
 	border: black 1px solid;
 }
+
+.swiper {
+	width: 200px;
+  height: 300px;
+}
+
+:root {
+	--swiper-navigation-color: white;
+	--swiper-pagination-color: white;
+}
