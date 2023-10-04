@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2023_10_02_104748) do
+ActiveRecord::Schema.define(version: 2023_10_04_121109) do
 
   create_table "active_storage_attachments", force: :cascade do |t|
     t.string "name", null: false
@@ -216,6 +216,18 @@ ActiveRecord::Schema.define(version: 2023_10_02_104748) do
     t.index ["user_id"], name: "index_view_counts_on_user_id"
   end
 
+  create_table "violates", force: :cascade do |t|
+    t.integer "reporter", null: false
+    t.integer "reported", null: false
+    t.integer "user_id", null: false
+    t.integer "post_id", null: false
+    t.boolean "checked", default: false, null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["post_id"], name: "index_violates_on_post_id"
+    t.index ["user_id"], name: "index_violates_on_user_id"
+  end
+
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
   add_foreign_key "comment_likes", "comments"
@@ -239,4 +251,6 @@ ActiveRecord::Schema.define(version: 2023_10_02_104748) do
   add_foreign_key "user_groups", "users"
   add_foreign_key "view_counts", "posts"
   add_foreign_key "view_counts", "users"
+  add_foreign_key "violates", "posts"
+  add_foreign_key "violates", "users"
 end

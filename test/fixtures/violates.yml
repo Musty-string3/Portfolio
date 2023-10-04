@@ -1,0 +1,13 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  reported: 
+  user: one
+  post: one
+  checked: MyString
+
+two:
+  reported: 
+  user: two
+  post: two
+  checked: MyString

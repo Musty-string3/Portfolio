@@ -3,6 +3,7 @@
     <%= flash[:notice] %>
   <% end %>
   <div class="row">
+    <!--ユーザーのプロフィール画像と名前-->
     <div class="offset-lg-1">
       <%= link_to user_path(@post.user.id) do %>
         <%= image_tag @post.user.get_profile_image(40, 40), class:"border border-dark rounded-circle" %>
@@ -10,12 +11,15 @@
       <% end %>
     </div>
   </div>
+
   <div class="row">
+    <!--投稿画像-->
     <div class="offset-lg-1">
       <% @post.images.each do |image| %>
         <%= image_tag image, size: "150x100" %>
       <% end %>
     </div>
+    <!--投稿名、説明、タグ-->
     <div class="offset-lg-1 col-lg-4">
       <h5><%= @post.post_name %></h5>
       <p><%= @post.explanation %></p>
@@ -31,7 +35,9 @@
       <i class="fa-solid fa-eye"></i><%= @post.view_counts.count %>
       <br>
       <i class="fa-regular fa-clock"></i><%= time_ago_in_words(@post.created_at)+"前に投稿" %>
-      <%= link_to "投稿を編集する", edit_post_path(@post) if @post.user == current_user %>
+      <%= link_to "投稿を編集する", edit_post_path(@post), class:"btn btn-info" if @post.user == current_user %>
+      <div id="reporte", class="btn btn-danger">投稿違反を報告する</div>
+      <div id="reporte-menu"></div>
     </div>
   </div>
   <!--コメント機能-->
@@ -41,6 +47,7 @@
       <p>コメント件数<%= @post.comments.count %>件</p>
       <%= form_with model: [@post, @comment], local: false do |f| %>
         <%= f.text_area :text, size: "35x2", placeholder: "コメント入力欄" %>
+        <br>
         <%= f.submit "コメントする" %>
       <% end %>
     </div>
@@ -52,4 +59,11 @@
     <%= render 'layouts/error_messages', resource: @comment %>
   </div>
 </div>
+
+<script>
+  $('#reporte').on('click', function(){
+    $(this).toggleClass('uuu');
+    $('#reporte-menu').fadeToggle();
+  });
+</script>
 

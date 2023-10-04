@@ -8,7 +8,7 @@
       <span class="form_essential">※必須</span>
       <%= f.file_field :images, accept: "image/*", multiple: true, onchange: "loadImage(this)" %>
       <div class="text-danger">
-        <span class="post_images_error d-none">ファイルは1から6枚まで</span>
+        <span class="post_images_error d-none", style="font-size: 14px;">画像は1～6枚の範囲で指定してください。</span>
       </div>
     </div>
 
@@ -16,8 +16,7 @@
     <div class="form-group">
       <%= f.label :post_name, "投稿名" %>
       <span class="form_essential">※必須</span>
-      <span><%= f.text_field :post_name, class: "form-control valid-check" %></span>
-      <div class="valid-feedback">OK</div>
+      <%= f.text_field :post_name, class: "form-control valid-check" %>
       <div class="invalid-feedback">投稿名を入力してください。</div>
     </div>
 
@@ -26,7 +25,7 @@
       <%= f.label :explanation, "投稿の説明" %>
       <span class="form_essential">※必須</span>
       <%= f.text_area :explanation, class: "form-control valid-check" %>
-      <div class="valid-feedback">OK</div>
+      <div class="invalid-feedback">投稿の説明を入力してください。</div>
     </div>
 
     <!--タグの設定-->
@@ -49,7 +48,6 @@
   <p>投稿名：<span id="check_post_name"></span></p>
   <p>投稿の説明：<span id="check_post_explanation"></span></p>
 </div>
-
 
 <script>
 

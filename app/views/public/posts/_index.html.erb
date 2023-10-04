@@ -24,13 +24,13 @@
               <div class="swiper-wrapper">
                 <% post.images.each do |image| %>
                   <div class="swiper-slide">
-                    <%= image_tag image, size: "150x100" %>
+                    <%= image_tag image, class: "post_index_images" %>
                   </div>
                 <% end %>
               </div>
               <div class="swiper-pagination"></div>
-              <div class="swiper-button-prev"></div>
-              <div class="swiper-button-next"></div>
+              <div class="swiper-btn swiper-button-prev"></div>
+              <div class="swiper-btn swiper-button-next"></div>
             </div>
           <% end %>
         </td>

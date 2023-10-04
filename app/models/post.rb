@@ -26,6 +26,7 @@ class Post < ApplicationRecord
   # ↑ tagsと多対多の関係であり、post_tagsが中間テーブルという意味
   has_many :notifications, dependent: :destroy
   has_many :view_counts, dependent: :destroy
+  has_many :violates, dependent: :destroy
 
   # タグ機能
   def save_tag(sent_tags)

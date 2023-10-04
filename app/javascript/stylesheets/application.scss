@@ -29,16 +29,6 @@
 	color: red;
 }
 
-.ok_post_name {
-	border: red 1.5px solid;
-	border-radius: 4px;
-}
-
-.error_post_name {
-	border: green 1.5px solid;
-	border-radius: 4px;
-}
-
 .preview_img {
 	width: 100px;
 	height: 100px;
@@ -47,11 +37,32 @@
 }
 
 .swiper {
-	width: 200px;
-  height: 300px;
+  width: 300px;
+  height: 200px;
 }
 
 :root {
-	--swiper-navigation-color: white;
-	--swiper-pagination-color: white;
+	--swiper-navigation-color: red;
+	--swiper-pagination-color: red;
+}
+
+.swiper-btn {
+	opacity: 0.5;
+}
+
+.post_index_images {
+	width: 300px;
+	height: 200px;
+	object-fit: cover;
+	border: black 1px solid;
+}
+
+#reporte-menu {
+	width: 200px;
+	height: 200px;
+	background-color: red;
+}
+
+.uuu {
+	opacity: 0.4;
 }

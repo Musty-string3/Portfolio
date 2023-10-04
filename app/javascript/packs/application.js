@@ -14,6 +14,7 @@ import Swiper from 'swiper/swiper-bundle.js';
 import 'swiper/swiper-bundle.css';
 import "bootstrap";
 import "../stylesheets/application";
+import "../script.js";
 
 import Raty from "raty.js"
 window.raty = function(elem,opt) {

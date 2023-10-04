@@ -37,6 +37,9 @@ class User < ApplicationRecord
   # サイトのレビューのアソシエーション
   has_many :rates, dependent: :destroy
 
+  # ルール違反者を報告するアソシエーション
+  has_many :reporter_violates, class_name: 'Violate', foreign_key: 'reporter_id', dependent: :destroy
+  has_many :reported_violates, class_name: 'Violate', foreign_key: 'reported_id', dependent: :destroy
 
   #is_deletedがtrue(退会してない)の会員レコードを取得
   scope :only_active, -> { where(is_deleted: true) }
