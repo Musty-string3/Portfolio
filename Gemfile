@@ -59,3 +59,4 @@ gem 'devise'
 gem 'kaminari','~> 1.2.1'
 gem 'jquery-rails'
 gem 'rails-i18n'
+gem "enum_help"

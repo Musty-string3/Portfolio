@@ -219,6 +219,8 @@ ActiveRecord::Schema.define(version: 2023_10_04_121109) do
   create_table "violates", force: :cascade do |t|
     t.integer "reporter", null: false
     t.integer "reported", null: false
+    t.text "text"
+    t.integer "status", null: false
     t.integer "user_id", null: false
     t.integer "post_id", null: false
     t.boolean "checked", default: false, null: false

@@ -41,6 +41,7 @@ class Public::PostsController < ApplicationController
   def show
     @post = Post.find(params[:id])
     @comment = Comment.new
+    @violate = Violate.new
     unless @post.user == current_user
       # ログインユーザーの投稿 == 自分自身の投稿だった場合、閲覧カウントしない
       ViewCount.find_or_create_by(user_id: current_user.id, post_id: @post.id)
