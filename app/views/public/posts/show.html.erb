@@ -1,7 +1,5 @@
 <div class="container">
-  <% if flash[:notice] %>
-    <%= flash[:notice] %>
-  <% end %>
+  <%= flash[:notice] if flash[:notice] %>
   <div class="row">
     <!--ユーザーのプロフィール画像と名前-->
     <div class="offset-lg-1">
@@ -38,44 +36,49 @@
       <%= link_to "投稿を編集する", edit_post_path(@post), class:"btn btn-info" if @post.user == current_user %>
 
       <!--ユーザー報告画面-->
-      <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#testModal">投稿違反を報告する</button>
-      <div class="modal fade" id="testModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-        <div class="modal-dialog" role="document">
-          <div class="modal-content">
-            <div class="modal-header">
-              <h4 class="modal-title" id="myModalLabel"><%= @post.post_name %>の報告</h4>
-              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                <!--モーダルウィンドウの×(閉じる)ボタン-->
-                <span aria-hidden="true">&times;</span>
-              </button>
-            </div>
-            <div class="modal-body">
+      <% unless @post.user == current_user %>
+        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#testModal">投稿違反を報告する</button>
+        <div class="modal fade" id="testModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+          <div class="modal-dialog" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h4 class="modal-title" id="myModalLabel"><%= @post.post_name %>の報告</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <!--モーダルウィンドウの×(閉じる)ボタン-->
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
               <%= form_with model: @violate do |f| %>
-                <div class="form-group">
-                  <%= f.radio_button :status, Violate.statuses.key(0) %>
-                  <%= f.label :status_inappropriate, "不正、不適切な投稿" %>
-                  <br>
-                  <%= f.radio_button :status, Violate.statuses.key(1) %>
-                  <%= f.label :status_copyright_violation, "著作権違反" %>
-                  <br>
-                  <%= f.radio_button :status, Violate.statuses.key(2) %>
-                  <%= f.label :status_slander, "誹謗中傷、悪口" %>
+                <div class="modal-body">
+                  <div class="form-group">
+                    <%= f.label :status, "違反の種類(必須)" %>
+                    <br>
+                    <%= f.radio_button :status, Violate.statuses[:inappropriate] %>
+                    <%= f.label :status_0, "不正、不適切な投稿" %>
+                    <br>
+                    <%= f.radio_button :status, Violate.statuses[:copyright_violation] %>
+                    <%= f.label :status_1, "著作権違反" %>
+                    <br>
+                    <%= f.radio_button :status,Violate.statuses[:slander] %>
+                    <%= f.label :status_2, "誹謗中傷、悪口" %>
+                    <%= f.label :status, "違反の種類" %>
+                  </div>
+                  <div class="form-group">
+                     <%= f.label :text, "説明(任意)" %>
+                     <%= f.text_area :text, class:"form-control" %>
+                     <%= f.hidden_field :post_id, value: @post.id %>
+                     <%= f.hidden_field :reported_id, value: @post.user.id %>
+                  </div>
                 </div>
-                <div class="form-group">
-                   <%= f.label :text, "説明(任意)" %>
-                   <%= f.text_area :text, class:"form-control" %>
+                <div class="modal-footer">
+                  <!--<button type="button" class="btn btn-default" data-dismiss="modal">戻る</button>-->
+                  <%= f.submit "送信", disabled: "true" , class:"btn btn-warning btn-lg text-dark", id:"submit-button" %>
                 </div>
               <% end %>
             </div>
-            <div class="modal-footer">
-              <button type="button" class="btn btn-default" data-dismiss="modal">戻る</button>
-              <button type="button" class="btn btn-outline-warning">
-                 <%= link_to "送信", violates_path, method: :post %>
-              </button>
-            </div>
           </div>
         </div>
-      </div>
+      <% end %>
 
     </div>
   </div>
@@ -99,12 +102,18 @@
   </div>
 </div>
 
-// <script>
-//   $('#openModal').on('click', function(){
-//     $('#Model').show();
-//   });
-//   $('.close').on('click', function(){
-//     $('#Model').hide();
-//   })
-// </script>
+<script>
+  $(function() {
+    const statusField = $("input[name='violate[status]']");
 
+    // ラジオボタンに変化があった場合
+    statusField.on("change", function() {
+      // ラジオボタン選択している場合
+      if (statusField.is(":checked")) {
+        $('#submit-button').removeClass('btn btn-warning btn-lg');
+        $('#submit-button').addClass('btn btn-warning');
+        $("#submit-button").prop("disabled", false);
+      }
+    });
+  });
+</script>

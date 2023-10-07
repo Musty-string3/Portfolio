@@ -1,0 +1,44 @@
+<div class="container">
+  <div class="row">
+    <h6>
+      平均レビュー:
+    </h6>
+  </div>
+  <div class="row">
+    <table class="table table-bordered">
+      <thead>
+        <th class="col-lg-1">ID</th>
+        <th class="col-lg-2">ユーザー名</th>
+        <th class="col-lg-6">評価の感想、要望欄</th>
+        <th class="col-lg-2">星5評価</th>
+      </thead>
+      <tbody>
+        <% @rate.each do |rate| %>
+          <tr>
+            <td><%= rate.user.id %></td>
+            <td><%= rate.user.name %></td>
+            <td><%= rate.text %></td>
+            <td id="star<%= rate.id %>"></td>
+            <script>
+              $(document).on('turbolinks:load', function() {
+                let elem = document.getElementById('star<%= rate.id %>');
+                if (elem == null) return;
+
+                elem.innerHTML = "";
+                let opt = {
+                  starOn: "<%= asset_path('star-on.png') %>",
+                  starOff: "<%= asset_path('star-off.png') %>",
+                  starHalf: "<%= asset_path('star-half.png') %>",
+                  score: <%= rate.star %>,
+                  readOnly: true,
+                };
+                raty(elem, opt);
+              });
+            </script>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+</div>
+<%#= link_to admin_rate_path%>

@@ -63,5 +63,6 @@ Rails.application.routes.draw do
     resources :users, except: %i[new create edit]
     resources :posts, only: %i[show edit update destroy]
     resources :commets, only: %i[index destroy]
+    resources :rates, only: %i[index show]
   end
 end

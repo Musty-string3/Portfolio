@@ -217,17 +217,15 @@ ActiveRecord::Schema.define(version: 2023_10_04_121109) do
   end
 
   create_table "violates", force: :cascade do |t|
-    t.integer "reporter", null: false
-    t.integer "reported", null: false
+    t.integer "reporter_id", null: false
+    t.integer "reported_id", null: false
     t.text "text"
     t.integer "status", null: false
-    t.integer "user_id", null: false
     t.integer "post_id", null: false
     t.boolean "checked", default: false, null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["post_id"], name: "index_violates_on_post_id"
-    t.index ["user_id"], name: "index_violates_on_user_id"
   end
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
@@ -254,5 +252,4 @@ ActiveRecord::Schema.define(version: 2023_10_04_121109) do
   add_foreign_key "view_counts", "posts"
   add_foreign_key "view_counts", "users"
   add_foreign_key "violates", "posts"
-  add_foreign_key "violates", "users"
 end
