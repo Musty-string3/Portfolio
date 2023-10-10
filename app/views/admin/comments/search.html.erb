@@ -1,4 +1,5 @@
 <div class="container">
+  <h4>コメントの検索内容</h4>
   <% if @model == 'user' %>
     <div class="d-flex">
       <% unless @keyword == '' %>
@@ -6,12 +7,12 @@
       <% else %>
         <h5>検索名：全ユーザー</h5>
       <% end %>
-      <p>（マッチした検索数<%= @records.count %>件）</p>
+      <p>（マッチした検索数<%= @count %>件）</p>
     </div>
-    <% if @records.present? %>
-      <%= render 'layouts/search_user', users: @records %>
+    <% if @users.present? %>
+      <%= render 'comment_users', users: @users %>
     <% else %>
-      検索したユーザーは見つかりませんでした。
+      検索したユーザーのコメントは見つかりませんでした。
     <% end %>
   <% elsif @model == 'post' %>
     <div class="d-flex">
@@ -20,10 +21,10 @@
       <% else %>
         <h5>検索名：全投稿</h5>
       <% end %>
-      <p>（マッチした検索数<%= @records.count %>件）</p>
+      <p>（マッチした検索数<%= @count %>件）</p>
     </div>
-    <% if @records.present? %>
-      <%= render 'layouts/search_post', posts: @records %>
+    <% if @posts.present? %>
+      <%= render 'comment_posts', posts: @posts %>
     <% else %>
       検索した投稿は見つかりませんでした。
     <% end %>

@@ -72,7 +72,12 @@ class User < ApplicationRecord
   # 検索機能
   def self.search_for(keyword)
     #検索したkeywordがusersテーブルにある場合、その名前を全取得する
-    User.includes(:followings, :followers).where('name LIKE ?', keyword+'%')
+    User.where('name LIKE?', keyword+'%')
+  end
+
+  # 検索機能(管理者側)
+  def self.search_comments(keyword)
+    User.where('name LIKE?', keyword+'%')
   end
 
   # フォローしているかの判定

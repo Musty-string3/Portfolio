@@ -1,0 +1,27 @@
+<table class="table table-hover">
+  <thead>
+    <th>投稿者</th>
+    <th>コメント内容</th>
+    <th>投稿名</th>
+  </thead>
+  <tbody>
+    <% users.each do |user| %>
+      <% user.comments.each do |comment| %>
+        <tr>
+          <td>
+            <%= link_to admin_user_path(user) do %>
+              <%= image_tag user.profile_image, size: "35x35", class:"rounded-circle border border-dark" %>
+              <%= user.name %>
+            <% end %>
+          <td><%= comment.text %></td>
+          <td>
+            <%= link_to admin_post_path(comment.post_id) do %>
+              <%= comment.post.post_name %><br>
+            <% end %>
+          </td>
+          </td>
+        </tr>
+      <% end %>
+    <% end %>
+  </tbody>
+</table>

@@ -14,7 +14,9 @@
   </div>
   <div class="row">
     <div class="col-lg-4">
-      <%= image_tag @post.image, size: "200x150" %>
+      <% @post.images.each do |image| %>
+        <%= image_tag image, size: "200x150" %>
+      <% end %>
       <br>
       <% @tags.each do |tag| %>
         <%= tag.tag.name %>
@@ -25,7 +27,7 @@
     </div>
   </div>
   <%= link_to "投稿を編集する", edit_admin_post_path(@post) %>
-  
+
   <div class="row">
     コメント件数<%= @post.comments.count%>件<br>
   </div>

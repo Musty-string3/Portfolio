@@ -15,6 +15,14 @@ import 'swiper/swiper-bundle.css';
 import "bootstrap";
 import "../stylesheets/application";
 import "../script.js";
+import postForm from "./post_form.js"
+
+// グローバルに使用できるようにする
+window.loadImage = postForm.loadImage;
+window.initMap = postForm.initMap;
+window.codeAddress = postForm.codeAddress;
+window.validateForm = postForm.validateForm;
+
 
 import Raty from "raty.js"
 window.raty = function(elem,opt) {

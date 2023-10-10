@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2023_10_04_121109) do
+ActiveRecord::Schema.define(version: 2023_10_10_113334) do
 
   create_table "active_storage_attachments", force: :cascade do |t|
     t.string "name", null: false
@@ -38,6 +38,19 @@ ActiveRecord::Schema.define(version: 2023_10_04_121109) do
     t.bigint "blob_id", null: false
     t.string "variation_digest", null: false
     t.index ["blob_id", "variation_digest"], name: "index_active_storage_variant_records_uniqueness", unique: true
+  end
+
+  create_table "admin_notifications", force: :cascade do |t|
+    t.integer "visitor_id", null: false
+    t.integer "rate_id"
+    t.integer "violate_id"
+    t.string "action", null: false
+    t.boolean "checked", default: false, null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["rate_id"], name: "index_admin_notifications_on_rate_id"
+    t.index ["violate_id"], name: "index_admin_notifications_on_violate_id"
+    t.index ["visitor_id"], name: "index_admin_notifications_on_visitor_id"
   end
 
   create_table "admins", force: :cascade do |t|
@@ -143,6 +156,8 @@ ActiveRecord::Schema.define(version: 2023_10_04_121109) do
     t.text "explanation", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.float "lat"
+    t.float "lng"
   end
 
   create_table "rates", force: :cascade do |t|

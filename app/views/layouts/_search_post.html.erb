@@ -1,0 +1,50 @@
+<div class="row">
+  <table class="table table-bordered">
+    <% posts.each do |post| %>
+      <tr>
+        <td>
+          <% if current_user.nil? %>
+            <!--管理者の場合-->
+            <%= link_to admin_user_path(post.user) do %>
+              <%= image_tag post.user.get_profile_image(40, 40), class:"border border-dark rounded-circle" %>
+              <%= post.user.name %>
+            <% end %>
+            <%= link_to admin_post_path(post) do %>
+              <%= post.post_name %><br>
+              <% post.images.each do |image| %>
+                <%= image_tag image, size: "150x100" %>
+              <% end %>
+            <% end %>
+          <% else %>
+            <!--ユーザーの場合-->
+            <%= link_to user_path(post.user) do %>
+              <%= image_tag post.user.get_profile_image(40, 40), class:"border border-dark rounded-circle" %>
+              <%= post.user.name %>
+            <% end %>
+            <%= link_to post_path(post) do %>
+              <%= post.post_name %><br>
+              <% post.images.each do |image| %>
+                <%= image_tag image, size: "150x100" %>
+              <% end %>
+            <% end %>
+          <% end %>
+        </td>
+        <td>
+          <%= post.explanation %><br>
+          <% post.tags.each do |tag| %>
+            <%= link_to tag_path(tag.id) do %>
+              #<%= tag.name %>
+            <% end %>
+          <% end %>
+          <br>
+          <% if current_user.nil? %>
+            <i class="fa-regular fa-heart"></i><%= post.likes.count %>いいね
+          <% else %>
+            <span id="post_<%= post.id %>"><%= render "public/likes/like", post: post %></span>
+          <% end %>
+          <%= post.comments.count %>コメント
+        </td>
+      </tr>
+    <% end %>
+  </table>
+</div>

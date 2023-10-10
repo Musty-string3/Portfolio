@@ -1,0 +1,76 @@
+<div class="container">
+  <div class="row">
+    <h4>ユーザーからの違反報告</h4>
+  </div>
+  <div class="row">
+    <table class="table table-bordered">
+      <thead>
+        <th class="col-lg-2">報告したユーザー</th>
+        <th class="col-lg-2">違反したユーザー</th>
+        <th class="col-lg-2">投稿名</th>
+        <th class="col-lg-2">違反の説明</th>
+        <th class="col-lg-2">違反理由</th>
+        <th class="col-lg-2">URL</th>
+      </thead>
+      <tbody>
+        <% @violates.each do |violate| %>
+          <tr>
+            <td><%= violate.reporter.name %></td>
+            <td><%= violate.reported.name %></td>
+            <td><%= violate.post.post_name %></td>
+            <td>
+              <% if violate.text.present? %>
+                <%= truncate(violate.text, length: 15, omission: "...") %>
+              <% else %>
+                なし
+              <% end %>
+            </td>
+            <td><%= violate.status_i18n %></td>
+            <td>
+              <p class="text_dark" data-toggle="modal" data-target="#violate">
+                詳細確認
+              </p>
+
+              <div class="modal fade" id="violate" tabindex="-1" role="dialog" aria-labelledby="reporteTitle" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <h5 class="modal-title" id="reporteTitle">
+                        <%= violate.post.post_name %>の違反報告
+                      </h5>
+                      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                      </button>
+                    </div>
+                    <div class="modal-body">
+                      <p>
+                        ユーザー名：<%= violate.reported.name %>
+                        (ユーザーID：<%= violate.reported.id %>)
+                      </p>
+                      <p>
+                        投稿名：<%= violate.post.post_name %>
+                        (投稿ID：<%= violate.post.id %>)
+                      </p>
+                      <p>違反内容：<%= violate.status_i18n %></p>
+                      <p>
+                        説明：
+                        <% if violate.text.present? %>
+                          <%= violate.text %>
+                        <% else %>
+                          なし
+                        <% end %>
+                      </p>
+                    </div>
+                    <div class="modal-footer">
+                      <%= link_to "投稿を見る", admin_post_path(violate.post.id), class:"btn btn-primary"%>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+</div>

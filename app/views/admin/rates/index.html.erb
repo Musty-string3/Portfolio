@@ -59,37 +59,37 @@
             <td><%= rate.user.name %></td>
             <td><%= truncate(rate.text, length: 20, omission: "...") %></td>
             <td id="star_<%= rate.id %>"></td>
+            <script>
+              $(document).on('turbolinks:load', function() {
+                let elem = document.getElementById('star<%= rate.id %>');
+                if (!elem) return;
+
+                elem.innerHTML = "";
+                let opt = {
+                  starOn: "<%= asset_path('star-on.png') %>",
+                  starOff: "<%= asset_path('star-off.png') %>",
+                  starHalf: "<%= asset_path('star-half.png') %>",
+                  score: <%= rate.star %>,
+                  readOnly: true,
+                };
+                raty(elem, opt);
+              });
+              $(document).on('turbolinks:load', function() {
+                let elem = document.getElementById('star_<%= rate.id %>');
+                if (!elem) return;
+
+                elem.innerHTML = "";
+                let opt = {
+                  starOn: "<%= asset_path('star-on.png') %>",
+                  starOff: "<%= asset_path('star-off.png') %>",
+                  starHalf: "<%= asset_path('star-half.png') %>",
+                  score: <%= rate.star %>,
+                  readOnly: true,
+                };
+                raty(elem, opt);
+              });
+            </script>
           </tr>
-          <script>
-            $(document).on('turbolinks:load', function() {
-              let elem = document.getElementById('star<%= rate.id %>');
-              if (!elem) return;
-
-              elem.innerHTML = "";
-              let opt = {
-                starOn: "<%= asset_path('star-on.png') %>",
-                starOff: "<%= asset_path('star-off.png') %>",
-                starHalf: "<%= asset_path('star-half.png') %>",
-                score: <%= rate.star %>,
-                readOnly: true,
-              };
-              raty(elem, opt);
-            });
-            $(document).on('turbolinks:load', function() {
-              let elem = document.getElementById('star_<%= rate.id %>');
-              if (!elem) return;
-
-              elem.innerHTML = "";
-              let opt = {
-                starOn: "<%= asset_path('star-on.png') %>",
-                starOff: "<%= asset_path('star-off.png') %>",
-                starHalf: "<%= asset_path('star-half.png') %>",
-                score: <%= rate.star %>,
-                readOnly: true,
-              };
-              raty(elem, opt);
-            });
-          </script>
         <% end %>
       </tbody>
     </table>

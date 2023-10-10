@@ -10,10 +10,21 @@
           <tr>
             <td class="col-lg-1">
               <%= link_to admin_user_path(post.user.id) do %>
-                <%= post.user.name%>
+                <%= post.user.name %>
               <% end %>
               <%= link_to admin_post_path(post.id) do %>
-                <%= image_tag post.image, size: "125x100" %>
+                <div class="swiper">
+                  <div class="swiper-wrapper">
+                    <% post.images.each do |image| %>
+                      <div class="swiper-slide">
+                        <%= image_tag image, class: "post_index_images" %>
+                      </div>
+                    <% end %>
+                  </div>
+                  <div class="swiper-pagination"></div>
+                  <div class="swiper-btn swiper-button-prev"></div>
+                  <div class="swiper-btn swiper-button-next"></div>
+                </div>
               <% end %>
             </td>
             <td class="col-lg-4">

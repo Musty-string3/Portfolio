@@ -1,5 +1,11 @@
 ---
 ja:
+  enums:
+    violate:
+      status:
+        inappropriate: "不適切な投稿"
+        copyright_violation: "著作権違反"
+        slander:  "誹謗中傷、悪口"
   activerecord:
     errors:
       messages:
@@ -17,7 +23,7 @@ ja:
     - 金
     - 土
     abbr_month_names:
-    - 
+    -
     - 1月
     - 2月
     - 3月
@@ -43,7 +49,7 @@ ja:
       long: "%Y年%m月%d日(%a)"
       short: "%m/%d"
     month_names:
-    - 
+    -
     - 1月
     - 2月
     - 3月

@@ -1,6 +1,10 @@
 <div class="container">
-  <div class="offset-lg-10 col-lg-2">
-    <%= select_tag options_for_select('ユーザー') %>
+  <div class="offset-lg-8">
+    <%= form_with url: admin_search_path, method: :get do |f| %>
+      <%= f.text_field :keyword, placeholder: "検索内容" %>
+      <%= f.select :model, options_for_select({'ユーザー'=>'user', '投稿'=>'post'}) %>
+      <%= f.submit "検索" %>
+    <% end %>
   </div>
   <table class="table table-bordered">
     <thead>

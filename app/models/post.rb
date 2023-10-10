@@ -54,7 +54,12 @@ class Post < ApplicationRecord
 
   # 検索機能
   def self.search_for(keyword)
-    Post.where('post_name LIKE ?', keyword + '%')
+    Post.where('post_name LIKE?', keyword+'%')
+  end
+
+  # 検索機能(管理者側)
+  def self.search_comments(keyword)
+    Post.includes(:user).where('post_name LIKE?', keyword+'%')
   end
 
   # like?(user)メソッドはlikesテーブルに引数で渡されたuser(current_user)が存在(exists)するか調べる

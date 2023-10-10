@@ -77,13 +77,19 @@
                 <%= link_to "投稿一覧", admin_root_path, class: 'nav-link text-dark' %>
               </li>
               <li class="nav-item" >
-                <%= link_to "コメント一覧", admin_commets_path, class: 'nav-link text-dark' %>
+                <%= link_to "コメント一覧", admin_comments_path, class: 'nav-link text-dark' %>
               </li>
               <li class="nav-item" >
                 <%= link_to "ログアウト", destroy_admin_session_path, method: :delete, class: 'nav-link text-dark' %>
               </li>
               <li class="nav-item" >
                 <%= link_to "レビュー一覧", admin_rates_path, class: 'nav-link text-dark' %>
+              </li>
+              <li class="nav-item" >
+                <%= link_to "違反報告", admin_violates_path, class: 'nav-link text-dark' %>
+              </li>
+              <li>
+                <%= render 'layouts/search' %>
               </li>
             <% else %>
               <li class="nav-item" >

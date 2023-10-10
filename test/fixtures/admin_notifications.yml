@@ -1,0 +1,15 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  visitor_id: 1
+  rate_id: 1
+  violate: 1
+  action: MyString
+  checked: false
+
+two:
+  visitor_id: 1
+  rate_id: 1
+  violate: 1
+  action: MyString
+  checked: false
