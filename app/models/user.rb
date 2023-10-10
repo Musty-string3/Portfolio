@@ -41,6 +41,9 @@ class User < ApplicationRecord
   has_many :reporter_violates, class_name: 'Violate', foreign_key: 'reporter_id', dependent: :destroy
   has_many :reported_violates, class_name: 'Violate', foreign_key: 'reported_id', dependent: :destroy
 
+  # 管理者通知のアソシエーション
+  has_many :admin_notifications, foreign_key: 'visitor_id', dependent: :destroy
+
   #is_deletedがtrue(退会してない)の会員レコードを取得
   scope :only_active, -> { where(is_deleted: true) }
 
