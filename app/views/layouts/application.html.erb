@@ -83,10 +83,24 @@
                 <%= link_to "ログアウト", destroy_admin_session_path, method: :delete, class: 'nav-link text-dark' %>
               </li>
               <li class="nav-item" >
-                <%= link_to "レビュー一覧", admin_rates_path, class: 'nav-link text-dark' %>
+                <%= link_to admin_rates_path, class: 'nav-link text-dark' do %>
+                  <% if Rate.unchecked_rates_notifications == 0 %>
+                    レビュー一覧
+                  <% else %>
+                    <p class="icon_layers">レビュー一覧</p>
+                     <span class="n-circle"><%= Rate.unchecked_rates_notifications %></span>
+                  <% end %>
+                <% end %>
               </li>
               <li class="nav-item" >
-                <%= link_to "違反報告", admin_violates_path, class: 'nav-link text-dark' %>
+                <%= link_to admin_violates_path, class: 'nav-link text-dark' do %>
+                  <% if Violate.unchecked_violate_notifications == 0 %>
+                    違反通知
+                  <% else %>
+                    <p class="icon_layers">違反通知</p>
+                     <span class="n-circle"><%= Violate.unchecked_violate_notifications %></span>
+                  <% end %>
+                <% end %>
               </li>
               <li>
                 <%= render 'layouts/search' %>

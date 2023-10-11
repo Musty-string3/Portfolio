@@ -7,7 +7,6 @@ class CreateAdminNotifications < ActiveRecord::Migration[6.1]
       t.string :action, null: false
       t.boolean :checked, default: false, null: false
 
-
       t.timestamps
     end
 

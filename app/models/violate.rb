@@ -11,13 +11,19 @@ class Violate < ApplicationRecord
   enum status: { inappropriate: 0, copyright_violation: 1, slander: 2}
   # 0 = 不正、不適切な投稿, 1 = 著作権違反, 2 = 誹謗中傷、悪口
 
+  # 違反報告の通知の作成
   def create_notification_violate!(current_user)
     temp = AdminNotification.find_by(visitor_id: current_user.id, violate_id: id, action: 'violate')
     if temp.nil?
-      current_user.admin_notifications.create!(
+      current_user.admin_notifications.create(
         violate_id: id,
         action: 'violate'
       )
     end
+  end
+
+  # 未確認通知のカウント
+  def self.unchecked_violate_notifications
+    AdminNotification.where(action: 'violate', checked: false).count
   end
 end

@@ -2,10 +2,16 @@ class Public::ViolatesController < ApplicationController
   before_action :authenticate_user!
 
   def create
-    violate = current_user.violates.new(violate_params)
-    violate.status = params[:violate][:status].to_i
-
-    if violate.save && is_exist_violate?
+    is_exist_violate = Violate.find_by(
+      reporter_id: current_user.id,
+      reported_id: params[:violate][:reported_id],
+      post_id: params[:violate][:post_id],
+      status: params[:violate][:status]
+    )
+    if is_exist_violate.nil?
+      violate = current_user.reporter_violates.new(violate_params)
+      violate.status = params[:violate][:status].to_i
+      violate.save
       redirect_back fallback_location: root_path
       flash[:notice] = "投稿の報告を申請しました。"
       # 管理者に違反通知がされる
