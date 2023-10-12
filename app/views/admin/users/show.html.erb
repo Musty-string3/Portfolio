@@ -1,6 +1,6 @@
 <div class="container">
   <%= render 'layouts/error_messages', resource: @user %>
-  <h4><%= @user.full_name %>さんの会員情報編集</h4>
+  <h4><%= @user.name %>さんの会員情報編集</h4>
   <% if flash[:notice] %>
     <%= flash[:notice] %>
   <% end %>
@@ -10,7 +10,7 @@
       <th class="col-lg-2"></th>
       <th class="col-lg-4"></th>
     </thead>
-    <%= form_with model: @user, url: admin_user_path(@user), local: true do |f| %>
+    <%= form_with model: @user, url: admin_user_path(@user), method: :patch do |f| %>
       <tbody>
         <tr>
           <td>会員ID</td>
@@ -44,8 +44,9 @@
     <% end %>
   </table>
   <div class="row">
-    <%= link_to "このユーザーの投稿一覧を見る(未定)", admin_root_path, class:"col-lg-4" %>
-    <%= link_to "このユーザーのコメント一覧を見る(未定)", admin_users_path, class:"col-lg-4" %>
-    <%= link_to "会員一覧に戻る", admin_users_path, class:"col-lg-3" %>
+    <%= link_to "会員一覧に戻る", admin_root_path, class:"col-lg-3" %>
+    <% if @user.posts.count > 0 %>
+      <%= link_to "このユーザーの投稿一覧を見る", admin_posts_path(user_index: @user.id), class:"col-lg-4" %>
+    <% end %>
   </div>
 </div>

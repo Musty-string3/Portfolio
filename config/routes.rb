@@ -59,10 +59,11 @@ Rails.application.routes.draw do
 
   # 管理者用
   namespace :admin do
-    root to: 'posts#top'
+    root to: 'users#index'
     get 'search', to: 'comments#search'
-    resources :users, except: %i[new create edit]
-    resources :posts, only: %i[show edit update destroy]
+    resources :users, except: %i[index new create edit]
+    resources :posts, only: %i[index show edit update destroy]
+    resources :tags, only: %i[show]
     resources :comments, only: %i[index destroy]
     resources :rates, only: %i[index]
     resources :violates, only: %i[index]

@@ -49,7 +49,7 @@ class User < ApplicationRecord
 
   # 投稿に紐付いたタグテーブルのidカラムとnameカラムをjoins(内部結合)にて新テーブルを作成
   scope :tag_joins_posts, -> { Tag.joins(:posts).select(:id, :name) }
-
+  
   validates :last_name, presence: true                                #名が空白ならエラー
   validates :first_name, presence: true                               #姓が空白ならエラー
   validates :name, presence: true, uniqueness: true                   #ニックネームが空白＆他の会員とニックネームが一致した場合にエラー

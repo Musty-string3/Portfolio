@@ -1,0 +1,63 @@
+<div class="container">
+  <div class="row">
+    <h5><%= flash[:notice] if flash[:notice] %></h5>
+  </div>
+  <div class="row">
+    <% if @posts.present? %>
+      <% if @user.blank? %>
+        <% @tags.each do |tag_name, count| %>
+          <%= link_to tag_name[:name], admin_tag_path(tag_name[:id]) %>
+          <%= "(#{count}件)" %>
+        <% end %>
+      <% else %>
+        <h4><%= @user.name %>さんの投稿一覧</h4>
+      <% end %>
+      <table class="table table-bordered">
+        <tbody>
+          <% @posts.each do |post| %>
+            <tr>
+              <td class="col-lg-1">
+                <%= link_to admin_user_path(post.user.id) do %>
+                  <%= image_tag post.user.get_profile_image(40, 40), class:"border border-dark rounded-circle" %>
+                  <%= post.user.name %>
+                <% end %>
+                <%= link_to admin_post_path(post.id) do %>
+                  <div class="swiper">
+                    <div class="swiper-wrapper">
+                      <% post.images.each do |image| %>
+                        <div class="swiper-slide">
+                          <%= image_tag image, class: "post_index_images" %>
+                        </div>
+                      <% end %>
+                    </div>
+                    <div class="swiper-pagination"></div>
+                    <div class="swiper-btn swiper-button-prev"></div>
+                    <div class="swiper-btn swiper-button-next"></div>
+                  </div>
+                <% end %>
+              </td>
+              <td class="col-lg-4">
+                <%= post.post_name %><br>
+                <%= post.explanation %><br>
+                <% post.tags.each do |tag| %>
+                  <%= link_to admin_tag_path(tag.id) do %>
+                    #<%= tag.name %>
+                  <% end %>
+                <% end %>
+                <br>
+                <i class="fa-regular fa-heart"></i><%= post.likes.count %>いいね
+                <%= post.comments.count %>コメント
+                <br>
+                <i class="fa-solid fa-eye"></i><%= post.view_counts.count %>
+                <br>
+                <i class="fa-regular fa-clock"></i><%= time_ago_in_words(post.created_at)+"前に投稿" %>
+              </td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+    <% else %>
+      <h4><%= @user.name %>さんの投稿はまだありません</h4>
+    <% end %>
+  </div>
+</div>

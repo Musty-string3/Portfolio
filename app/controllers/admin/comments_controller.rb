@@ -8,8 +8,8 @@ class Admin::CommentsController < ApplicationController
   end
 
   def destroy
-    Commnet.find(params[:id]).destroy
-    redirect_to admin_commets_path
+    Comment.find(params[:id]).destroy
+    redirect_to admin_post_path(params[:post_id])
   end
 
   def search

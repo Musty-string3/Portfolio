@@ -1,15 +1,21 @@
 class Admin::PostsController < ApplicationController
+  include TagCount
   before_action :authenticate_admin!
-  before_action :set_post, except: %i[top]
+  before_action :set_post, except: %i[index]
 
-  def top
-    @posts = Post.includes(:user).all
-    @tags = Tag.all
+  def index
+    user_id = params[:user_index]
+    if user_id
+      @posts = Post.where(user_id: user_id).order(created_at: :desc)
+      @user = User.find(user_id)
+    else
+      @posts = Post.includes(:user).all.order(created_at: :desc)
+      tags = User.tag_joins_posts
+      @tags = set_tag_count(tags)
+    end
   end
 
   def show
-    @posts = Post.where(id: @post)
-    @tags = PostTag.where(post_id: @post)
   end
 
   def edit
@@ -29,7 +35,7 @@ class Admin::PostsController < ApplicationController
 
   def destroy
     @post.destroy
-    redirect_to admin_root_path
+    redirect_to admin_posts_path, notice: "投稿を削除しました。"
   end
 
   private

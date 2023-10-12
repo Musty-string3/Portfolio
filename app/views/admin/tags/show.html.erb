@@ -1,0 +1,40 @@
+<div class="container">
+  <div class="row">
+    <div class="offset-lg-2 d-flex">
+      <h5>"<%= @tag.name %>"タグの投稿一覧</h5>
+      <p>(<%= @tag.posts.count %>件)</p>
+    </div>
+  </div>
+  <div class="row">
+    <table class="table table-bordered">
+      <% @tag.posts.each do |post| %>
+        <tr>
+          <td>
+            <%= link_to admin_user_path(post.user) do %>
+              <%= image_tag post.user.get_profile_image(40, 40), class:"border border-dark rounded-circle" %>
+              <%= post.user.name %>
+              <br>
+            <% end %>
+            <%= link_to admin_post_path(post) do %>
+              <%= post.post_name %><br>
+              <% post.images.each do |image| %>
+                <%= image_tag image, size: "150x125" %>
+              <% end %>
+            <% end %>
+          </td>
+          <td>
+            <%= post.explanation %><br>
+            <% post.tags.each do |tag| %>
+              <%= link_to tag_path(tag.id) do %>
+                #<%= tag.name %>
+              <% end %>
+            <% end %>
+            <br>
+            <i class="fa-regular fa-heart"></i><%= post.likes.count %>いいね
+            <%= post.comments.count %>コメント
+          </td>
+        </tr>
+      <% end %>
+    </table>
+  </div>
+</div>
