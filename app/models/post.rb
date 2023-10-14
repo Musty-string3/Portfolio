@@ -1,10 +1,8 @@
 class Post < ApplicationRecord
 
-  with_options presence: true do
-    validates :post_name
-    validates :explanation
-    validates :images
-  end
+  validates :post_name, presence: true, length: { minimum: 1, maximum: 20 }
+  validates :explanation, presence: true, length: { minimum: 1, maximum: 100 }
+  validates :images, presence: true
 
   validate :validates_images_count
 

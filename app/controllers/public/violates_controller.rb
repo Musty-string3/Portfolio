@@ -2,12 +2,11 @@ class Public::ViolatesController < ApplicationController
   before_action :authenticate_user!
 
   def create
-    is_exist_violate = Violate.find_by(
-      reporter_id: current_user.id,
-      reported_id: params[:violate][:reported_id],
-      post_id: params[:violate][:post_id],
-      status: params[:violate][:status]
-    )
+    reported = params[:violate][:reported_id]
+    post = params[:violate][:post_id]
+    status = params[:violate][:status]
+    
+    is_exist_violate = Violate.find?(current_user, reported, post, status)
     if is_exist_violate.nil?
       violate = current_user.reporter_violates.create!(violate_params)
       redirect_back fallback_location: root_path
@@ -23,6 +22,6 @@ class Public::ViolatesController < ApplicationController
   private
 
   def violate_params
-    params.require(:violate).permit(:reported_id, :text, :post_id)
+    params.require(:violate).permit(:reported_id, :text, :post_id, :status)
   end
 end

@@ -53,14 +53,14 @@
                   <div class="form-group">
                     <%= f.label :status, "違反の種類(必須)" %>
                     <br>
-                    <%= f.radio_button :status, Violate.statuses[:inappropriate] %>
-                    <%= f.label :status_0, "不正、不適切な投稿" %>
+                    <%= f.radio_button :status, 'inappropriate' %>
+                    <%= f.label :status_inappropriate, "不正、不適切な投稿" %>
                     <br>
-                    <%= f.radio_button :status, Violate.statuses[:copyright_violation] %>
-                    <%= f.label :status_1, "著作権違反" %>
+                    <%= f.radio_button :status, 'copyright_violation' %>
+                    <%= f.label :status_copyright_violation, "著作権違反" %>
                     <br>
-                    <%= f.radio_button :status,Violate.statuses[:slander] %>
-                    <%= f.label :status_2, "誹謗中傷、悪口" %>
+                    <%= f.radio_button :status, 'slander' %>
+                    <%= f.label :status_slander, "誹謗中傷、悪口" %>
                     <%= f.label :status, "違反の種類" %>
                   </div>
                   <div class="form-group">

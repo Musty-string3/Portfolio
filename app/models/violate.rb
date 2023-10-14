@@ -11,6 +11,16 @@ class Violate < ApplicationRecord
   enum status: { inappropriate: 0, copyright_violation: 1, slander: 2}
   # 0 = 不正、不適切な投稿, 1 = 著作権違反, 2 = 誹謗中傷、悪口
 
+  # 違反報告の内容は存在してるか？
+  def self.find?(current_user, reported, post, status)
+    Violate.find_by(
+      reporter_id: current_user.id,
+      reported_id: reported,
+      post_id: post,
+      status: status
+    )
+  end
+
   # 違反報告の通知の作成
   def create_notification_violate!(current_user)
     temp = AdminNotification.find_by(visitor_id: current_user.id, violate_id: id, action: 'violate')

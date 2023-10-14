@@ -1,94 +1,84 @@
-<div class="offset-lg-2 col-lg-8">
-  <%= form_with model: post, html: {onsubmit: "return validateForm()"} do |f| %>
-
-    <!--投稿画像の設定-->
-    <div class="form-group">
-      <%= f.label :images, "画像(6枚まで投稿可)" %>
-      <span class="form_essential">※必須</span>
-      <br>
-      <%= f.file_field :images, accept: "image/*", required: true, multiple: true, onchange: "loadImage(this)" %>
-      <div class="text-danger">
-        <span class="post_images_error d-none", style="font-size: 14px;">画像は6枚以上投稿できません。</span>
+<%= form_with model: post, html: {onsubmit: "return validateForm()"} do |f| %>
+  <div class="row">
+    <div class="offset-lg-2 col-lg-8">
+      <!--投稿画像の設定-->
+      <div class="form-group">
+        <%= f.label :images, "画像(6枚まで投稿可)" %>
+        <span class="form_essential">※必須</span>
+        <br>
+        <%= f.file_field :images, accept: "image/*", required: true, multiple: true, onchange: "loadImage(this)" %>
+        <div id="preview"></div>
+        <div id="error_message_post_image" class="text-danger"></div>
       </div>
-    </div>
 
-    <!--投稿名の設定-->
-    <div class="form-group">
-      <%= f.label :post_name, "投稿名" %>
-      <span class="form_essential">※必須</span>
-      <%= f.text_field :post_name, class: "form-control valid-check" %>
-      <div class="invalid-feedback">投稿名を入力してください。</div>
-    </div>
-
-    <!--投稿の説明の設定-->
-    <div class="form-group">
-      <%= f.label :explanation, "投稿の説明" %>
-      <span class="form_essential">※必須</span>
-      <%= f.text_area :explanation, class: "form-control valid-check" %>
-      <div class="invalid-feedback">投稿の説明を入力してください。</div>
-    </div>
-
-    <!--タグの設定-->
-    <div class="form-group">
-      <%= f.label :tag, "タグ (、で区切ると複数タグ登録できます)" %>
-      <%= f.text_field :tag, placeholder: "タグを入力", class: "form-control" %>
-    </div>
-
-    <!--モーダルウィンドウ表示ボタン-->
-    <button type="button" class="btn btn-primary" data-toggle="modal" data-target=".bd-example-modal-lg">
-      GoogleMapを使って場所を指定する
-    </button>
-
-    <!--GoogleMapのモーダルウィンドウ-->
-    <div class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-      <div class="modal-dialog modal-lg" role="document">
-        <div class="modal-content">
-          <div class="modal-header">
-            <div class="modal-title" id="exampleModalLabel">
-              <h4>GoogleMap</h4>
-              <!--Google Mapの位置設定-->
-              <%= f.label :lat,"緯度" %>
-              <%= f.text_field :lat, placeholder: "緯度", id: :lat %>
-              <%= f.label :lng,"経度" %>
-              <%= f.text_field :lng, placeholder: "経度", id: :lng %>
-            </div>
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-              <span aria-hidden="true">&times;</span>
-            </button>
-          </div>
-          <div class="modal-body">
-            <input id="address" type="textbox" placeholder="清水寺">
-            <input type="button" value="検索" onclick="codeAddress()">
-            <span>検索をするとマーカーが使えるようになります。</span>
-            <div class="container-fluid">
-              <div class="row">
-                <div id='map' style="height: 800px; width: 800px;"></div>
-              </div>
-            </div>
-          </div>
-        </div>
+      <!--投稿名の設定-->
+      <div class="form-group">
+        <%= f.label :post_name, "投稿名(20文字以内)" %>
+        <span class="form_essential">※必須</span>
+        <%= f.text_field :post_name, required: true, data: {'max-length' => 20}, class: "form-control valid-check" %>
+        <div><span id="name_countUp">0</span>/20文字</div>
       </div>
-    </div>
-    <script src="https://maps.googleapis.com/maps/api/js?key=<%=ENV['GOOGLE_API_KEY']%>&callback=initMap" async defer></script>
 
-    <!--入力内容の確認の設定-->
-    <h4 style="text-align: center;">入力内容をご確認ください。(モダンウィンドウにする)</h4>
-    <h4 class="font-weight-bold">投稿画像</h4>
-    <div id="preview"></div>
-    <div id="error_message_post_image" class="text-danger"></div>
-    <h4 class="font-weight-bold">投稿名</h4>
-    <h5 class="font-weight-normal" id="check_post_name"></h5>
-    <h4 class="font-weight-bold">投稿の説明</h4>
-    <h5 class="font-weight-normal" id="check_post_explanation"></h5>
-    <h4 class="font-weight-bold">タグ</h4>
-    <h5 class="font-weight-normal" id="check_post_tags"></h5>
+      <!--投稿の説明の設定-->
+      <div class="form-group">
+        <%= f.label :explanation, "投稿の説明(100文字以内)" %>
+        <span class="form_essential">※必須</span>
+        <%= f.text_area :explanation, required: true, data: {'max-length' => 100}, class: "form-control valid-check" %>
+        <div><span id="explanation_countUp">0</span>/100文字</div>
+      </div>
 
-    <div class="form-group">
+      <!--タグの設定-->
+      <div class="form-group">
+        <%= f.label :tag, "タグ (全角の空白で区切ると複数タグ登録できます)" %>
+        <%= f.text_field :tag, placeholder: "タグを入力", class: "form-control" %>
+      </div>
+      <!--入力したタグの表示-->
+      <div>
+        <p>タグ：<span id="check_post_tags"></span></p>
+      </div>
+
+      <!--モーダルウィンドウ表示ボタン-->
+      <button type="button" id= "GoogleMap" class="btn btn-lg btn-primary" disabled= "true" data-toggle="modal" data-target=".bd-example-modal-lg">
+        GoogleMapを使って場所を指定する
+      </button>
+
       <% if @post.id == nil %>
         <%= f.submit "投稿する", id: "submit-btn", class:"btn btn-outline-info" %>
       <% else %>
         <%= f.submit "投稿を更新する", id: "submit-btn", class:"btn btn-outline-info" %>
       <% end %>
+
+      <!--GoogleMapのモーダルウィンドウ-->
+      <div class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <div class="modal-title" id="exampleModalLabel">
+                <h4>GoogleMap</h4>
+                <!--Google Mapの位置設定-->
+                <%= f.label :lat,"緯度" %>
+                <%= f.text_field :lat, placeholder: "緯度", id: :lat %>
+                <%= f.label :lng,"経度" %>
+                <%= f.text_field :lng, placeholder: "経度", id: :lng %>
+              </div>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+              <input id="address" type="text" placeholder="清水寺">
+              <input type="submit" value="検索" onclick="codeAddress()">
+              <span>検索をするとマーカーが使えるようになります。</span>
+              <div class="container-fluid">
+                <div class="row">
+                  <div id='map' style="height: 800px; width: 800px;"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <script src="https://maps.googleapis.com/maps/api/js?key=<%=ENV['GOOGLE_API_KEY']%>&callback=initMap" async defer></script>
     </div>
-  <% end %>
-</div>
+  </div>
+<% end %>

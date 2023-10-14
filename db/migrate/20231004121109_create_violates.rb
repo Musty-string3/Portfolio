@@ -4,7 +4,7 @@ class CreateViolates < ActiveRecord::Migration[6.1]
       t.integer :reporter_id, null: false
       t.integer :reported_id, null: false
       t.text :text
-      t.string :status, null: false
+      t.integer :status, null: false
       t.references :post, null: false, foreign_key: true
       t.boolean :checked, default: false, null: false
 

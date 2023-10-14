@@ -5,6 +5,7 @@ function loadImage(obj){
   let fileReader;
   $('#preview').empty();  // previewの中身を全消去(empty)する
   $("#error_message_post_image").empty();
+  $('#images_check_field').hide();
   if (obj.files.length > 6) {
     $("#error_message_post_image").html("画像は6枚以下で指定してください");
     return false;  //breakのようなもの
@@ -14,6 +15,7 @@ function loadImage(obj){
 		fileReader.onload = (function (e) {
 		  // idがpreviewを探し、その箇所に要素を追加(append)していく
 			$('#preview').append('<img class="m-1 preview_img" src="' + e.target.result + '">');
+			$('#images_check_field').show();
 		});
 		fileReader.readAsDataURL(obj.files[i]);
 	}
@@ -92,8 +94,8 @@ function validateForm() {
     postImagesError.addClass('d-none');
   }
 
-  changeValidClass($("#post_post_name")); // フォームチェック
-  changeValidClass($("#post_explanation")); // フォームチェック
+  changeValidClass($("#post_post_name"), $(".valid-check").data("max-length")); // フォームチェック
+  changeValidClass($("#post_explanation"), $(".valid-check").data("max-length")); // フォームチェック
 
   // 対象のフォームにis-invalidが付与されていれば、
   // バリデーションエラーありと判定する
@@ -112,9 +114,8 @@ function validateForm() {
 
 
 // バリデーションチェック結果に応じてclassを変更する
-// TODO toggleClass()使えないか？
-function changeValidClass(elem) {
-  if (elem.val() === "") {
+function changeValidClass(elem, maxLength) {
+  if (elem.val() === "" || elem.val().length > maxLength) {
     elem.removeClass("is-valid");
     elem.addClass("is-invalid");
   } else {
@@ -127,54 +128,65 @@ function changeValidClass(elem) {
 jQuery(document).on('turbolinks:load', function(){
   $(document).ready(function() {
 
-    // 入力時に値を取得し、フォーカスが外れたら画面に文字を表示する
-    // 投稿名
-    const text_name = $("#post_post_name");
-    text_name.on("input", function() {
-      $(this).blur(function(){
-        $("#check_post_name").text(text_name.val());
-      });
+    // 投稿名の文字数カウント
+    const post_name = $('#post_post_name');
+    const name_countUp = $('#name_countUp');
+    post_name.on('keyup', function(){
+      const name_count = post_name.val().length;
+      name_countUp.text(name_count);
+      if (name_count > 20) {
+        name_countUp.css('color', 'red');
+      }else{
+        name_countUp.css('color', 'black');
+      }
     });
-    if (text_name !== ""){
-      $("#check_post_name").text(text_name.val());
-    }
 
-    // 投稿の説明
+    // 投稿の説明 & 文字数カウント
     const text_explanation = $('#post_explanation');
-    text_explanation.on('input', function(){
-      $(this).blur(function(){
-        $("#check_post_explanation").text(text_explanation.val());
-      });
+    const explanation_countUp = $('#explanation_countUp');
+    text_explanation.on('keyup', function(){
+      const explanation_count = text_explanation.val().length;
+      explanation_countUp.text(explanation_count);
+      if (explanation_count > 100) {
+        explanation_countUp.css('color', 'red');
+      }else{
+        explanation_countUp.css('color', 'black');
+      }
     });
-    if (text_explanation !== ""){
-      $("#check_post_explanation").text(text_explanation.val());
-    }
 
     // タグ
     $('#post_tag').on('input', function() {
-      // タグの入力値を取得
       const tagText = $(this).val().trim();
-
-      // カンマで区切られたタグを分割
       const tags = tagText.split('　');
-
-      // タグを表示する前にコンテナをクリア
-      $('#check_post_tags').empty();
+      const check_post_tags = $("#check_post_tags")
+      check_post_tags.empty();
 
       // 各タグに # を付けて表示
       tags.forEach(tag => {
         if (tag.trim() !== '') {
           const tagElement = $('<span></span>').text('#' + tag.trim() + ' ');
-          $('#check_post_tags').append(tagElement);
+          check_post_tags.append(tagElement);
         }
       });
     });
 
+    // 投稿画像を指定しないとGoogleMapのボタンを押せない
+    const fileInput = $('#post_images');
+    fileInput.on('change', function(){
+      if (fileInput[0].files.length > 0) {
+        $('#GoogleMap').removeClass('btn btn-lg btn-primary').addClass('btn btn-primary');
+        $("#GoogleMap").prop("disabled", false);
+      }else{
+        $('#GoogleMap').removeClass('btn btn-primary').addClass('btn btn-lg btn-primary');
+        $("#GoogleMap").prop("disabled", true);
+      }
+    });
+
     // バリデーションチェックする入力欄のclass制御
     $(".valid-check").on("blur input", function () {
-      changeValidClass($(this));
-    })
-
+      const max_length = $(this).data("max-length");
+      changeValidClass($(this), max_length);
+    });
   });
 });
 
