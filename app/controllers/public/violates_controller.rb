@@ -9,9 +9,7 @@ class Public::ViolatesController < ApplicationController
       status: params[:violate][:status]
     )
     if is_exist_violate.nil?
-      violate = current_user.reporter_violates.new(violate_params)
-      violate.status = params[:violate][:status].to_i
-      violate.save
+      violate = current_user.reporter_violates.create!(violate_params)
       redirect_back fallback_location: root_path
       flash[:notice] = "投稿の報告を申請しました。"
       # 管理者に違反通知がされる
