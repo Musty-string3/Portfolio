@@ -16,8 +16,19 @@
               <br>
             <% end %>
             <%= link_to post_path(post) do %>
-              <%= post.post_name %><br>
-              <%= image_tag post.image, size: "150x125" %>
+              <%= post.post_name %>
+              <div class="swiper">
+                <div class="swiper-wrapper">
+                  <% post.images.each do |image| %>
+                    <div class="swiper-slide">
+                      <%= image_tag image, class: "post_index_images" %>
+                    </div>
+                  <% end %>
+                </div>
+                <div class="swiper-pagination"></div>
+                <div class="swiper-btn swiper-button-prev"></div>
+                <div class="swiper-btn swiper-button-next"></div>
+              </div>
             <% end %>
           </td>
           <td>

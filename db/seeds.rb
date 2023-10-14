@@ -24,7 +24,7 @@
 #   )
 # end
 
-# # 投稿(3種類)
+# # 投稿(3種類) Ok
 # 3.times do |n|
 #   if n + 1 == 1
 #     post = Post.new(
@@ -59,6 +59,31 @@
 #       post.images.attach(io: File.open(file_path), filename: "zubotty#{m + 1}.jpg", content_type: 'image/jpeg')
 #     post.save!
 #     end
+#   end
+# end
 
+# # タグの設定 OK
+# tags_sets = [
+#   ["京都", "清水寺", "観光地", "世界遺産"],
+#   ["北海道", "時計台", "観光地"],
+#   ["福井県", "海", "観光地", "絶景"]
+# ]
+# tags_sets.each do |tags|
+#   tags.each do |tag_name|
+#     Tag.create!(name: tag_name)
+#   end
+# end
+
+# # タグの中間テーブルの設定 OK
+# 11.times do |i|
+#   if i + 1 < 5
+#     tag = Tag.find(i + 1)
+#     PostTag.create!(tag: tag, post: Post.find(1))
+#   elsif i + 1 < 8
+#     tag = Tag.find(i + 1)
+#     PostTag.create!(tag: tag, post: Post.find(2))
+#   else
+#     tag = Tag.find(i + 1)
+#     PostTag.create!(tag: tag, post: Post.find(3))
 #   end
 # end
