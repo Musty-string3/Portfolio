@@ -1,8 +1,9 @@
 <div class="card-deck">
   <div class="row">
     <% posts.each do |post| %>
-      <div class="col-lg-4">
-        <div class="card" style="width: 350px;">
+      <div class="col-lg-4  mb-5">
+        <!--TODO style="width: 350px;-->
+        <div class="card h-100" style="width: 350px;">
           <div class="card-text">
             <%= link_to user_path(post.user) do %>
               <%= image_tag post.user.get_profile_image(40, 40), class:"border border-dark rounded-circle" %>

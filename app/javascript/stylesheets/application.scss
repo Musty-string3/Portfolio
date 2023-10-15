@@ -48,6 +48,13 @@
 	color: red;
 }
 
+.profile_image {
+	width: 100px;
+	height: 100px;
+	object-fit: cover;
+	border: black 1px solid;
+}
+
 .preview_img {
 	width: 235px;
 	height: 235px;
@@ -65,7 +72,6 @@
   height: 400px;
   object-fit: cover;
 }
-
 
 :root {
 	--swiper-navigation-color: white;

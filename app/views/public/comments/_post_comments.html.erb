@@ -1,4 +1,6 @@
+<p>コメント件数<%= post.comments.count %>件</p>
 <% post.comments.each do |comment| %>
+  <div class="border-top pt-1"></div>
   <%= link_to user_path(comment.user) do %>
     <%= image_tag comment.user.get_profile_image(30, 30), class:"border border-dark rounded-circle" %>
     <% if comment.user == post.user %>
@@ -8,10 +10,12 @@
     <% end %>
   <% end %>
   <%= comment.created_at.strftime('%Y/%m/%d %H:%M') %>
-  <%= link_to "コメントを削除", post_comment_path(comment.post, comment), method: :delete, remote: true if comment.user == current_user %>
-  <div class="d-flex">
-    <%= comment.text %>
-    <div id="comment_likes_<%= comment.id %>">
+  <% if comment.user == current_user %>
+    <%= link_to "削除", post_comment_path(comment.post, comment), method: :delete, remote: true, class:"btn btn-outline-danger" %>
+  <% end %>
+  <div class="ml-5">
+    <span><%= comment.text %></span>
+    <div id="comment_likes_<%= comment.id %>" class="pd-1">
       <%= render 'public/comment_likes/comment_likes', post: post, comment: comment %>
     </div>
   </div>

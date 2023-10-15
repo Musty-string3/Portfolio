@@ -1,7 +1,8 @@
 <div class="container">
+  <div class="border-top pb-3"></div>
   <%= flash[:notice] if flash[:notice] %>
-  <div class="row" style="margin: 30px 0px;">
-    <div class="col-lg-5">
+  <div class="row">
+    <div class="col-lg-5 mt-2">
       <!--ユーザーのプロフィール画像と名前-->
       <%= link_to user_path(@post.user.id) do %>
         <%= image_tag @post.user.get_profile_image(40, 40), class:"border border-dark rounded-circle" %>
@@ -23,43 +24,50 @@
     </div>
 
     <!--投稿名、説明、タグ、いいね機能、ビューカウント、コメント機能-->
-    <div class="offset-lg-1 col-lg-5" style="margin-top: 50px;">
-      <h3><%= @post.post_name %></h3>
-      <h4 style="margin-top: 20px;"><%= @post.explanation %></h4>
+    <div class="col-lg-5 ml-5 mt-5">
+      <h3 class="pt-2 pb-3"><%= @post.post_name %></h3>
+      <h4 class="pd-3"><%= @post.explanation %></h4>
       <% @post.tags.each do |tag| %>
         <%= link_to tag_path(tag) do %>
           #<%= tag.name %>
         <% end %>
       <% end %>
-      <div style="margin-top: 10px;">
+      <div class="pt-2">
         <span id="post_<%= @post.id %>"><%= render "public/likes/like", post: @post %></span><br>
-        <i class="fa-solid fa-eye"></i><%= @post.view_counts.count %>
-        <i class="fa-regular fa-clock" style="margin-left: 10px;"></i><%= time_ago_in_words(@post.created_at)+"前に投稿" %>
-        <%= form_with model: [@post, @comment], local: false do |f| %>
-          <div class="form-group">
-            <%= f.text_area :text, required: true, size: "35x2", placeholder: "コメント入力欄", class: "form-control" %>
-            <%= f.submit "コメントする", class:"btn btn-outline-success", style:"margin-top: 10px;" %>
-          </div>
-        <% end %>
+        <i class="fa-solid fa-eye pt-1"></i><%= @post.view_counts.count %>
+        <br>
+        <i class="fa-regular fa-clock pt-1"></i><%= time_ago_in_words(@post.created_at)+"前に投稿" %>
+        <br>
         <!--GoogleMapの詳細ボタン-->
         <% if @post.lat.present? && @post.lng.present? %>
-          <button type="button" class="btn btn-primary" data-toggle="modal" data-target=".bd-example-modal-lg">
+          <button type="button" class="btn btn-primary mt-3" data-toggle="modal" data-target=".bd-example-modal-lg">
             GoogleMapを表示する
           </button>
         <% end %>
-        <%= link_to "投稿を編集する", edit_post_path(@post), class:"btn btn-info" if @post.user == current_user %>
+        <%= link_to "投稿を編集する", edit_post_path(@post), class:"btn btn-info mt-3" if @post.user == current_user %>
         <% unless @post.user == current_user %>
           <!--違反投稿のボタン-->
-          <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#testModal">投稿違反を報告する</button>
+          <button type="button" class="btn btn-danger mt-3 ml-4" data-toggle="modal" data-target="#testModal">投稿違反を報告する</button>
         <% end %>
       </div>
     </div>
   </div>
 
-  <div class="row">
-    <p>コメント件数<%= @post.comments.count %>件</p>
-    <div id="comment_area">
-      <%= render 'public/comments/post_comments', post: @post %>
+  <div class="row mt-5">
+    <div class="col-lg-6">
+      <%= form_with model: [@post, @comment], local: false do |f| %>
+        <div class="form-group">
+          <%= f.text_area :text, required: true, size: "35x2", placeholder: "コメント入力欄", class: "form-control" %>
+          <%= f.submit "コメントする", class:"btn btn-outline-success mt-2" %>
+        </div>
+      <% end %>
+    </div>
+  </div>
+  <div class="row mt-2">
+    <div class="col-lg-10">
+      <div id="comment_area">
+        <%= render 'public/comments/post_comments', post: @post %>
+      </div>
     </div>
   </div>
 
@@ -117,6 +125,7 @@
         <div class="modal-body">
           <div class="container-fluid">
             <div class="row">
+              <!--TODO style-->
               <div id='map' style="height: 600px; width: 600px;"></div>
             </div>
           </div>

@@ -1,33 +1,42 @@
 <div class="container">
-  <h4>ユーザーの編集</h4>
   <%= flash[:notice] if flash[:notice] %>
   <%= render 'layouts/error_messages', resource: @user %>
   <%= form_with model: @user, url: user_path(@user), method: :patch do |f| %>
-    <div class="row">
-      <table class="table table-borderless">
-        <thead>
-          <th></th>
-          <th></th>
-        </thead>
-        <tbody>
-          <tr>
-            <td><%= image_tag @user.get_profile_image(100, 100) %></td>
-            <td><%= f.file_field :profile_image, accept: "image/*" %></td>
-          </tr>
-          <tr>
-            <td><%= f.label :name, "ニックネーム" %></td>
-            <td><%= f.text_field :name %></td>
-          </tr>
-          <tr>
-            <td><%= f.label :name, "自己紹介文(最大100文字)" %></td>
-            <td><%= f.text_area :introduction, size: "30x5" %></td>
-          </tr>
-        </tbody>
-      </table>
+    <div class="row-reverse text-center">
+      <div class="mt-1">
+        <%= f.file_field :profile_image, accept: "image/*", required: true, onchange: "profileImage(this)" %>
+        <%= image_tag @user.get_profile_image(100, 100), class:"border border-dark rounded-circle", id:"profile_image" %>
+        <span id="preview"></span>
+      </div>
+      <div class="pt-5">
+        <span class="mr-5">
+          <%= f.label :name, "ニックネーム(最大10文字)" %>
+        </span>
+        <%= f.text_field :name, size: "30", required: true, maxlength: 10 %>
+      </div>
+      <div class="pt-5">
+        <span class="mr-5">
+          <%= f.label :name, "自己紹介文(最大100文字)" %>
+        </span>
+        <%= f.text_area :introduction, size: "30x5", required: true, maxlength: 100 %>
+      </div>
     </div>
-    <div class="row">
-      <%= f.submit "変更する", class:"col-lg-2" %>
-      <%= link_to "退会する", unsubscribe_user_path, class:"col-lg-2" %>
+    <div class="row-reverse text-center pt-3">
+      <%= f.submit "変更する", class:"btn btn-success mr-5" %>
+      <%= link_to "退会する", unsubscribe_user_path, class:"btn btn-danger ml-5" %>
     </div>
   <% end %>
 </div>
+
+<script>
+  function profileImage(obj){
+    let fileReader;
+    $('#preview').empty();
+		fileReader = new FileReader();
+		fileReader.onload = (function (e) {
+		  $('#profile_image').hide();
+			$('#preview').html('<img class="m-1 border border-dark rounded-circle profile_image" src="' + e.target.result + '">');
+		});
+		fileReader.readAsDataURL(obj.files[0]);
+  }
+</script>

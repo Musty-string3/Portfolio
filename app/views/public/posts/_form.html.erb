@@ -43,6 +43,7 @@
       </button>
 
       <div class="text-right">
+        <h1>Enterで投稿できなくしたい</h1>
         <% if @post.id == nil %>
           <%= f.button "投稿する", onkeypress: "return event.keyCode != 13;", id: "submit-btn", class:"btn btn-outline-info" %>
         <% else %>
