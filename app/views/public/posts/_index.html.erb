@@ -1,30 +1,22 @@
-<div class="row">
-  <div class="col-lg-6">
-    <% tag_counts.each do |tag_name, count| %>
-      <%= link_to tag_name[:name], tag_path(tag_name[:id]) %>
-      <%= "(#{count}件)" %>
-    <% end %>
-  </div>
-</div>
-<div class="row">
-  <table class="table table-bordered">
+<div class="card-deck">
+  <div class="row">
     <% posts.each do |post| %>
-      <tr>
-        <td>
-          <%= link_to user_path(post.user) do %>
-            <%= image_tag post.user.get_profile_image(40, 40), class:"border border-dark rounded-circle" %>
-            <%= post.user.name %>
-            <br>
-          <% end %>
-          <%= link_to post_path(post) do %>
-            <%= post.post_name %><br>
-
-            <!--投稿画像のスライドショー(swiper)-->
+      <div class="col-lg-4">
+        <div class="card" style="width: 350px;">
+          <div class="card-text">
+            <%= link_to user_path(post.user) do %>
+              <%= image_tag post.user.get_profile_image(40, 40), class:"border border-dark rounded-circle" %>
+              <%= post.user.name %>
+            <% end %>
+          </div>
+          <div class="posts_index">
             <div class="swiper">
               <div class="swiper-wrapper">
                 <% post.images.each do |image| %>
                   <div class="swiper-slide">
-                    <%= image_tag image, class: "post_index_images" %>
+                    <%= link_to post_path(post) do %>
+                      <%= image_tag image, class: "card-img-top post_index_images" %>
+                    <% end %>
                   </div>
                 <% end %>
               </div>
@@ -32,28 +24,25 @@
               <div class="swiper-btn swiper-button-prev"></div>
               <div class="swiper-btn swiper-button-next"></div>
             </div>
-          <% end %>
-        </td>
-        <td>
-          <%= post.explanation %><br>
-          <% post.tags.each do |tag| %>
-            <%= link_to tag_path(tag.id) do %>
-              #<%= tag.name %>
+          </div>
+          <div class="card-body">
+            <h5 class="card-title"><%= post.post_name %></h5>
+            <p class="card-text"><%= post.explanation %></p>
+            <% post.tags.each do |tag| %>
+              <%= link_to tag_path(tag.id) do %>
+                #<%= tag.name %>
+              <% end %>
             <% end %>
-          <% end %>
-          <br>
-          <!--いいね機能の非同期通信-->
-          <span id="post_<%= post.id %>"><%= render "public/likes/like", post: post %></span>
-          <%= link_to "#{post.comments.count}コメント", post_path(post.id) %>
-          <br>
-          <!--直近1週間のいいね数：<i class="fa-solid fa-heart"></i><%#= post.likes_in_week %>いいね-->
-          <!--<br>-->
-          <!--ビューカウント-->
-          <i class="fa-solid fa-eye"></i><%= post.view_counts.count %>
-          <br>
-          <i class="fa-regular fa-clock"></i><%= time_ago_in_words(post.created_at)+"前に投稿" %>
-        </td>
-      </tr>
+            <br>
+            <span id="post_<%= post.id %>"><%= render "public/likes/like", post: post %></span>
+            <%= link_to "#{post.comments.count}コメント", post_path(post.id) %>
+            <br>
+            <i class="fa-solid fa-eye"></i><%= post.view_counts.count %>
+            <br>
+            <i class="fa-regular fa-clock"></i><%= time_ago_in_words(post.created_at)+"前に投稿" %>
+          </div>
+        </div>
+      </div>
     <% end %>
-  </table>
+  </div>
 </div>

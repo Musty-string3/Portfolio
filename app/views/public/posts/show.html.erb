@@ -1,116 +1,131 @@
 <div class="container">
   <%= flash[:notice] if flash[:notice] %>
-  <div class="row">
-    <!--ユーザーのプロフィール画像と名前-->
-    <div class="offset-lg-1">
+  <div class="row" style="margin: 30px 0px;">
+    <div class="col-lg-5">
+      <!--ユーザーのプロフィール画像と名前-->
       <%= link_to user_path(@post.user.id) do %>
         <%= image_tag @post.user.get_profile_image(40, 40), class:"border border-dark rounded-circle" %>
         <%= @post.user.name %>
       <% end %>
+      <!--投稿画像-->
+      <div class="swiper">
+        <div class="swiper-wrapper">
+          <% @post.images.each do |image| %>
+            <div class="swiper-slide">
+              <%= image_tag image, class:"swiper_image"%>
+            </div>
+          <% end %>
+        </div>
+        <div class="swiper-pagination"></div>
+        <div class="swiper-btn swiper-button-prev"></div>
+        <div class="swiper-btn swiper-button-next"></div>
+      </div>
     </div>
-  </div>
 
-  <div class="row">
-    <!--投稿画像-->
-    <div class="offset-lg-1">
-      <% @post.images.each do |image| %>
-        <%= image_tag image, size: "150x100" %>
-      <% end %>
-    </div>
-    <!--投稿名、説明、タグ-->
-    <div class="offset-lg-1 col-lg-4">
-      <h5><%= @post.post_name %></h5>
-      <p><%= @post.explanation %></p>
+    <!--投稿名、説明、タグ、いいね機能、ビューカウント、コメント機能-->
+    <div class="offset-lg-1 col-lg-5" style="margin-top: 50px;">
+      <h3><%= @post.post_name %></h3>
+      <h4 style="margin-top: 20px;"><%= @post.explanation %></h4>
       <% @post.tags.each do |tag| %>
         <%= link_to tag_path(tag) do %>
           #<%= tag.name %>
         <% end %>
       <% end %>
-
-      <!--いいね機能(非同期通信)-->
-      <p id="post_<%= @post.id %>"><%= render "public/likes/like", post: @post %></p>
-
-      <i class="fa-solid fa-eye"></i><%= @post.view_counts.count %>
-      <br>
-      <i class="fa-regular fa-clock"></i><%= time_ago_in_words(@post.created_at)+"前に投稿" %>
-      <%= link_to "投稿を編集する", edit_post_path(@post), class:"btn btn-info" if @post.user == current_user %>
-
-      <!--ユーザー報告画面-->
-      <% unless @post.user == current_user %>
-        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#testModal">投稿違反を報告する</button>
-        <div class="modal fade" id="testModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-          <div class="modal-dialog" role="document">
-            <div class="modal-content">
-              <div class="modal-header">
-                <h4 class="modal-title" id="myModalLabel"><%= @post.post_name %>の報告</h4>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                  <!--モーダルウィンドウの×(閉じる)ボタン-->
-                  <span aria-hidden="true">&times;</span>
-                </button>
-              </div>
-              <%= form_with model: @violate do |f| %>
-                <div class="modal-body">
-                  <div class="form-group">
-                    <%= f.label :status, "違反の種類(必須)" %>
-                    <br>
-                    <%= f.radio_button :status, 'inappropriate' %>
-                    <%= f.label :status_inappropriate, "不正、不適切な投稿" %>
-                    <br>
-                    <%= f.radio_button :status, 'copyright_violation' %>
-                    <%= f.label :status_copyright_violation, "著作権違反" %>
-                    <br>
-                    <%= f.radio_button :status, 'slander' %>
-                    <%= f.label :status_slander, "誹謗中傷、悪口" %>
-                    <%= f.label :status, "違反の種類" %>
-                  </div>
-                  <div class="form-group">
-                     <%= f.label :text, "説明(任意)" %>
-                     <%= f.text_area :text,placeholder: "違反の詳細をお書きください。", class:"form-control" %>
-                     <%= f.hidden_field :post_id, value: @post.id %>
-                     <%= f.hidden_field :reported_id, value: @post.user.id %>
-                  </div>
-                </div>
-                <div class="modal-footer">
-                  <!--<button type="button" class="btn btn-default" data-dismiss="modal">戻る</button>-->
-                  <%= f.submit "送信", disabled: "true" , class:"btn btn-warning btn-lg text-dark", id:"submit-button" %>
-                </div>
-              <% end %>
-            </div>
+      <div style="margin-top: 10px;">
+        <span id="post_<%= @post.id %>"><%= render "public/likes/like", post: @post %></span><br>
+        <i class="fa-solid fa-eye"></i><%= @post.view_counts.count %>
+        <i class="fa-regular fa-clock" style="margin-left: 10px;"></i><%= time_ago_in_words(@post.created_at)+"前に投稿" %>
+        <%= form_with model: [@post, @comment], local: false do |f| %>
+          <div class="form-group">
+            <%= f.text_area :text, required: true, size: "35x2", placeholder: "コメント入力欄", class: "form-control" %>
+            <%= f.submit "コメントする", class:"btn btn-outline-success", style:"margin-top: 10px;" %>
           </div>
-        </div>
-      <% end %>
-
+        <% end %>
+        <!--GoogleMapの詳細ボタン-->
+        <% if @post.lat.present? && @post.lng.present? %>
+          <button type="button" class="btn btn-primary" data-toggle="modal" data-target=".bd-example-modal-lg">
+            GoogleMapを表示する
+          </button>
+        <% end %>
+        <%= link_to "投稿を編集する", edit_post_path(@post), class:"btn btn-info" if @post.user == current_user %>
+        <% unless @post.user == current_user %>
+          <!--違反投稿のボタン-->
+          <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#testModal">投稿違反を報告する</button>
+        <% end %>
+      </div>
     </div>
   </div>
 
-
   <div class="row">
-    <button type="button" class="btn btn-primary" data-toggle="modal" data-target=".bd-example-modal-lg">
-      GoogleMapを表示する
-    </button>
+    <p>コメント件数<%= @post.comments.count %>件</p>
+    <div id="comment_area">
+      <%= render 'public/comments/post_comments', post: @post %>
+    </div>
+  </div>
 
-    <!--GoogleMapのモーダルウィンドウ-->
-    <div class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-      <div class="modal-dialog" role="document">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title" id="exampleModalLabel">GoogleMap</h5>
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-              <span aria-hidden="true">&times;</span>
-            </button>
-          </div>
+  <!--ユーザー報告画面-->
+  <div class="modal fade" id="testModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title" id="myModalLabel"><%= @post.post_name %>の報告</h4>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <!--モーダルウィンドウの×(閉じる)ボタン-->
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <%= form_with model: @violate do |f| %>
           <div class="modal-body">
-            <div class="container-fluid">
-              <div class="row">
-                <div id='map' style="height: 600px; width: 600px;"></div>
-              </div>
+            <div class="form-group">
+              <%= f.label :status, "違反の種類(必須)" %>
+              <br>
+              <%= f.radio_button :status, 'inappropriate' %>
+              <%= f.label :status_inappropriate, "不正、不適切な投稿" %>
+              <br>
+              <%= f.radio_button :status, 'copyright_violation' %>
+              <%= f.label :status_copyright_violation, "著作権違反" %>
+              <br>
+              <%= f.radio_button :status, 'slander' %>
+              <%= f.label :status_slander, "誹謗中傷、悪口" %>
+              <%= f.label :status, "違反の種類" %>
+            </div>
+            <div class="form-group">
+               <%= f.label :text, "説明(任意)" %>
+               <%= f.text_area :text,placeholder: "違反の詳細をお書きください。", class:"form-control" %>
+               <%= f.hidden_field :post_id, value: @post.id %>
+               <%= f.hidden_field :reported_id, value: @post.user.id %>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <%= f.submit "送信", disabled: "true" , class:"btn btn-warning btn-lg text-dark", id:"submit-button" %>
+          </div>
+        <% end %>
+      </div>
+    </div>
+  </div>
+
+  <!--GoogleMapのモーダルウィンドウ-->
+  <div class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">GoogleMap</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <div class="container-fluid">
+            <div class="row">
+              <div id='map' style="height: 600px; width: 600px;"></div>
             </div>
           </div>
         </div>
       </div>
     </div>
+  </div>
 
-    <script>
+  <script>
     let map
     let marker
     function initMap(){
@@ -128,28 +143,8 @@
         map: map
       });
     }
-    </script>
-    <script src="https://maps.googleapis.com/maps/api/js?key=<%=ENV['GOOGLE_API_KEY']%>&callback=initMap" async defer></script>
-
-  </div>
-  <!--コメント機能-->
-  <div id="comment_area">
-    <div class="offset-lg-1">
-      <h5>コメントのupdate機能未実装</h5>
-      <p>コメント件数<%= @post.comments.count %>件</p>
-      <%= form_with model: [@post, @comment], local: false do |f| %>
-        <%= f.text_area :text, size: "35x2", placeholder: "コメント入力欄" %>
-        <br>
-        <%= f.submit "コメントする" %>
-      <% end %>
-    </div>
-    <%= render 'public/comments/post_comments', post: @post %>
-  </div>
-  <!--コメント機能ここまで-->
-
-  <div id="comments_error">
-    <%= render 'layouts/error_messages', resource: @comment %>
-  </div>
+  </script>
+  <script src="https://maps.googleapis.com/maps/api/js?key=<%=ENV['GOOGLE_API_KEY']%>&callback=initMap" async defer></script>
 </div>
 
 <script>

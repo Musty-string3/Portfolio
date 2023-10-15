@@ -94,8 +94,8 @@ function validateForm() {
     postImagesError.addClass('d-none');
   }
 
-  changeValidClass($("#post_post_name"), $(".valid-check").data("max-length")); // フォームチェック
-  changeValidClass($("#post_explanation"), $(".valid-check").data("max-length")); // フォームチェック
+  changeValidClass($("#post_post_name"), $("#post_post_name").data("max-length")); // フォームチェック
+  changeValidClass($("#post_explanation"), $("#post_explanation").data("max-length")); // フォームチェック
 
   // 対象のフォームにis-invalidが付与されていれば、
   // バリデーションエラーありと判定する

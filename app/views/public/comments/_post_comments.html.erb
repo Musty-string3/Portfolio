@@ -1,27 +1,18 @@
-<table class="table">
-  <% post.comments.each do |comment| %>
-    <tr>
-      <td class="offset-lg-1"></td>
-      <td>
-        <%= link_to user_path(comment.user) do %>
-          <%= image_tag comment.user.get_profile_image(25, 25), class:"border border-dark rounded-circle" %>
-          <% if comment.user == post.user %>
-            <%= comment.user.name %>(投稿者)
-          <% else %>
-            <%= comment.user.name %>
-          <% end %>
-        <% end %>
-      </td>
-      <td><%= comment.text %></td>
-      <td>
-        <div id="comment_likes_<%= comment.id %>">
-          <%= render 'public/comment_likes/comment_likes', post: post, comment: comment %>
-        </div>
-      </td>
-      <td>
-        <%= comment.created_at.strftime('%Y/%m/%d %H:%M') %>
-        <%= link_to "コメントを削除", post_comment_path(comment.post, comment), method: :delete, remote: true if comment.user == current_user %>
-      </td>
-    </tr>
+<% post.comments.each do |comment| %>
+  <%= link_to user_path(comment.user) do %>
+    <%= image_tag comment.user.get_profile_image(30, 30), class:"border border-dark rounded-circle" %>
+    <% if comment.user == post.user %>
+      <%= comment.user.name %>(投稿者)
+    <% else %>
+      <%= comment.user.name %>
+    <% end %>
   <% end %>
-</table>
+  <%= comment.created_at.strftime('%Y/%m/%d %H:%M') %>
+  <%= link_to "コメントを削除", post_comment_path(comment.post, comment), method: :delete, remote: true if comment.user == current_user %>
+  <div class="d-flex">
+    <%= comment.text %>
+    <div id="comment_likes_<%= comment.id %>">
+      <%= render 'public/comment_likes/comment_likes', post: post, comment: comment %>
+    </div>
+  </div>
+<% end %>
