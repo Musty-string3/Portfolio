@@ -1,8 +1,19 @@
 <div class="container">
-  <h4>投稿の編集</h4>
-  <div class="row">
-    <%= render 'layouts/error_messages', resource: @post %>
-    <%= render 'form', post: @post %>
-    <%= link_to "この投稿を削除する", post_path(@post.id), method: :delete %>
-  </div>
+  <%= render 'layouts/error_messages', resource: @post %>
+  <%= render 'form', post: @post %>
 </div>
+
+<script>
+  function postImage(obj){
+    let fileReader;
+    $('#edit_preview').empty();
+    for (let i = 0; i < obj.files.length; i++) {
+    	fileReader = new FileReader();
+    	fileReader.onload = (function (e) {
+    	  $('#postImage').hide();
+    		$('#edit_preview').append('<img class="m-1 preview_img border border-secondary rounded" src="' + e.target.result + '">');
+    	});
+    	fileReader.readAsDataURL(obj.files[i]);
+    }
+  }
+</script>

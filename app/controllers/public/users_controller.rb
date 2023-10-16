@@ -13,15 +13,14 @@ class Public::UsersController < ApplicationController
     tags = User.tag_joins_posts.where(posts: {user_id: @user})
     @tags = set_tag_count(tags)
     # DMしている人数
-    @entries = Entry.where(user_id: @user.id).count
+    @entries_count = Entry.where(user_id: @user.id).count
     # DM機能
-    current_user_entry = Entry.where(user_id: current_user)
-    user_entry = Entry.where(user_id: @user)
+    current_user_entry = Entry.where(user_id: current_user.id)
+    user_entry = Entry.where(user_id: @user.id)
     @isRoom = false
     unless @user == current_user
       current_user_entry.each do |current|
         user_entry.each do |user|
-          # ログインユーザーとフォローしているユーザーのroom_idが一致した場合
           if current.room_id == user.room_id
             @isRoom = true
             @room_id = current.room_id

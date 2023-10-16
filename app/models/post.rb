@@ -28,14 +28,8 @@ class Post < ApplicationRecord
 
   # タグ機能
   def save_tag(sent_tags)
-
-    # タグが存在していれば、タグの名前を配列として全て取得 pluck=カラムの中身を展開
     current_tags = self.tags.pluck(:name) unless self.tags.nil?
-
-    # ↑で取得したタグ(current_tags)から送られてきたタグ(sent_tags)を除いたタグがoldtag
     old_tags = current_tags - sent_tags
-
-    # 送信されてきたタグ(sent_tags)から現在存在するタグ(current_tags)を除いたタグがnew_tags
     new_tags = sent_tags - current_tags
 
     # 古いタグ(old_tags)を消す

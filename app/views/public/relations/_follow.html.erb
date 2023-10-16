@@ -1,16 +1,35 @@
-フォロー中
-<%= link_to user_followings_path(@user) do %>
-  <%= @user.followings.count %>
-<% end %>
-フォロワー 
-<%= link_to user_followers_path(@user) do %>
-  <%= @user.followers.count %>
-<% end %>
+<span>
+  フォロー中
+  <%= link_to user_followings_path(user) do %>
+    <%= user.followings.count %>
+  <% end %>
+</span>
+<span>
+  フォロワー
+  <%= link_to user_followers_path(user) do %>
+    <%= user.followers.count %>
+  <% end %>
+</span>
 
 <% unless user == current_user %>
   <% if current_user.follow?(user) %>
     <%= link_to "フォローを解除する", user_relations_path(user), method: :delete, remote: true %>
   <% else %>
     <%= link_to "フォローする", user_relations_path(user), method: :post, remote: true %>
+  <% end %>
+<% end %>
+
+<% if user != current_user && (room_id || (current_user.follow?(user) && user.follow?(current_user))) %>
+  <% if isRoom %>
+    <%= link_to room_path(room_id) do %>
+      <br><i class="fa-regular fa-envelope"></i>
+    <% end %>
+  <% else %>
+   <%= form_with model: room, url: rooms_path, method: :post do |f| %>
+     <%= fields_for entry do |entry| %>
+       <%= entry.hidden_field :user_id, value: user.id %>
+     <% end %>
+     <%= f.submit "チャットを始めてみよう！", class:"btn btn-outline-success" %>
+   <% end %>
   <% end %>
 <% end %>

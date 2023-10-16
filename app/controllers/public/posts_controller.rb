@@ -28,8 +28,7 @@ class Public::PostsController < ApplicationController
 
   def create
     @post = current_user.posts.new(post_params)
-    # 受け取った値を,で区切って配列にする。split=分割して配列を作る
-    tag_list = params[:post][:tag].split('、')
+    tag_list = params[:post][:tag].split('　')
     if @post.save
       @post.save_tag(tag_list)
       redirect_to post_path(@post), notice: "投稿されました！"

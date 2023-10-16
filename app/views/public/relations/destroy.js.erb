@@ -1,1 +1,1 @@
-$('#follow_<%= @user.id %>').html("<%= j(render 'public/relations/follow', user: @user) %>");
+$("#follow_<%= @user.id %>").html("<%= j(render 'public/relations/follow', user: @user,  isRoom: @isRoom, room_id: @room_id, room: @room, entry: @entry) %>");

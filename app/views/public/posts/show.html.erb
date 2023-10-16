@@ -2,7 +2,7 @@
   <div class="border-top pb-3"></div>
   <%= flash[:notice] if flash[:notice] %>
   <div class="row">
-    <div class="col-lg-5 mt-2">
+    <div class="col-lg-6 mt-2">
       <!--ユーザーのプロフィール画像と名前-->
       <%= link_to user_path(@post.user.id) do %>
         <%= image_tag @post.user.get_profile_image(40, 40), class:"border border-dark rounded-circle" %>
@@ -13,7 +13,7 @@
         <div class="swiper-wrapper">
           <% @post.images.each do |image| %>
             <div class="swiper-slide">
-              <%= image_tag image, class:"swiper_image"%>
+              <%= image_tag image, class:"swiper_image border rounded border-secondary"%>
             </div>
           <% end %>
         </div>

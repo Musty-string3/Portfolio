@@ -14,7 +14,7 @@ function loadImage(obj){
 		fileReader = new FileReader();
 		fileReader.onload = (function (e) {
 		  // idがpreviewを探し、その箇所に要素を追加(append)していく
-			$('#preview').append('<img class="m-1 preview_img" src="' + e.target.result + '">');
+			$('#preview').append('<img class="m-1 preview_img border border-secondary rounded" src="' + e.target.result + '">');
 			$('#images_check_field').show();
 		});
 		fileReader.readAsDataURL(obj.files[i]);
@@ -186,6 +186,12 @@ jQuery(document).on('turbolinks:load', function(){
     $(".valid-check").on("blur input", function () {
       const max_length = $(this).data("max-length");
       changeValidClass($(this), max_length);
+    });
+
+    $(document).on("keypress", function(event) {
+      if (event.keyCode === 13) {
+        return false;
+      }
     });
   });
 });

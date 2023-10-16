@@ -13,13 +13,9 @@
       ・・・
      </div>
   </div>
-  <% if @messages.present? %>
-    <div id="messages">
-      <%= render 'public/messages/messages', messages: @messages %>
-    </div>
-  <% else %>
-      初めてのチャットを送ってみよう！！
-  <% end %>
+  <div id="messages">
+    <%= render 'public/messages/messages', messages: @messages %>
+  </div>
   <div class="row">
     <%= form_with model: @message, url: messages_path, method: :post, local: false do |f| %>
       <%= f.text_field :text, size: 50, placeholder: "メッセージを入力してください" %>

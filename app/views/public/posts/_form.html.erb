@@ -1,13 +1,27 @@
 <%= form_with model: post, html: {onsubmit: "return validateForm()"} do |f| %>
   <div class="row">
-    <div class="offset-lg-2 col-lg-8">
+    <div class="offset-lg-1 col-lg-10">
       <!--投稿画像の設定-->
       <div class="form-group">
         <%= f.label :images, "画像(6枚まで投稿可)" %>
         <span class="form_essential">※必須</span>
         <br>
-        <%= f.file_field :images, accept: "image/*", required: true, multiple: true, onchange: "loadImage(this)" %>
-        <div id="preview"></div>
+        <% if post.id.nil? %>
+          <%= f.file_field :images, accept: "image/*", required: true, multiple: true, onchange: "loadImage(this)" %>
+          <div id="preview"></div>
+        <% else %>
+          <div class="mb-2">
+            <%= f.file_field :images, accept: "image/*", required: true, multiple: true, onchange: "postImage(this)" %><br>
+          </div>
+          <!--存続の投稿画像の表示-->
+          <div id="postImage">
+            <% post.images.each do |image| %>
+              <%= image_tag image, class:"preview_img border border-secondary rounded ml-1"%>
+            <% end %>
+          </div>
+          <!--編集にて投稿画像を変更する場合に画像が変化する-->
+          <div id="edit_preview"></div>
+        <% end %>
         <div id="error_message_post_image" class="text-danger"></div>
       </div>
 
@@ -15,22 +29,23 @@
       <div class="form-group">
         <%= f.label :post_name, "投稿名(20文字以内)" %>
         <span class="form_essential">※必須</span>
-        <%= f.text_field :post_name, required: true, data: {'max-length' => 20}, class: "form-control valid-check" %>
+        <%= f.text_field :post_name, required: true, data: {'max-length' => 20}, class: "form-control valid-check w-75" %>
         <div><span id="name_countUp">0</span>/20文字</div>
+        <h4>編集の際に0文字になってる</h4>
       </div>
 
       <!--投稿の説明の設定-->
       <div class="form-group">
         <%= f.label :explanation, "投稿の説明(100文字以内)" %>
         <span class="form_essential">※必須</span>
-        <%= f.text_area :explanation, required: true, data: {'max-length' => 100}, class: "form-control valid-check" %>
+        <%= f.text_area :explanation, required: true, data: {'max-length' => 100}, class: "form-control valid-check w-75" %>
         <div><span id="explanation_countUp">0</span>/100文字</div>
       </div>
 
       <!--タグの設定-->
       <div class="form-group">
         <%= f.label :tag, "タグ (全角の空白で区切ると複数タグ登録できます)" %>
-        <%= f.text_field :tag, placeholder: "タグを入力", class: "form-control" %>
+        <%= f.text_field :tag, placeholder: "タグを入力", class: "form-control w-75" %>
       </div>
       <!--入力したタグの表示-->
       <div>
@@ -42,12 +57,12 @@
         GoogleMapを使って場所を指定する
       </button>
 
-      <div class="text-right">
-        <h1>Enterで投稿できなくしたい</h1>
+      <div class="text-left ml-2 mt-4">
         <% if @post.id == nil %>
-          <%= f.button "投稿する", onkeypress: "return event.keyCode != 13;", id: "submit-btn", class:"btn btn-outline-info" %>
+          <%= f.button "投稿する", onclick: 'submit()', id: "submit-btn", class:"btn btn-outline-info" %>
         <% else %>
-          <%= f.button "投稿を更新する", id: "submit-btn", class:"btn btn-outline-info" %>
+          <%= f.button "投稿を更新する", id: "submit-btn", class:"mr-4 btn btn-outline-info" %>
+          <%= link_to "この投稿を削除する", post_path(@post.id), method: :delete, data: {confirm: "削除しますか？"}, class:"btn btn-outline-danger" %>
         <% end %>
       </div>
 
@@ -70,7 +85,7 @@
             </div>
             <div class="modal-body">
               <input id="address" type="text" placeholder="清水寺">
-              <input type="button" value="検索" onclick="codeAddress()">
+              <input type="submit" value="検索" onclick="codeAddress()">
               <span>検索をするとマーカーが使えるようになります。</span>
               <div class="container-fluid">
                 <div class="row">
