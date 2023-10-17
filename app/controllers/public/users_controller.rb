@@ -56,17 +56,15 @@ class Public::UsersController < ApplicationController
   end
 
   def likes
+    # 自身がいいねした投稿
     @posts = Post.includes(:likes).where(likes: {user_id: current_user.id}).where.not(user_id: current_user.id)
-    #Postに紐付いたlikesテーブルの中で自身がいいねした投稿を取り出す
-    #where(likes: {user_id: current_user.id})でlikesテーブルのuser_id(current_user)がある部分を全取得する
     tags = User.tag_joins_posts.where(posts: {id: @posts.ids})
     @tags = set_tag_count(tags)
   end
 
   def timeline
+    # フォローしているユーザーの全ての投稿を取得する
     @posts = Post.where(user_id: [*current_user.followings.ids])
-    #postsテーブルのuser_id(ログインしているユーザー)のフォローしているユーザーの全ての投稿を取得する
-    #[*]は[1, 2, 3]と同じ意味で、末尾の.idsはwhereメソッドを使っているため複数のidを取得するから(idの複数形がids)
     tags = User.tag_joins_posts.where(posts: {user_id: [*current_user.followings.ids]})
     @tags = set_tag_count(tags)
   end

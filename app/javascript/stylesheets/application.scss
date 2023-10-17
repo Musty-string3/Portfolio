@@ -93,3 +93,12 @@
 	height: 200px;
 	background-color: red;
 }
+
+.rooms_index {
+	display: flex;
+  flex-wrap: wrap;
+  margin-right: -15px;
+  margin-left: -15px;
+  flex-direction: row;
+  justify-content: center;
+}

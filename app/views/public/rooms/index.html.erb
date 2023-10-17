@@ -1,21 +1,33 @@
+<!--連絡を取り合っている人の一覧画面-->
 <div class="container">
-  <h5 class="offset-lg-3">あなたと連絡を取り合っているユーザー数は<%= @entries.count %>人です</h5>
-  <table class="table">
-    <tbody>
-      <% @another_entries.each do |entry| %>
-        <tr onclick='window.location="<%= room_path(entry.room.id) %>"' role="link">
-          <td class="offset-lg-2"></td>
-          <td class="col-lg-1">
-            <%= image_tag entry.user.get_profile_image(40, 40), class:"border border-dark rounded-circle" %>
-          </td>
-          <td class="col-lg-6">
-            <%= entry.user.name %><br>
-            <%= entry.user.introduction %>
-          </td>
-          <td class="col-lg-1"><%= time_ago_in_words(entry.created_at)+'前' %></td>
-          <td class="offset-lg-2"></td>
-        </tr>
-      <% end %>
-    </tbody>
-  </table>
+  <div class="rooms_index">
+    <h5>あなたと連絡を取り合っているユーザー数は<%= @entries.count %>人です</h5>
+    <!--DMしているユーザー一覧-->
+    <table class="table table-hover">
+      <tbody>
+        <% @another_entries.each do |entry| %>
+          <tr onclick='window.location="<%= room_path(entry.room.id) %>"' role="link">
+            <td class="col-2" style="border-top: none;"></td>
+            <td class="col-6">
+              <div class="row">
+                <div class="col-2">
+                  <%= image_tag entry.user.get_profile_image(40, 40), class:"border border-dark rounded-circle" %>
+                </div>
+                <div class="pl-3 col-10">
+                  <div class="row">
+                    <div class="col-3"><span class="h5"><%= entry.user.name %></span></div>
+                    <div class="col-9">
+                      <p><%= truncate(entry.user.introduction, length: 20, omission: "...") %></p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </td>
+            <td class="col-2"><%= time_ago_in_words(entry.created_at)+'前' %></td>
+            <td class="col-2" style="border-top: none;"></td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
 </div>
