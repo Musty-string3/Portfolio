@@ -1,26 +1,38 @@
-<% messages.each do |message| %>
-  <div class="row mt-3 mb-3">
-    <div class="col-2"></div>
-    <!--相手側-->
-    <% unless message.user.id == current_user.id %>
-      <!--相手のプロフィール画像-->
-      <div class="col-1 text-right">
-        <%= image_tag message.user.get_profile_image(35, 35), class:"border border-dark rounded-circle" %>
-      </div>
-      <!--相手からのメッセージ-->
-      <div class="text-right">
-        <div class="p-3 bg-info text-white rounded-pill"><%= message.text %></div>
-        <p class="text-left"><%= time_ago_in_words(message.created_at)+'前'%></p>
-      </div>
-    <!--相手側ここまで-->
-
-    <!--ログインユーザー側-->
-    <% else %>
-    <div class="col-5"></div>
-      <div class="p-3 mb-2 bg-primary text-white rounded-pill"><%= message.text %></div>
-      <p class="text-left"><%= time_ago_in_words(message.created_at)+'前'%></p>
-    <% end %>
-    <!--ログインユーザー側ここまで-->
-
-  </div>
-<% end %>
+<ul class="dm-messages">
+  <% messages.each do |message| %>
+    <li class="mb-4">
+      <% unless message.user.id == current_user.id %>
+      <!--相手側-->
+        <div class="dm-other-size">
+          <div class="d-flex dm-image">
+            <!--相手のプロフィール画像-->
+            <div>
+              <%= image_tag message.user.get_profile_image(35, 35), class:"border border-dark rounded-circle" %>
+            </div>
+            <!--相手からのメッセージ-->
+            <div>
+              <div class="bg-info text-white p-2 rounded">
+                <%= message.text %>
+              </div>
+              <div class="text-right dm-time-ago">
+                <%= time_ago_in_words(message.created_at)+'前'%>
+              </div>
+            </div>
+          </div>
+        </div>
+      <!--相手側ここまで-->
+      <% else %>
+      <!--ログインユーザー側-->
+        <div class="dm-current_user">
+          <div class="d-flex justify-content-end">
+            <div>
+              <div class="bg-primary text-white p-2 rounded"><%= message.text %></div>
+              <div class="text-left dm-time-ago"><%= time_ago_in_words(message.created_at)+'前'%></div>
+            </div>
+          </div>
+        </div>
+        <!--ログインユーザー側ここまで-->
+      <% end %>
+    </li>
+  <% end %>
+</ul>

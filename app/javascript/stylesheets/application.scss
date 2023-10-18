@@ -102,3 +102,32 @@
   flex-direction: row;
   justify-content: center;
 }
+
+.dm-form {
+	max-width:800px;
+	margin: 20px auto;
+}
+
+.dm-messages {
+	list-style:none;
+	max-width:800px;
+	padding-left:0;
+	margin: 20px auto;
+}
+
+.dm-current_user {
+	width:350px;
+	margin-left:auto;
+}
+
+.dm-time-ago {
+	font-size: 0.8em;
+}
+
+.dm-other-size {
+	width:400px;
+}
+
+.dm-image {
+	column-gap:13px;
+}

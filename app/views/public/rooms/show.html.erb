@@ -9,28 +9,25 @@
       <%= @another_entry.user.name %>さんのチャットルームです
     </p>
   </div>
-  
+
   <!--メッセージの表示-->
   <div id="messages">
     <%= render 'public/messages/messages', messages: @messages %>
   </div>
 
   <!--メッセージ入力フィールド-->
-  <%= form_with model: @message, url: messages_path, method: :post, local: false do |f| %>
-    <div class="row">
-      <div class="col-1"></div>
-      <div class="col-9">
-        <div class="form-group">
+  <div class="dm-form">
+
+    <%= form_with model: @message, url: messages_path, method: :post, local: false do |f| %>
+      <div class="row">
+        <div class="col-9 col-sm-10">
           <%= f.text_field :text, placeholder: "メッセージを入力してください", class:"w-100 form-control" %>
           <%= f.hidden_field :room_id, value: @room.id %>
         </div>
-      </div>
-      <div class="col-1">
-        <div class="form-group">
-          <%= f.submit "送信", class:"rounded-pill btn btn-success", style:"margin-left: -20px;" %>
+        <div class="col-3 col-sm-2 pl-0">
+          <%= f.submit "送信", class:"rounded-pill btn btn-success w-100" %>
         </div>
       </div>
-      <div class="col-1"></div>
-    </div>
-  <% end %>
+    <% end %>
+  </div>
 </div>
