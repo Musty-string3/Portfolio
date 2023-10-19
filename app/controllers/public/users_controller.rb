@@ -55,20 +55,6 @@ class Public::UsersController < ApplicationController
     redirect_to root_path, notice: "退会処理を実行いたしました"
   end
 
-  def likes
-    # 自身がいいねした投稿
-    @posts = Post.includes(:likes).where(likes: {user_id: current_user.id}).where.not(user_id: current_user.id)
-    tags = User.tag_joins_posts.where(posts: {id: @posts.ids})
-    @tags = set_tag_count(tags)
-  end
-
-  def timeline
-    # フォローしているユーザーの全ての投稿を取得する
-    @posts = Post.where(user_id: [*current_user.followings.ids])
-    tags = User.tag_joins_posts.where(posts: {user_id: [*current_user.followings.ids]})
-    @tags = set_tag_count(tags)
-  end
-
   private
 
   def set_current_user

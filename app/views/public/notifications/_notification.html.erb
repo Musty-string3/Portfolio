@@ -1,25 +1,30 @@
-<table class="table table-hover">
+<!--通知一覧-->
+<ul class="text-left pl-0">
   <% notifications.each do |notification| %>
-    <tr>
-      <td class="offset-lg-4 ">
-        <%= link_to user_path(notification.visitor.id) do %>
-          <%= image_tag notification.visitor.get_profile_image(40, 40), class:"border border-dark rounded-circle" %>
-          <%= notification.visitor.name %>
-        <% end %>さんが
-        <!--いいね通知-->
-        <% if notification.action == 'like' %>
-          <%= link_to "あなたの投稿", post_path(notification.post_id) %>
-          にいいねしました。
-        <!--コメント通知-->
-        <% elsif notification.action == 'comment' %>
-          <%= link_to notification.visited.name+"の投稿", post_path(notification.comment.post) %>
-          にコメントしました。
-        <!--フォロー通知-->
-        <% else %>
-          あなたをフォローしました。
-        <% end %>
-        <i class="fa-regular fa-clock"></i><%= time_ago_in_words(notification.created_at) %>前
-      </td>
-    </tr>
+    <li class="border-bottom pb-1 pt-1" style="list-style: none;">
+      <!--ユーザーのアイコンと名前-->
+      <%= link_to user_path(notification.visitor.id) do %>
+        <%= image_tag notification.visitor.get_profile_image(50, 50), class:"border border-dark rounded-circle" %>
+        <span class="h5"><%= notification.visitor.name %></span>
+      <% end %>さんが
+      <!--いいね通知-->
+      <% if notification.action == 'like' %>
+        <%= link_to notification.post.post_name, post_path(notification.post_id) %>
+        の投稿にいいねしました。
+      <!--コメント通知-->
+      <% elsif notification.action == 'comment' %>
+        <%= link_to notification.post.post_name, post_path(notification.comment.post) %>
+        の投稿にコメントしました。
+        <i class="pr-1 fa-regular fa-clock"></i><%= time_ago_in_words(notification.created_at) %>前
+        <br>
+        <span class="pl-5 ml-2">「<%= notification.comment.text%>」</span>
+      <!--フォロー通知-->
+      <% else %>
+        あなたをフォローしました。
+      <% end %>
+      <% unless notification.action == 'comment' %>
+        <i class="pr-1 fa-regular fa-clock"></i><%= time_ago_in_words(notification.created_at) %>前
+      <% end %>
+    </li>
   <% end %>
-</table>
+</ul>

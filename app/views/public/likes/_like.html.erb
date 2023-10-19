@@ -1,5 +1,4 @@
 <% if post.like?(current_user) %>
-  <!--remote: trueでHTMLリクエストではなくJSのリクエストがlikesコントローラ側に送られる-->
   <%= link_to post_likes_path(post), method: :delete, remote: true do %>
     <i class="fa-solid fa-heart"></i><%= post.likes.count %>いいね
   <% end %>

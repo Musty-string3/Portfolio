@@ -1,27 +1,42 @@
+<!--検索結果一覧画面-->
 <div class="container">
   <% if @model == 'user' %>
-    <div class="d-flex">
-      <% unless @keyword == '' %>
-        <h5>検索名：<%= @keyword %>（ユーザー）</h5>
-      <% else %>
-        <h5>検索名：全ユーザー</h5>
-      <% end %>
-      <p>（マッチした検索数<%= @records.count %>件）</p>
-    </div>
+    <h4 class="d-flex justify-content-center">
+      ユーザー検索
+      <div class="h5 ml-3 mt-1">
+        検索名：<%= @keyword %>
+        <% if @keyword.present? %>
+          <span class="h6">
+            （マッチした検索数<%= @records.count %>件）
+          </span>
+        <% else %>
+          全ユーザー
+        <% end %>
+      </div>
+    </h4>
+
+    <!--ユーザーの表示-->
     <% if @records.present? %>
       <%= render 'layouts/search_user', users: @records %>
     <% else %>
-      検索したユーザーは見つかりませんでした。
+      検索した投稿は見つかりませんでした。
     <% end %>
+
   <% elsif @model == 'post' %>
-    <div class="d-flex">
-      <% unless @keyword == '' %>
-        <h5>検索名：<%= @keyword %>（投稿）</h5>
-      <% else %>
-        <h5>検索名：全投稿</h5>
-      <% end %>
-      <p>（マッチした検索数<%= @records.count %>件）</p>
-    </div>
+    <h4 class="d-flex justify-content-center">
+      投稿検索
+      <div class="h5 ml-3 mt-1">
+        検索名：<%= @keyword %>
+        <% if @keyword.present? %>
+          <span class="h6">
+            （マッチした検索数<%= @records.count %>件）
+          </span>
+        <% else %>
+          全投稿
+        <% end %>
+      </div>
+    </h4>
+    <!--投稿の表示-->
     <% if @records.present? %>
       <%= render 'layouts/search_post', posts: @records %>
     <% else %>

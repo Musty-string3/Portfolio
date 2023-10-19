@@ -70,6 +70,16 @@ class Public::PostsController < ApplicationController
     redirect_to posts_path
   end
 
+  # いいねした投稿
+  def likes
+    @posts = Post.includes(:likes).where(likes: {user_id: current_user.id}).where.not(user_id: current_user.id)
+  end
+
+  def timeline
+    # フォローしているユーザーの全ての投稿を取得する
+    @posts = Post.where(user_id: [*current_user.followings.ids])
+  end
+
 
   private
 

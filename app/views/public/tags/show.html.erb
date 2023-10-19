@@ -1,49 +1,11 @@
 <div class="container">
-  <div class="row">
-    <div class="offset-lg-2 d-flex">
-      <h5>"<%= @tag.name %>"タグの投稿一覧</h5>
-      <p>(<%= @posts.count %>件)</p>
-    </div>
+  <div class="text-center">
+    <h4>
+      "<%= @tag.name %>"タグの投稿一覧
+      <span class="h6">
+        (<%= @posts.count %>件)
+      </span>
+    </h4>
   </div>
-  <div class="row">
-    <table class="table table-bordered">
-      <% @posts.each do |post| %>
-        <tr>
-          <td>
-            <%= link_to user_path(post.user) do %>
-              <%= image_tag post.user.get_profile_image(40, 40), class:"border border-dark rounded-circle" %>
-              <%= post.user.name %>
-              <br>
-            <% end %>
-            <%= link_to post_path(post) do %>
-              <%= post.post_name %>
-              <div class="swiper">
-                <div class="swiper-wrapper">
-                  <% post.images.each do |image| %>
-                    <div class="swiper-slide">
-                      <%= image_tag image, class: "post_index_images" %>
-                    </div>
-                  <% end %>
-                </div>
-                <div class="swiper-pagination"></div>
-                <div class="swiper-btn swiper-button-prev"></div>
-                <div class="swiper-btn swiper-button-next"></div>
-              </div>
-            <% end %>
-          </td>
-          <td>
-            <%= post.explanation %><br>
-            <% post.tags.each do |tag| %>
-              <%= link_to tag_path(tag.id) do %>
-                #<%= tag.name %>
-              <% end %>
-            <% end %>
-            <br>
-            <span id="post_<%= post.id %>"><%= render "public/likes/like", post: post %></span>
-            <%= link_to "#{post.comments.count}コメント", post_path(post.id) %>
-          </td>
-        </tr>
-      <% end %>
-    </table>
-  </div>
+  <%= render 'public/posts/index', posts: @posts %>
 </div>

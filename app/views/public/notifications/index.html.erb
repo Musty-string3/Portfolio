@@ -1,7 +1,8 @@
+<!--通知画面-->
 <div class="container">
-   <% if @notifications.present? %>
-     <%= render 'notification', notifications: @notifications %>
-    <% else %>
-      <h4>通知はありません。</h4>
-   <% end %>
+  <% if @notifications.present? %>
+    <%= render 'notification', notifications: @notifications %>
+  <% else %>
+    <h4>通知はありません。</h4>
+  <% end %>
 </div>

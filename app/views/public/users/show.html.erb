@@ -1,3 +1,4 @@
+<!--ユーザーページ-->
 <div class="container">
   <%= flash[:notice] if flash[:notice] %>
   <div class="row">
@@ -14,7 +15,7 @@
             <span class="float-right">
               <% if @user == current_user %>
                 <%= link_to "編集", edit_user_path(@user), class:"btn btn-outline-success" %>
-                <%= link_to "いいねした一覧", likes_user_path(@user), class:"btn btn-outline-info" %>
+                <%= link_to "いいねした一覧", likes_post_path(@user), class:"btn btn-outline-info" %>
               <% end %>
             </span>
           </h3>

@@ -27,8 +27,6 @@ Rails.application.routes.draw do
         get 'edit_information', as: 'edit'
         get 'unsubscribe'
         patch 'withdrawal'
-        get :likes  # いいね一覧
-        get 'timeline'
       end
       resource :relations, only: %i[create destroy]
       get 'followings', to: 'relations#followings', as: 'followings'
@@ -38,6 +36,10 @@ Rails.application.routes.draw do
       resource :likes, only: %i[create destroy]
       resources :comments, only: %i[create destroy] do
         resource :comment_likes, only: %i[create destroy]
+      end
+      member do
+        get :likes  # いいね一覧
+        get 'timeline'
       end
     end
     resources :tags, only: %i[show]
