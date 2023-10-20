@@ -59,11 +59,11 @@ class User < ApplicationRecord
   def full_name
     "#{first_name} #{last_name}"
   end
-
-  has_one_attached :profile_image
-
-
+  
   # ユーザーのプロフィール画像
+  has_one_attached :profile_image
+  
+  # プロフィール画像のサイズを指定
   def get_profile_image(width, height)
     unless profile_image.attached?
       file_path = Rails.root.join('app/assets/images/profile_image.jpg')

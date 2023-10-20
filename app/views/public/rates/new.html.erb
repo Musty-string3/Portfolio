@@ -1,70 +1,69 @@
+<!--ユーザーのサイトレビュー画面-->
 <div class="container">
   <% unless @is_rate %>
-    <div class="row">
-      <h5>このサイトを使ってみた感想を教えてください</h5>
-    </div>
-    <div class="row">
-      <!--TODO-->
-      <% if flash[:danger] %>
-        <% flash[:danger].each do |error| %>
-          <%= error %>
-        <% end %>
-      <% end %>
-    </div>
-    <div class="row">
+    <h3 class="pb-3">このサイトを使ってみた感想を教えてください</h3>
       <%= form_with model: @rate do |f| %>
-
-        <!--星5評価-->
-        <div class="form-group">
+      <!--星5評価-->
+      <div class="form-group">
+        <h5>
           <%= f.label "使ってみた評価をお願いします。" %>
-          <span style="color: red; font-size: 12px;">※必須</span>
-          <%= f.hidden_field :star, id: :review_star %>
-          <div id="rate"></div>
-        </div>
-
-        <!--評価に対する意見、要望-->
-        <div class="form-group">
+          <span class="form_essential text-danger">※必須</span>
+        </h5>
+        <%= f.hidden_field :star, id: :review_star %>
+        <div id="rate" class="pl-3"></div>
+      </div>
+      <!--評価に対する意見、要望-->
+      <div class="form-group">
+        <h5>
           <%= f.label :text, "評価に対する意見があればお聞かせください。" %>
-          <span style="font-size: 12px;">※任意</span>
-          <%= f.text_area :text, placeholder: "意見、要望があればお願いします", class:"form-control" %>
+          <span class="form_essential text-dark">※任意</span>
+        </h5>
+        <!--テキスト入力欄-->
+        <div class="row">
+          <div class="col-sm-12 col-md-8 col-lg-6 pl-4">
+            <%= f.text_area :text, placeholder: "意見、要望があればお願いします", class:"form-control" %>
+          </div>
         </div>
-        <%= f.submit "送信する", html: {onclick: "return check()"} %>
-      <% end %>
-    </div>
+      </div>
+      <%= f.submit "送信する", disabled: "true", html: {onclick: "return check()"}, class:"ml-2 btn btn-success btn-lg", id:"submit" %>
+    <% end %>
   <% else %>
-    <div class="row">
-      <h5>
-        評価をありがとうございました！<br>
-        皆様からのレビューを参考に、よりよいサイト作りをしていきます！
-      </h5>
-      <span>
-        既に評価をいただいていますため、
-        <%= link_to "こちら", user_path(current_user.id) %>
-        からマイページへお戻りください。
-      </span>
-    </div>
+    <h5>
+      評価をありがとうございました！<br>
+      皆様からのレビューを参考に、よりよいサイト作りをしていきます！
+    </h5>
+    <span>
+      既に評価をいただいていますため、
+      <%= link_to "こちら", user_path(current_user.id) %>
+      からマイページへお戻りください。
+    </span>
   <% end %>
 </div>
 
+<!--TODO scriptここでいいの？-->
 <script>
-
+  // 星の表示
   $(document).on('turbolinks:load', function() {
     let elem = document.getElementById('rate');
-    // document.querySelector('#post_raty');でも可能
-
     if (!elem) return;
-    // elem(id=rate)の場所が存在しない場合は下記の内容を実行せず終了する
-
     elem.innerHTML = ""
     //id=rateの場所のHTMLを消す。意味としてはelem.empty()と同じ
     let opt = {
       starOn: "<%= asset_path('star-on.png') %>",
       starOff: "<%= asset_path('star-off.png') %>",
       starHalf: "<%= asset_path('star-half.png') %>",
-      scoreName: 'rate[star]',
-      // rateテーブルのstarカラムに追加する
+      scoreName: 'rate[star]'  // rateテーブルのstarカラムに追加する
     };
     raty(elem, opt);
+  });
+
+  // 星評価をしないとsubmitボタンを押せない
+  const rate = $('#rate');
+  const submit = $('#submit');
+  rate.on('click', function(){
+    submit.removeClass('btn btn-success btn-lg');
+    submit.addClass('btn btn-outline-success');
+    submit.prop("disabled", false);
   });
 
 </script>

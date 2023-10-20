@@ -11,8 +11,7 @@ class Public::RatesController < ApplicationController
     unless Rate.find_by(user_id: current_user.id)
       rate = Rate.create(rate_params)
       rate.create_notification_rate!(current_user)
-      flash[:danger] = rate.errors.full_messages unless rate.save
-      redirect_to new_rate_path
+      redirect_back fallback_location: root_path
     end
   end
 

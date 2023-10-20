@@ -1,40 +1,64 @@
 <div class="container">
   <%= flash[:notice] if flash[:notice] %>
-  <div class="row">
-    <% if @groups.present? %>
-      <table class="table table-hover">
-        <tbody>
-          <% @groups.each do |group| %>
-            <% if group.include?(current_user) %>
-              <tr onclick='window.location="<%= room_group_path(group) %>"' role="link">
-            <% else %>
-              <tr>
-            <% end %>
-              <td class="col-lg-2"><%= group.name %></td>
-              <td class="col-lg-3"><%= group.group_description %></td>
-              <td class="col-lg-2">
-                メンバー数<%= group.user_groups.count %>人<br>
-                最大人数<%= group.count %>人
-              </td>
-              <% if group.include?(current_user) %>
-                <td class="col-lg-2">
-                  <p class="text-success">参加済み</p>
-                </td>
-              <% else %>
-                <td class="col-lg-2">
-                  <%= link_to "参加する", room_group_user_groups_path(group.user_groups.ids, group_id: group.id), method: :post, class:"btn btn-outline-success"%>
-                </td>
-              <% end %>
-            </tr>
+  <% if @groups.present? %>
+    <table class="table table-hover">
+      <thead>
+        <tr class="d-none d-lg-table-row">
+          <th class="col-md-3">グループチャット名</th>
+          <th class="col-md-5">グループチャットの説明</th>
+          <th class="col-md-2">メンバー数</th>
+          <th class="col-md-1">参加状態</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @groups.each do |group| %>
+          <% if group.include?(current_user) %>
+            <tr onclick='window.location="<%= room_group_path(group) %>"' role="link">
+          <% else %>
+            <tr>
           <% end %>
-        </tbody>
-      </table>
-    <% else %>
-      まだグループチャットルームは作られていません。<br>
-      グループチャットを作るからチャットルームを作ってみよう！！
-    <% end %>
-  </div>
-  <div class="row">
-    <%= link_to "グループチャットを作る", new_room_group_path, class:"btn btn-outline-success" %>
-  </div>
+            <!--スマートフォン、タブレットサイズ-->
+            <td class="h5 d-sm-table-cell d-lg-none pl-3">
+              <div><%= group.name %></div>
+              <div class="h6">
+                <p class="pt-2"><%= group.group_description %></p>
+                <span>
+                  メンバー数<%= group.user_groups.count %>人
+                  最大人数<%= group.count %>人
+                  <!--グループチャットに参加しているか-->
+                  <% if group.include?(current_user) %>
+                    <span class="ml-2 text-success">参加済み</span>
+                  <% else %>
+                    <%= link_to "参加する", room_group_user_groups_path(group.user_groups.ids, group_id: group.id), method: :post, class:"ml-2 btn btn-outline-success"%>
+                  <% end %>
+                </span>
+              </div>
+            </td>
+
+            <!--PCサイズ-->
+            <td class="d-none d-lg-table-cell"><%= group.name %></td>
+            <td class="d-none d-lg-table-cell"><%= group.group_description %></td>
+            <td class="d-none d-lg-table-cell">
+              メンバー数<%= group.user_groups.count %>人<br>
+              最大人数<%= group.count %>人
+            </td>
+            <!--グループチャットに参加しているか-->
+            <% if group.include?(current_user) %>
+              <td class="d-none d-lg-table-cell col-md-2">
+                <p class="text-success">参加済み</p>
+              </td>
+            <% else %>
+              <td class="d-none d-lg-table-cell col-md-2">
+                <%= link_to "参加する", room_group_user_groups_path(group.user_groups.ids, group_id: group.id), method: :post, class:"btn btn-outline-success"%>
+              </td>
+            <% end %>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  <% else %>
+    まだグループチャットルームは作られていません。<br>
+    グループチャットを作るからチャットルームを作ってみよう！！
+  <% end %>
+  <%= link_to "グループチャットの新規作成", new_room_group_path, class:"btn btn-outline-success" %>
 </div>
