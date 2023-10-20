@@ -21,6 +21,21 @@ function loadImage(obj){
 	}
 }
 
+// 文字数カウント
+function setupTextCounter(inputId, countUpId, maxLength){
+  const textInput = $(inputId);
+  const countUp = $(countUpId);
+  textInput.on('keyup', function(){
+    const textLength = textInput.val().length;
+    countUp.text(textLength);
+    if (textLength > maxLength) {
+      countUp.css('color', 'red');
+    }else{
+      countUp.css('color', 'black');
+    }
+  });
+}
+
 let map
 function initMap(){
   geocoder = new google.maps.Geocoder()
@@ -138,19 +153,6 @@ jQuery(document).on('turbolinks:load', function(){
         name_countUp.css('color', 'red');
       }else{
         name_countUp.css('color', 'black');
-      }
-    });
-
-    // 投稿の説明 & 文字数カウント
-    const text_explanation = $('#post_explanation');
-    const explanation_countUp = $('#explanation_countUp');
-    text_explanation.on('keyup', function(){
-      const explanation_count = text_explanation.val().length;
-      explanation_countUp.text(explanation_count);
-      if (explanation_count > 100) {
-        explanation_countUp.css('color', 'red');
-      }else{
-        explanation_countUp.css('color', 'black');
       }
     });
 

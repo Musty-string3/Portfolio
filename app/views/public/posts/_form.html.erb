@@ -38,10 +38,11 @@
       <div class="form-group">
         <%= f.label :explanation, "投稿の説明(100文字以内)" %>
         <span class="form_essential">※必須</span>
-        <%= f.text_area :explanation, required: true, data: {'max-length' => 100}, class: "form-control valid-check w-75" %>
+        <%= f.text_area :explanation, required: true, data: { 'max-length' => 100 }, class: "form-control valid-check w-75",
+            onkeyup: "setupTextCounter(this, '#explanation_countUp', 100)" %>
         <div><span id="explanation_countUp">0</span>/100文字</div>
       </div>
-
+      
       <!--タグの設定-->
       <div class="form-group">
         <%= f.label :tag, "タグ (全角の空白で区切ると複数タグ登録できます)" %>

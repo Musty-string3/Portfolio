@@ -1,12 +1,6 @@
 <div class="container">
-  <div class="row">
-    <%= form_with model: @group, url: room_group_path(@group.id), method: :patch do |f| %>
-      <%= render 'public/room_groups/room_group', group: @group, f: f %>
-    <% end %>
-  </div>
-  <div class="row">
-    <div class="col-lg-4">
-      <%= link_to "グループチャットを削除する", room_group_path(), method: :delete, class:"btn btn-danger" %>
-    </div>
-  </div>
+  <h3>グループチャットの編集</h3>
+  <%= form_with model: @group, url: room_group_path(@group.id), method: :patch do |f| %>
+    <%= render 'public/room_groups/room_group', group: @group, f: f %>
+  <% end %>
 </div>
