@@ -48,12 +48,7 @@ Rails.application.routes.draw do
     resources :messages, only: %i[create]
     resources :room_groups do #グループチャット
       resources :message_groups, only: %i[create]
-      resources :user_groups, only: %i[create index update destroy] do
-        member do
-          get 'withdrawal', as: 'withdrawal'
-          #TODO as指定できない？
-        end
-      end
+      resources :user_groups, only: %i[create index destroy]
     end
     resources :rates, only: %i[new create]
     resources :violates, only: %i[create]

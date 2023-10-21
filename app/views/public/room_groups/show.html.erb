@@ -1,3 +1,4 @@
+<!--グループチャット画面-->
 <div class="container">
   <%= flash[:notice] if flash[:notice] %>
   <!--グループチャット名-->
@@ -5,7 +6,10 @@
     <h3 class="col-10">
       <%= @group.name %>
       <span class="float-right">
-        <%= link_to '退会', withdrawal_room_group_user_group_path(@group.id, @current_user_group.id), class:"mr-2 btn btn-outline-danger" %>
+        <button type="button" class="mr-2 btn btn-outline-danger" data-toggle="modal" data-target="#exampleModalCenter">
+          退会
+        </button>
+        <%= render 'delete', leader: @is_leader, group: @room_group, ejected: @ejected, current_user_group: @current_user_group %>
         <% if @leader.user_id == current_user.id %>
           <%= link_to "編集", edit_room_group_path(@group), class:"btn btn-outline-success" %>
         <% end %>
@@ -20,7 +24,10 @@
     <!--メッセージフィールド-->
     <%= render 'public/messages/messages',messages: @message_groups %>
   <% else %>
-    <h4>グループチャットメンバーと話してみよう！</h4>
+    <h4 class="pt-5 pb-3 text-center">
+      まだグループチャット内で会話が行われていません。<br>
+      グループチャットメンバーと話してみよう！
+    </h4>
   <% end %>
   <!--メッセージ入力-->
   <div class="dm-form">

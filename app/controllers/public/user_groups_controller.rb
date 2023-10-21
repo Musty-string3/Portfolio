@@ -1,8 +1,7 @@
 class Public::UserGroupsController < ApplicationController
   before_action :authenticate_user!
-  before_action :user_group_is_leader, only: %i[update]
-  before_action :set_user_group, only: %i[update destroy withdrawal]
-  before_action :set_room_group, only: %i[index destroy withdrawal]
+  before_action :set_user_group, only: %i[update destroy]
+  before_action :set_room_group, only: %i[index destroy]
 
   def create
     room_group = RoomGroup.includes(:user_groups).find(params[:group_id])
@@ -19,11 +18,10 @@ class Public::UserGroupsController < ApplicationController
 
   def index
     @user_groups = UserGroup.includes(:user).where(room_group_id: params[:room_group_id])
-    @user_group = UserGroup.find_by(user_id: current_user.id, room_group_id: params[:room_group_id], is_leader: true)
-  end
-
-  def update
-
+    @user_group_leader = UserGroup.find_by(user_id: current_user.id, room_group_id: params[:room_group_id], is_leader: true)
+    # リーダーのみが指定のユーザーを退会させる機能
+    @room_group = RoomGroup.find(params[:room_group_id])
+    @ejected = true
   end
 
   def destroy
@@ -40,17 +38,6 @@ class Public::UserGroupsController < ApplicationController
     end
   end
 
-  def withdrawal
-    if @user_group.is_leader
-      @leader = true
-      @current_user_group = UserGroup.user_group_join?(current_user, @group)
-    elsif @ejected = params[:removed?]
-      @with_member = UserGroup.user_group_join?(@user_group.user, @group)
-    else
-      @current_user_group = UserGroup.user_group_join?(current_user, @group)
-    end
-  end
-
   private
 
   def set_user_group
@@ -61,11 +48,4 @@ class Public::UserGroupsController < ApplicationController
     @group = RoomGroup.find(params[:room_group_id])
   end
 
-  def user_group_is_leader
-    user_group = UserGroup.find_by(
-    user_id: current_user.id, room_group_id: params[:room_group_id], is_leader: true)
-    unless user_group.present?
-      redirect_back fallback_location: room_group_path(params[:room_group_id])
-    end
-  end
 end

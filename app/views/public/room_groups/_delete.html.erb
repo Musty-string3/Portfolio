@@ -1,0 +1,27 @@
+<!--退会画面を表示するモーダルウィンドウ-->
+<div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-body text-center">
+        <% if leader %>
+          <h5 class="pt-4 pb-3">
+            あなたは<span class="text-primary"><%= group.name %></span>のグループリーダーです。<br>
+            グループチャットのリーダーが退会する場合は<br>
+            グループチャットが削除されます。
+          </h5>
+        <% elsif ejected %>
+          <h5 class="pt-4"><span class="text-primary"><%= with_member.user.name %></span>さんをグループから退会させますか？</h5>
+        <% else %>
+          <h5 class="pt-4">グループチャットを退会しますか？</h5>
+          <p class="h6">新しいメッセージが届かなくなります</p>
+        <% end %>
+        <button type="button" class="mt-4 float-left ml-5 btn btn-primary" data-dismiss="modal">キャンセル</button>
+        <% if ejected %>
+          <%= link_to '退会させる', room_group_user_group_path(group.id, with_member.id, removed?: true), method: :delete, class:"mt-4 float-right mr-5 btn btn-danger"%>
+        <% else %>
+          <%= link_to '退会する', room_group_user_group_path(group.id, current_user_group.id), method: :delete, class:"mt-4 float-right mr-5 btn btn-danger"%>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,8 +1,8 @@
 class Public::RoomGroupsController < ApplicationController
   before_action :authenticate_user!
-  # ユーザーが加入していない別のグループに入ってこないための処理
-  before_action :room_group_join, except: %i[index new create]
   before_action :set_room_groups, only: %i[show edit update destroy]
+  before_action :room_group_join, except: %i[index new create]
+  # ↑ ユーザーが加入していない別のグループに入ってこないための処理
 
   def index
     @groups = RoomGroup.includes(:user_groups).all
@@ -32,6 +32,19 @@ class Public::RoomGroupsController < ApplicationController
     # message_groupsの作成
     @message_group = MessageGroup.new
     @message_groups = MessageGroup.includes(:user).where(room_group_id: @group)
+    # 退会機能
+    @room_group = RoomGroup.find(params[:id])
+    @group_leader = UserGroup.find_by(
+      user_id: current_user.id,
+      room_group_id: @room_group,
+      is_leader: true
+    )
+    if @group_leader
+      @is_leader = true
+      @current_user_group = UserGroup.user_group_join?(current_user, @room_group)
+    else
+      @current_user_group = UserGroup.user_group_join?(current_user, @room_group)
+    end
   end
 
   def edit
