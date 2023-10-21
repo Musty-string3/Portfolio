@@ -1,1 +1,2 @@
+<!--コメントにいいねしたときのcreate非同期処理-->
 $('#comment_likes_<%= @comment.id %>').html("<%= j(render 'public/comment_likes/comment_likes', post: @post, comment: @comment)%>");

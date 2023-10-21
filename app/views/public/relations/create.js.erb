@@ -1,1 +1,2 @@
+<!--フォローのcreate非同期処理-->
 $("#follow_<%= @user.id %>").html("<%= j(render 'public/relations/follow', user: @user,  isRoom: @isRoom, room_id: @room_id, room: @room, entry: @entry) %>");
