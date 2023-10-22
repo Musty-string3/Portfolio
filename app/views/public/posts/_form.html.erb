@@ -1,18 +1,18 @@
 <!--投稿画面のフォーム-->
-<%= form_with model: post, html: {onsubmit: "return validateForm()"} do |f| %>
+<%= form_with model: post do |f| %>
   <div class="row">
     <div class="offset-lg-1 col-lg-10">
       <!--投稿画像の設定-->
       <div class="form-group">
         <%= f.label :images, "画像(6枚まで投稿可)" %>
-        <span class="form_essential">※必須</span>
+        <span class="text-danger form_essential">※必須</span>
         <br>
-        <% if post.id.nil? %>
+        <% if post.new_record? %>
           <%= f.file_field :images, accept: "image/*", required: true, multiple: true, onchange: "loadImage(this)" %>
           <div id="preview"></div>
         <% else %>
           <div class="mb-2">
-            <%= f.file_field :images, accept: "image/*", required: true, multiple: true, onchange: "postImage(this)" %><br>
+            <%= f.file_field :images, accept: "image/*", multiple: true, onchange: "postImage(this)" %><br>
           </div>
           <!--存続の投稿画像の表示-->
           <div id="postImage">
@@ -29,18 +29,17 @@
       <!--投稿名の設定-->
       <div class="form-group">
         <%= f.label :post_name, "投稿名(20文字以内)" %>
-        <span class="form_essential">※必須</span>
+        <span class="text-danger form_essential">※必須</span>
         <%= f.text_field :post_name, required: true, data: {'max-length' => 20}, class: "form-control valid-check w-75" %>
-        <div><span id="name_countUp">0</span>/20文字</div>
-        <h4>編集の際に0文字になってる</h4>
+        <div><span id="name_countUp"><%= post.post_name&.length || 0 %></span>/20文字</div>
       </div>
 
       <!--投稿の説明の設定-->
       <div class="form-group">
         <%= f.label :explanation, "投稿の説明(100文字以内)" %>
-        <span class="form_essential">※必須</span>
+        <span class="text-danger form_essential">※必須</span>
         <%= f.text_area :explanation, required: true, data: { 'max-length' => 100 }, class: "form-control valid-check w-75" %>
-        <div><span id="explanation_countUp">0</span>/100文字</div>
+        <div><span id="explanation_countUp"><%= post.explanation&.length || 0 %></span>/100文字</div>
       </div>
 
       <!--タグの設定-->
@@ -58,11 +57,12 @@
         GoogleMapを使って場所を指定する
       </button>
 
+      <!--submitボタン-->
       <div class="text-left ml-2 mt-4">
-        <% if @post.id == nil %>
-          <%= f.button "投稿する", onclick: 'submit()', id: "submit-btn", class:"btn btn-outline-info" %>
+        <% if post.new_record? %>
+          <%= f.submit "投稿する", id: "submit-btn", class:"btn btn-outline-info" %>
         <% else %>
-          <%= f.button "投稿を更新する", id: "submit-btn", class:"mr-4 btn btn-outline-info" %>
+          <%= f.submit "投稿を更新する", id: "submit-btn", class:"mr-4 btn btn-outline-info" %>
           <%= link_to "この投稿を削除する", post_path(@post.id), method: :delete, data: {confirm: "削除しますか？"}, class:"btn btn-outline-danger" %>
         <% end %>
       </div>
@@ -101,7 +101,3 @@
     </div>
   </div>
 <% end %>
-
-<script>
-
-</script>

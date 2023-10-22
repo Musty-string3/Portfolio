@@ -1,7 +1,11 @@
 <!--新規投稿画面-->
 <div class="container">
-  <h2 class="col-10 text-center p-3">新規投稿</h2>
-  <%= render 'layouts/error_messages', resource: @post %>
+  <div class="col-10 p-3">
+    <h2 class="text-center">新規投稿</h2>
+    <div class="text-center">
+      <%= render 'layouts/error_messages', resource: @post %>
+    </div>
+  </div>
   <%= flash[:notice] if flash[:notice] %>
   <%= render 'form', post: @post %>
 </div>

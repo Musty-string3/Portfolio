@@ -1,19 +1,16 @@
-// ref: https://blog.ver001.com/javascript-image-preview-multiple/
-
 // 投稿画像入力時に画面に画像を表示する
 function loadImage(obj){
   let fileReader;
-  $('#preview').empty();  // previewの中身を全消去(empty)する
+  $('#preview').empty();
   $("#error_message_post_image").empty();
   $('#images_check_field').hide();
   if (obj.files.length > 6) {
     $("#error_message_post_image").html("画像は6枚以下で指定してください");
-    return false;  //breakのようなもの
+    return false;
   }
 	for (let i = 0; i < obj.files.length; i++) {
 		fileReader = new FileReader();
 		fileReader.onload = (function (e) {
-		  // idがpreviewを探し、その箇所に要素を追加(append)していく
 			$('#preview').append('<img class="m-1 preview_img border border-secondary rounded" src="' + e.target.result + '">');
 			$('#images_check_field').show();
 		});
@@ -21,20 +18,7 @@ function loadImage(obj){
 	}
 }
 
-// 文字数カウント
-function setupTextCounter(inputId, countUpId, maxLength){
-  console.log('hello');
-  const textInput = $(inputId);
-  const countUp = $(countUpId);
-  const textLength = textInput.val().length;
-  countUp.text(textLength);
-  if (textLength > maxLength) {
-    countUp.css('color', 'red');
-  }else{
-    countUp.css('color', 'black');
-  }
-}
-
+// GoogleMapの初期設定(清水寺)
 let map
 function initMap(){
   geocoder = new google.maps.Geocoder()
@@ -51,6 +35,7 @@ function initMap(){
 
 }
 
+// ユーザーが操作して動かすGoogleMap
 let geocoder
 let aft
 let marker
@@ -81,7 +66,6 @@ function codeAddress(){
 
       // マーカーのドロップ（ドラッグ終了）時のイベント
       google.maps.event.addListener( marker, 'dragend', function(ev){
-        // イベントの引数evの、プロパティ.latLngが緯度経度
         document.getElementById('lat').value = ev.latLng.lat();
         document.getElementById('lng').value = ev.latLng.lng();
       });
@@ -93,14 +77,11 @@ function codeAddress(){
 
 // バリエーションエラー表示
 function validateForm() {
-  // バリデーションエラーフラグ初期値
-  let validateErrorFlg = false;
 
   // ファイルの選択バリデーション
   const postImages = $("#post_images")
   const postImagesError = $(".post_images_error")
   if (postImages.prop('files').length > 6 || postImages.prop('files').length === 0) {
-    validateErrorFlg = true;
     postImagesError.removeClass('d-none');
     postImagesError.addClass('d-block');
   } else {
@@ -108,22 +89,9 @@ function validateForm() {
     postImagesError.addClass('d-none');
   }
 
+  // テキストバリエーションエラー
   changeValidClass($("#post_post_name"), $("#post_post_name").data("max-length")); // フォームチェック
   changeValidClass($("#post_explanation"), $("#post_explanation").data("max-length")); // フォームチェック
-
-  // 対象のフォームにis-invalidが付与されていれば、
-  // バリデーションエラーありと判定する
-  $(".valid-check").each( function() {
-    if ($(this).hasClass("is-invalid")) {
-      validateErrorFlg = true; // フラグ上書き
-    }
-  });
-
-  if (validateErrorFlg) {
-    // submitボタンを再度有効化
-    $.ajax({}).done(function() { $("#submit-btn").prop("disabled", false); })
-    return false; // 送信処理中断
-  }
 }
 
 
@@ -142,30 +110,31 @@ function changeValidClass(elem, maxLength) {
 jQuery(document).on('turbolinks:load', function(){
   $(document).ready(function() {
 
-    // 投稿名の文字数カウント
-    const post_name = $('#post_post_name');
-    const name_countUp = $('#name_countUp');
-    post_name.on('keyup', function(){
-      const name_count = post_name.val().length;
-      name_countUp.text(name_count);
-      if (name_count > 20) {
-        name_countUp.css('color', 'red');
-      }else{
-        name_countUp.css('color', 'black');
-      }
-    });
+    // 文字数カウント
+    function setupTextCounter(inputId, countUpId, maxLength){
+      console.log('hello');
+      const textInput = $(inputId);
+      const countUp = $(countUpId);
+      textInput.on('keyup', function(){
+        const textLength = textInput.val().length;
+        countUp.text(textLength);
+        if (textLength > maxLength) {
+          countUp.css('color', 'red');
+        }else{
+          countUp.css('color', 'black');
+        }
+      });
+    }
 
-    const post_explanation = $('#post_explanation');
-    const explanation_countUp = $('#explanation_countUp');
-    post_explanation.on('keyup', function(){
-      const count = post_explanation.val().length;
-      explanation_countUp.text(count);
-      if (count > 100) {
-        explanation_countUp.css('color', 'red');
-      }else{
-        explanation_countUp.css('color', 'black');
-      }
-    });
+    // 文字数カウントしたいフォームのID指定
+    const array = [
+      ["#post_post_name", "#name_countUp", 20],
+      ["#post_explanation", "#explanation_countUp", 100]
+    ]
+    for (const value of array) {
+      setupTextCounter(value[0], value[1], value[2]);
+    }
+
     // タグ
     $('#post_tag').on('input', function() {
       const tagText = $(this).val().trim();

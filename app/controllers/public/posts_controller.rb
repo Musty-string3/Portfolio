@@ -3,7 +3,7 @@ class Public::PostsController < ApplicationController
   include TagCount  # app/controllers/concerns/tag_count.rbが使える
   before_action :authenticate_user!
   before_action :set_post, only: %i[edit update destroy]
-  before_action :current_user?, only: %i[edit create update destroy]
+  before_action :current_user?, only: %i[edit update destroy]
 
   def index
     if params[:index] == "like"
@@ -34,6 +34,7 @@ class Public::PostsController < ApplicationController
       @post.save_tag(tag_list)
       redirect_to post_path(@post), notice: "投稿されました！"
     else
+      render :new
       @tag_list = Tag.new
     end
   end

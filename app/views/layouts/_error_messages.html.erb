@@ -5,7 +5,7 @@
     </h5>
     <ul>
       <% resource.errors.full_messages.each do |message| %>
-        <li><%= message %></li>
+        <li class="text-danger list_none"><%= message %></li>
       <% end %>
     </ul>
   </div>
