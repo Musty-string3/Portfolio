@@ -6,7 +6,7 @@
       <div class="card h-100" style="max-width: 350px;">
         <div class="card-text">
           <%= link_to user_path(post.user) do %>
-            <%= image_tag post.user.get_profile_image(40, 40), class:"border border-dark rounded-circle" %>
+            <%= image_tag post.user.get_profile_image(60, 60), class:"border border-dark rounded-circle", width: 40, height: 40 %>
             <%= post.user.name %>
           <% end %>
         </div>

@@ -2,8 +2,6 @@ class Public::RoomsController < ApplicationController
   before_action :authenticate_user!
 
   def create
-    # Roomテーブルを作成すると同時にEntryテーブルも作成する(理由↓)
-    # 下記のRoom.createで作成したRoomテーブルのidを取得してEntryテーブルに使うため
     room = Room.create
     # ログインユーザーのEntryテーブルを作成
     Entry.create(room_id: room.id, user_id: current_user.id)

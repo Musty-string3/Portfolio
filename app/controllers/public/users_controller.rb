@@ -3,6 +3,7 @@ class Public::UsersController < ApplicationController
   include TagCount  # app/concerns/tag_count.rbが使える
   before_action :authenticate_user!
   before_action :set_current_user, except: %i[show]
+  before_action :current_user?, only: %i[edit_information update withdrawal likes timeline]
   before_action :guest_user, only: %i[edit_information update withdrawal]
 
   def show
@@ -46,19 +47,34 @@ class Public::UsersController < ApplicationController
     end
   end
 
-  def unsubscribe
-  end
-
   def withdrawal
     @user.update(is_deleted: true)  #is_deletedをtrueに変更する
     reset_session                   #セッション情報を全て削除
     redirect_to root_path, notice: "退会処理を実行いたしました"
   end
 
+  # いいねした投稿
+  def likes
+    @posts = Post.includes(:likes).where(likes: {user_id: current_user.id}).where.not(user_id: current_user.id)
+  end
+
+  # タイムライン
+  def timeline
+    @posts = Post.where(user_id: [*current_user.followings.ids])
+  end
+
   private
 
   def set_current_user
     @user = current_user
+  end
+
+  # ログインユーザーでない場合の処理
+  def current_user?
+    user = User.find(params[:id])
+    unless user == current_user
+      redirect_back fallback_location: user_path(current_user.id)
+    end
   end
 
   # ゲストユーザーはプロフィール編集ができないよう設定している

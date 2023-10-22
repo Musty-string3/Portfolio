@@ -8,7 +8,7 @@
       <div class="d-flex justify-content-between">
         <!--ユーザーのアイコンと名前-->
         <%= link_to user_path(user_group.user.id) do %>
-          <%= image_tag user_group.get_profile_image(30, 30), class:"border border-dark rounded-circle" %>
+          <%= image_tag user_group.get_profile_image(60, 60), class:"border border-dark rounded-circle", width: 40, height: 40 %>
           <%= user_group.role_name %>
         <% end %>
         <!--ユーザーを退会させるボタン-->

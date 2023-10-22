@@ -49,7 +49,7 @@ class User < ApplicationRecord
 
   # 投稿に紐付いたタグテーブルのidカラムとnameカラムをjoins(内部結合)にて新テーブルを作成
   scope :tag_joins_posts, -> { Tag.joins(:posts).select(:id, :name) }
-  
+
   validates :last_name, presence: true                                #名が空白ならエラー
   validates :first_name, presence: true                               #姓が空白ならエラー
   validates :name, presence: true, uniqueness: true                   #ニックネームが空白＆他の会員とニックネームが一致した場合にエラー
@@ -59,17 +59,17 @@ class User < ApplicationRecord
   def full_name
     "#{first_name} #{last_name}"
   end
-  
+
   # ユーザーのプロフィール画像
   has_one_attached :profile_image
-  
+
   # プロフィール画像のサイズを指定
   def get_profile_image(width, height)
     unless profile_image.attached?
       file_path = Rails.root.join('app/assets/images/profile_image.jpg')
       profile_image.attach(io: File.open(file_path), filename: 'default-image.jpg', content_type: 'image/jpeg')
     end
-    profile_image.variant(resize_to_limit: [width, height]).processed
+    profile_image.variant(resize: "#{width}x#{height}", gravity: "center", crop: "#{width}x#{height}+0+0").processed
   end
 
   # 検索機能

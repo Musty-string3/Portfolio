@@ -2,6 +2,6 @@
 <div class="container">
   <h3>グループチャットの新規作成</h3>
   <%= form_with model: @group, url: room_groups_path, method: :post do |f| %>
-    <%= render 'public/room_groups/room_group', group: @group, f:  %>
+    <%= render 'public/room_groups/form', group: @group, f:  %>
   <% end %>
 </div>

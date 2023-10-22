@@ -1,5 +1,6 @@
 class Public::RelationsController < ApplicationController
-  before_action :is_room
+  before_action :is_current_user, only: %i[followings followers]
+  before_action :is_room, only: %i[create destroy]
 
   def followings # フォロー一覧
     @users = User.find(params[:user_id]).followings
@@ -20,14 +21,23 @@ class Public::RelationsController < ApplicationController
 
   private
 
+  # ログインユーザーでない場合はユーザーページにリダイレクト
+  def is_current_user
+    user =  User.find(params[:user_id])
+    unless current_user == user
+      redirect_to user_path(current_user.id)
+    end
+  end
+
+  # フォローした時に非同期でDMボタンを表示させるため
   def is_room
     @user = User.find(params[:user_id])
     current_user_entry = Entry.where(user_id: current_user.id)
-    user_entry = Entry.where(user_id: @user.id)
+    another_user_entry = Entry.where(user_id: @user.id)
     @isRoom = false
     unless @user == current_user
       current_user_entry.each do |current|
-        user_entry.each do |user|
+        another_user_entry.each do |user|
           if current.room_id == user.room_id
             @isRoom = true
             @room_id = current.room_id

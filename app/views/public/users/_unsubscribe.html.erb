@@ -1,0 +1,18 @@
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-body">
+        <h5 class="pt-3 pb-1 text-center">
+          退会すると、現在のアカウントでは<br>
+          ログインができなくなります。<br>
+          また、投稿した情報は削除され<br>
+          様々な機能が利用不可になります。
+        </h5>
+      </div>
+      <div class="modal-footer justify-content-around">
+        <button type="button" class="btn btn-success" data-dismiss="modal">キャンセル</button>
+        <%= link_to "退会する", withdrawal_user_path, method: :patch, class:"btn btn-danger" %>
+      </div>
+    </div>
+  </div>
+</div>

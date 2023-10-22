@@ -6,7 +6,7 @@
     <div class="col-lg-6 mt-2">
       <!--ユーザーのプロフィール画像と名前-->
       <%= link_to user_path(@post.user.id) do %>
-        <%= image_tag @post.user.get_profile_image(40, 40), class:"border border-dark rounded-circle" %>
+        <%= image_tag @post.user.get_profile_image(60, 60), class:"border border-dark rounded-circle", width: 40, height: 40 %>
         <%= @post.user.name %>
       <% end %>
       <!--投稿画像-->
@@ -74,7 +74,7 @@
 
   <!--ユーザー報告画面-->
   <div class="modal fade" id="testModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
+    <div class="modal-dialog modal-dialog-centered" role="document">
       <div class="modal-content">
         <div class="modal-header">
           <h4 class="modal-title" id="myModalLabel"><%= @post.post_name %>の報告</h4>

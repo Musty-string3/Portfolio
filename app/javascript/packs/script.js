@@ -23,17 +23,16 @@ function loadImage(obj){
 
 // 文字数カウント
 function setupTextCounter(inputId, countUpId, maxLength){
+  console.log('hello');
   const textInput = $(inputId);
   const countUp = $(countUpId);
-  textInput.on('keyup', function(){
-    const textLength = textInput.val().length;
-    countUp.text(textLength);
-    if (textLength > maxLength) {
-      countUp.css('color', 'red');
-    }else{
-      countUp.css('color', 'black');
-    }
-  });
+  const textLength = textInput.val().length;
+  countUp.text(textLength);
+  if (textLength > maxLength) {
+    countUp.css('color', 'red');
+  }else{
+    countUp.css('color', 'black');
+  }
 }
 
 let map
@@ -156,6 +155,17 @@ jQuery(document).on('turbolinks:load', function(){
       }
     });
 
+    const post_explanation = $('#post_explanation');
+    const explanation_countUp = $('#explanation_countUp');
+    post_explanation.on('keyup', function(){
+      const count = post_explanation.val().length;
+      explanation_countUp.text(count);
+      if (count > 100) {
+        explanation_countUp.css('color', 'red');
+      }else{
+        explanation_countUp.css('color', 'black');
+      }
+    });
     // タグ
     $('#post_tag').on('input', function() {
       const tagText = $(this).val().trim();
@@ -190,11 +200,12 @@ jQuery(document).on('turbolinks:load', function(){
       changeValidClass($(this), max_length);
     });
 
-    $(document).on("keypress", function(event) {
-      if (event.keyCode === 13) {
-        return false;
-      }
-    });
+    // Enterキーを押せなくする
+    // $(document).on("keypress", function(event) {
+    //   if (event.keyCode === 13) {
+    //     return false;
+    //   }
+    // });
   });
 });
 

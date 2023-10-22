@@ -3,6 +3,7 @@ class Public::PostsController < ApplicationController
   include TagCount  # app/controllers/concerns/tag_count.rbが使える
   before_action :authenticate_user!
   before_action :set_post, only: %i[edit update destroy]
+  before_action :current_user?, only: %i[edit create update destroy]
 
   def index
     if params[:index] == "like"
@@ -70,21 +71,17 @@ class Public::PostsController < ApplicationController
     redirect_to posts_path
   end
 
-  # いいねした投稿
-  def likes
-    @posts = Post.includes(:likes).where(likes: {user_id: current_user.id}).where.not(user_id: current_user.id)
-  end
-
-  def timeline
-    # フォローしているユーザーの全ての投稿を取得する
-    @posts = Post.where(user_id: [*current_user.followings.ids])
-  end
-
-
   private
 
   def set_post
     @post = Post.find(params[:id])
+  end
+
+  def current_user?
+    post = Post.find_by(user_id: current_user.id, id: @post.id)
+    unless post
+      redirect_back fallback_location: user_path(current_user.id)
+    end
   end
 
   def post_params
