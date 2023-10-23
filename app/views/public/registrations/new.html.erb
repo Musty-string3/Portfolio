@@ -1,45 +1,47 @@
 <div class="container">
-  <h2>会員新規登録</h2>
-  
-  <%= form_with model: @user, url: user_registration_path do |f| %>
-    <%= render "public/shared/error_messages", resource: resource %>
-    
-    <table class="table table-borderless">
-      <thead>
-        <th></th>
-        <th></th>
-        <th></th>
-      </thead>
-      <tbody>
-        <tr>
-          <td>名前</td>
-          <td><%= f.label :first_name, "(姓)" %> <%= f.text_field :first_name, autofocus: true, placeholder: "苗字" %></td>
-          <td><%= f.label :last_name, "(名)" %> <%= f.text_field :last_name, autofocus: true, placeholder: "名前" %></td>
-        </tr>
-        <tr>
-          <td><%= f.label :name, "ニックネーム" %></td>
-          <td colspan="2"><%= f.text_field :name, autofocus: true, placeholder: "ニックネーム" %></td>
-        </tr>
-        <tr>
-          <td><%= f.label :email, "メールアドレス" %></td>
-          <td colspan="2"><%= f.text_field :email, autofocus: true, placeholder: "メールアドレスを入力" %></td>
-        </tr>
-        <tr>
-          <td><%= f.label :password, "パスワード(#{@minimum_password_length}文字以上)" %></td>
-          <td colspan="2"><%= f.password_field :password, autocomplete: "new-password", placeholder: "パスワードを入力" %></td>
-        </tr>
+  <h2 class="text-center pt-3 pb-4">会員新規登録</h2>
+  <div class="w-50 mx-auto">
 
-        <tr>
-          <td><%= f.label :password_confirmation, "パスワード(確認用)" %></td>
-          <td colspan="2"><%= f.password_field :password_confirmation, autocomplete: "new-password", placeholder: "パスワードを入力" %></td>
-        </tr>
-      
-        <tr>
-          <td></td>
-          <td colspan="2"><%= f.submit "新規登録", class: "btn btn-success" %></td>
-        </tr>
-      </tbody>
-    </table>
-  <% end %>
-  <p>アカウントをお持ちですか？<span><%= render "public/shared/links" %></span></p>
+    <%= form_with model: @user, url: user_registration_path do |f| %>
+      <%#= render "public/shared/error_messages", resource: resource %>
+      <%= render 'layouts/error_messages', resource: resource %>
+
+        <div class="form-row">
+          <div class="col-6 form-group">
+            <%= f.label :first_name, "苗字" %>
+            <%= f.text_field :first_name, autofocus: true, required: true, placeholder: "苗字", class:"form-control" %>
+          </div>
+          <div class="col-6 form-group">
+            <%= f.label :last_name, "名前" %>
+            <%= f.text_field :last_name, autofocus: true, required: true, placeholder: "名前", class:"form-control" %>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <%= f.label :name, "ニックネーム" %></td>
+          <%= f.text_field :name, autofocus: true, required: true, placeholder: "ニックネーム", class:"form-control" %>
+        </div>
+
+        <div class="form-group">
+          <%= f.label :email, "メールアドレス" %></td>
+          <%= f.text_field :email, autofocus: true, required: true, placeholder: "メールアドレスを入力", class:"form-control" %>
+        </div>
+
+        <div class="form-group">
+          <%= f.label :password, "パスワード(#{@minimum_password_length}文字以上)" %>
+          <%= f.password_field :password, required: true, autocomplete: "new-password", placeholder: "パスワードを入力", class:"form-control" %>
+        </div>
+
+        <div class="form-group">
+          <%= f.label :password_confirmation, "パスワード(確認用)" %>
+          <%= f.password_field :password_confirmation, required: true, autocomplete: "new-password", placeholder: "パスワードを入力", class:"form-control" %>
+        </div>
+
+        <div class="pt-3 form-group text-center">
+          <%= f.submit "新規登録", class: "btn btn-success" %>
+        </div>
+    <% end %>
+  </div>
+
+  <p class="text-center">アカウントをお持ちですか？<span><%= render "public/shared/links" %></span></p>
 </div>
