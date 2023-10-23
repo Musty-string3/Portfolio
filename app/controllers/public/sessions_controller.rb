@@ -28,24 +28,22 @@ class Public::SessionsController < Devise::SessionsController
 
   def after_sign_in_path_for(resource)
     flash[:notice] = "#{current_user.name}さんでログインしました"
+    # 各ユーザーページ
     user_path(current_user)
   end
 
   def after_sign_out_path_for(resource)
-    flash[:notice] = "ログアウトしました"
-    root_path
+    # ユーザーログイン画面
+    new_user_session_path
   end
 
   protected
 
-  # 退会しているかを判断するメソッド
+  # 退会しているか？
   def user_status
     @user = User.find_by(email: params[:user][:email])
-      #入力されたemailからアカウントを1件取得
     return if !@user
-      # アカウントを取得できなかった場合、メソッドを終了する
     if @user.valid_password?(params[:user][:password]) && @user.is_deleted
-      #取得したアカウントのパスワードと入力されたパスワードが一致してるかを判別 & is_deletedの値がtrueの場合
       redirect_to new_user_session_path, notice: "お客様は退会済みです。申し訳ございませんが、別のメールアドレスをお使いください。"
     end
   end
