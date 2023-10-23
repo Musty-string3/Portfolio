@@ -1,30 +1,25 @@
 <!--グループチャットの作成、編集フォーム-->
-<%= render 'layouts/error_messages', resource: group %>
 <div class="form-group">
-  <%= f.label :name, "グループチャット名(20文字以内)" %><br>
-  <%= f.text_field :name, required: true, placeholder: "グループチャット名を入力", class: "col-lg-5 form-control" %>
-  <div><span id="group_name_countUp">0</span>/20文字</div>
+  <%= f.label :name, "グループチャット名(20文字以内)", class:"pl-2" %><br>
+  <%= f.text_field :name, required: true, placeholder: "グループチャット名を入力", class: "form-control" %>
+  <div><span id="group_name_countUp"><%= group.name&.length || 0 %></span>/20文字</div>
 </div>
 <div class="form-group">
-  <%= f.label :group_description, "チャットルームの説明(100文字以内)" %><br>
-  <%= f.text_area :group_description, required: true, maxlength: 100, placeholder: "チャットルームの説明を入力", class: "col-lg-5 form-control" %>
-  <div><span id="group_description_countUp">0</span>/100文字</div>
+  <%= f.label :group_description, "チャットルームの説明(100文字以内)", class:"pl-2" %><br>
+  <%= f.text_area :group_description, required: true, placeholder: "チャットルームの説明を入力", class: "form-control" %>
+  <div><span id="group_description_countUp"><%= group.group_description&.length || 0 %></span>/100文字</div>
 </div>
 <div class="form-group">
   <% if group.id == nil %>
-    <%= f.label :count, "人数制限(3～10人まで)" %><br>
-    <%= f.text_field :count, value: 10, required: true, pattern: "^[3-9]|10$", class: "col-lg-5 form-control" %>
+    <%= f.label :count, "人数制限(3～10人まで)", class:"pl-2" %>
+    <%= f.select :count, (3..10), { prompt: "選択してください" }, class: "form-control" %>
   <% end %>
 </div>
 <div class="form-group">
-  <% unless group.id == nil %>
+  <% if group.new_record? %>
+    <%= f.submit "グループチャットを作成する", class:"btn btn-outline-success" %>
+  <% else %>
     <%= f.submit "グループチャットを更新する", class:"mr-3 btn btn-outline-success" %>
     <%= link_to "グループチャットを削除する", room_group_path(), method: :delete, data: {confirm: "グループチャットを削除しますか？"}, class:"btn btn-outline-danger" %>
-  <% else %>
-    <%= f.submit "グループチャットを作成する", class:"btn btn-outline-success" %>
   <% end %>
 </div>
-
-<script>
-//   setupTextCounter('#room_group_group_description', '#group_description_countUp', 100);
-</script>

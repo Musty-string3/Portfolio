@@ -53,7 +53,7 @@
       </div>
 
       <!--モーダルウィンドウ表示ボタン-->
-      <button type="button" id="GoogleMap" class="btn btn-lg btn-primary" disabled= "true" data-toggle="modal" data-target=".bd-example-modal-lg">
+      <button type="button" id="GoogleMap" class="btn btn-outline-primary" data-toggle="modal" data-target=".bd-example-modal-lg">
         GoogleMapを使って場所を指定する
       </button>
 
@@ -86,7 +86,7 @@
             </div>
             <div class="modal-body">
               <input id="address" type="text" placeholder="清水寺">
-              <input type="submit" value="検索" onclick="codeAddress()">
+              <input type="button" value="検索" onclick="codeAddress()">
               <span>検索をするとマーカーが使えるようになります。</span>
               <div class="container-fluid">
                 <div class="row">
@@ -101,3 +101,14 @@
     </div>
   </div>
 <% end %>
+
+<!--Enterキーを押した時のsubmit停止-->
+<!--GoogleMapのtext_fieldを選択した状態でEnter押すとf.submitが発火するため-->
+<script>
+  $(document).on("keypress", function(event) {
+    // 投稿説明の場合のみEnterキーを実行する（text_areaの改行目的）
+    if (event.keyCode === 13 && event.target.id != 'post_explanation') {
+      return false;
+    }
+  });
+</script>

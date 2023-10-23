@@ -7,10 +7,9 @@ class RoomGroup < ApplicationRecord
   has_many :users, through: :message_groups, dependent: :destroy
 
   # バリエーション
-  validates :name, presence: true, uniqueness: true # グループ名が空白＆名前が同じの場合はバリエーションエラー
-  validates :group_description, presence: true
-  validates :count, presence: true, numericality: {only_integer: true } # 整数のみ許可
-  validates_inclusion_of :count, in: 3..10  # 文字数制限は2文字以上～10文字以内
+  validates :name, presence: true, uniqueness: true, length: { maximum: 20 }
+  validates :group_description, presence: true, length: { maximum: 100 }
+  validates :count, presence: true
 
 
   def include?(user)

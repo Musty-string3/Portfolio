@@ -1,10 +1,15 @@
 <!--投稿編集画面-->
 <div class="container">
-  <h2 class="col-10 text-center p-3">投稿編集</h2>
-  <%= render 'layouts/error_messages', resource: @post %>
+  <div class="col-10 p-3">
+    <h2 class="text-center">投稿編集</h2>
+    <div class="text-center">
+      <%= render 'layouts/error_messages', resource: @post %>
+    </div>
+  </div>
   <%= render 'form', post: @post %>
 </div>
 
+<!--編集で再投稿する画像の表示-->
 <script>
   function postImage(obj){
     let fileReader;

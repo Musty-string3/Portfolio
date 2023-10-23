@@ -90,6 +90,7 @@ function validateForm() {
   }
 
   // テキストバリエーションエラー
+  // TODO ここにも配列で指定すれば再利用できる
   changeValidClass($("#post_post_name"), $("#post_post_name").data("max-length")); // フォームチェック
   changeValidClass($("#post_explanation"), $("#post_explanation").data("max-length")); // フォームチェック
 }
@@ -129,7 +130,11 @@ jQuery(document).on('turbolinks:load', function(){
     // 文字数カウントしたいフォームのID指定
     const array = [
       ["#post_post_name", "#name_countUp", 20],
-      ["#post_explanation", "#explanation_countUp", 100]
+      ["#post_explanation", "#explanation_countUp", 100],
+      ["#room_group_name", "#group_name_countUp", 20],
+      ["#room_group_group_description", "#group_description_countUp", 100],
+      ["#user_name", "#user_name_countUp", 20],
+      ["#user_introduction", "#user_introduction_countUp", 100]
     ]
     for (const value of array) {
       setupTextCounter(value[0], value[1], value[2]);
@@ -149,18 +154,6 @@ jQuery(document).on('turbolinks:load', function(){
           check_post_tags.append(tagElement);
         }
       });
-    });
-
-    // 投稿画像を指定しないとGoogleMapのボタンを押せない
-    const fileInput = $('#post_images');
-    fileInput.on('change', function(){
-      if (fileInput[0].files.length > 0) {
-        $('#GoogleMap').removeClass('btn btn-lg btn-primary').addClass('btn btn-primary');
-        $("#GoogleMap").prop("disabled", false);
-      }else{
-        $('#GoogleMap').removeClass('btn btn-primary').addClass('btn btn-lg btn-primary');
-        $("#GoogleMap").prop("disabled", true);
-      }
     });
 
     // バリデーションチェックする入力欄のclass制御

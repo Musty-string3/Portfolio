@@ -50,11 +50,11 @@ class User < ApplicationRecord
   # 投稿に紐付いたタグテーブルのidカラムとnameカラムをjoins(内部結合)にて新テーブルを作成
   scope :tag_joins_posts, -> { Tag.joins(:posts).select(:id, :name) }
 
-  validates :last_name, presence: true                                #名が空白ならエラー
-  validates :first_name, presence: true                               #姓が空白ならエラー
-  validates :name, presence: true, uniqueness: true                   #ニックネームが空白＆他の会員とニックネームが一致した場合にエラー
-  validates :encrypted_password, length: {minimum: 6}                 #パスワードが空白＆最小文字数が6文字以上でないとエラー
-  validates :introduction, length: { maximum: 100 }                   #最大文字数100文字
+  validates :last_name, presence: true
+  validates :first_name, presence: true
+  validates :name, presence: true, uniqueness: true, length: { maximum: 20 }
+  validates :introduction, length: { maximum: 100 }
+  validates :encrypted_password, length: {minimum: 6}
 
   def full_name
     "#{first_name} #{last_name}"
