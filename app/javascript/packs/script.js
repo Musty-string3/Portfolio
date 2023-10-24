@@ -98,7 +98,14 @@ function validateForm() {
 
 // バリデーションチェック結果に応じてclassを変更する
 function changeValidClass(elem, maxLength) {
-  if (elem.val() === "" || elem.val().length > maxLength) {
+  // パスワード6文字以上でOK
+  if (maxLength == 999 && elem.val().length < 6) {
+    elem.removeClass("is-valid");
+    elem.addClass("is-invalid");
+  }else if (maxLength == 999) {
+    elem.removeClass("is-invalid");
+    elem.addClass("is-valid");
+  }else if (elem.val() === "" || elem.val().length > maxLength) {
     elem.removeClass("is-valid");
     elem.addClass("is-invalid");
   } else {
@@ -111,6 +118,23 @@ function changeValidClass(elem, maxLength) {
 jQuery(document).on('turbolinks:load', function(){
   $(document).ready(function() {
 
+
+    // 文字数カウントしたい
+    const array = [
+      ["#user_name", "#new_user_name_countUp", 20], //ユーザー新規登録のニックネーム
+      ["#user_name", "#user_name_countUp", 20], //ユーザー編集のニックネーム
+      ["#post_post_name", "#name_countUp", 20], //投稿名(新規、編集)
+      ["#post_explanation", "#explanation_countUp", 100], //投稿の説明(新規、編集)
+      ["#room_group_name", "#group_name_countUp", 20],  //グループチャット名(新規、編集)
+      ["#room_group_group_description", "#group_description_countUp", 100], //グループチャットの説明(新規、編集)
+      ["#user_password", "#new_user_password_countUp", 6],  //ユーザー新規登録のパスワード
+      ["#user_password_confirmation", "#new_user_password_check_countUp", 6], //ユーザー新規登録のパスワード確認
+      ["#user_introduction", "#user_introduction_countUp", 100] //ユーザーの説明(編集)
+    ]
+    for (const value of array) {
+      setupTextCounter(value[0], value[1], value[2]);
+    }
+
     // 文字数カウント
     function setupTextCounter(inputId, countUpId, maxLength){
       console.log('hello');
@@ -119,25 +143,17 @@ jQuery(document).on('turbolinks:load', function(){
       textInput.on('keyup', function(){
         const textLength = textInput.val().length;
         countUp.text(textLength);
-        if (textLength > maxLength) {
+        // パスワード6文字以上でOK
+        if (maxLength == 6 && textLength < 6) {
+          countUp.css('color', 'red');
+        }else if (maxLength == 6) {
+          countUp.css('color', 'black');
+        }else if (textLength > maxLength) {
           countUp.css('color', 'red');
         }else{
           countUp.css('color', 'black');
         }
       });
-    }
-
-    // 文字数カウントしたいフォームのID指定
-    const array = [
-      ["#post_post_name", "#name_countUp", 20],
-      ["#post_explanation", "#explanation_countUp", 100],
-      ["#room_group_name", "#group_name_countUp", 20],
-      ["#room_group_group_description", "#group_description_countUp", 100],
-      ["#user_name", "#user_name_countUp", 20],
-      ["#user_introduction", "#user_introduction_countUp", 100]
-    ]
-    for (const value of array) {
-      setupTextCounter(value[0], value[1], value[2]);
     }
 
     // タグ
