@@ -1,5 +1,4 @@
-class SearchesController < ApplicationController
-  include TagCount
+class Public::SearchesController < ApplicationController
 
   def search
     @model = params[:model]

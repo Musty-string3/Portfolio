@@ -1,5 +1,6 @@
 <!--検索結果一覧画面-->
 <div class="container">
+  <!--ユーザー検索-->
   <% if @model == 'user' %>
     <h4 class="d-flex justify-content-center">
       ユーザー検索
@@ -14,14 +15,14 @@
         <% end %>
       </div>
     </h4>
-
     <!--ユーザーの表示-->
     <% if @records.present? %>
-      <%= render 'layouts/search_user', users: @records %>
+      <%= render 'public/searches/search_user', users: @records %>
     <% else %>
       検索した投稿は見つかりませんでした。
     <% end %>
 
+  <!--投稿検索-->
   <% elsif @model == 'post' %>
     <h4 class="d-flex justify-content-center">
       投稿検索
@@ -38,7 +39,7 @@
     </h4>
     <!--投稿の表示-->
     <% if @records.present? %>
-      <%= render 'layouts/search_post', posts: @records %>
+      <%= render 'public/posts/index', posts: @records %>
     <% else %>
       検索した投稿は見つかりませんでした。
     <% end %>

@@ -1,12 +1,15 @@
+<!--ユーザー検索画面-->
 <div class="row m-auto" style="max-width:800px;">
   <!--TODO　style-->
   <table class="table table-hover">
     <tbody>
       <% users.each do |user| %>
-        <% if current_user.nil? %>
-          <tr onclick='window.location="<%= admin_user_path(user) %>"' role="link">
-        <% else %>
+        <!--ユーザーの場合-->
+        <% if current_user&.name? %>
           <tr onclick='window.location="<%= user_path(user) %>"' role="link">
+        <!--管理者の場合-->
+        <% else %>
+          <tr onclick='window.location="<%= admin_user_path(user) %>"' role="link">
         <% end %>
           <td class="col-1">
             <%= image_tag user.profile_image, size: "75x75", class:"rounded-circle border border-dark" %>

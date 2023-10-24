@@ -67,7 +67,7 @@
               </li>
               <!--検索-->
               <li>
-                <%= render 'layouts/search' %>
+                <%= render 'public/searches/form' %>
               </li>
             <% elsif admin_signed_in? %>
               <li class="nav-item" >
@@ -103,7 +103,7 @@
                 <% end %>
               </li>
               <li>
-                <%= render 'layouts/search' %>
+                <%= render 'public/searches/form' %>
               </li>
             <% else %>
               <li class="nav-item" >
