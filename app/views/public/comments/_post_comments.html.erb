@@ -2,22 +2,41 @@
 <p>コメント件数<%= post.comments.count %>件</p>
 <% post.comments.each do |comment| %>
   <div class="border-top pt-1"></div>
-  <%= link_to user_path(comment.user) do %>
-    <%= image_tag comment.user.get_profile_image(30, 30), class:"border border-dark rounded-circle" %>
-    <% if comment.user == post.user %>
-      <%= comment.user.name %>(投稿者)
-    <% else %>
-      <%= comment.user.name %>
+  <!--ユーザーの場合-->
+  <% if current_user&.name? %>
+    <%= link_to user_path(comment.user) do %>
+      <%= image_tag comment.user.get_profile_image(30, 30), class:"border border-dark rounded-circle" %>
+      <% if comment.user == post.user %>
+        <%= comment.user.name %>(投稿者)
+      <% else %>
+        <%= comment.user.name %>
+      <% end %>
+    <% end %>
+  <!--管理者の場合-->
+  <% else %>
+    <%= link_to admin_user_path(comment.user) do %>
+      <%= image_tag comment.user.get_profile_image(30, 30), class:"border border-dark rounded-circle" %>
+      <% if comment.user == post.user %>
+        <%= comment.user.name %>(投稿者)
+      <% else %>
+        <%= comment.user.name %>
+      <% end %>
     <% end %>
   <% end %>
   <%= comment.created_at.strftime('%Y/%m/%d %H:%M') %>
-  <% if comment.user == current_user %>
-    <%= link_to "削除", post_comment_path(comment.post, comment), method: :delete, remote: true, class:"btn btn-outline-danger" %>
+  <% if comment.user == current_user || !current_user&.name %>
+    <%= link_to "削除", post_comment_path(comment.post, comment), method: :delete, remote: true, data: {confirm: "コメントを削除しますか？"}, class:"btn btn-outline-danger" %>
   <% end %>
   <div class="ml-5">
     <span><%= comment.text %></span>
-    <div id="comment_likes_<%= comment.id %>" class="pd-1">
-      <%= render 'public/comment_likes/comment_likes', post: post, comment: comment %>
-    </div>
+    <!--ユーザーの場合-->
+    <% if current_user&.name? %>
+      <div id="comment_likes_<%= comment.id %>" class="pd-1">
+        <%= render 'public/comment_likes/comment_likes', post: post, comment: comment %>
+      </div>
+    <!--管理者の場合-->
+    <% else %>
+      <i class="fa-solid fa-heart"></i><%= comment.comment_likes.count %>いいね
+    <% end %>
   </div>
 <% end %>

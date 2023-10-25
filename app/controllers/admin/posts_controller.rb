@@ -4,18 +4,14 @@ class Admin::PostsController < ApplicationController
   before_action :set_post, except: %i[index]
 
   def index
-    user_id = params[:user_index]
-    if user_id
-      @posts = Post.where(user_id: user_id).order(created_at: :desc)
-      @user = User.find(user_id)
-    else
-      @posts = Post.includes(:user).all.order(created_at: :desc)
-      tags = User.tag_joins_posts
-      @tags = set_tag_count(tags)
-    end
+    @posts = Post.includes(:user).all.order(created_at: :desc)
+    tags = User.tag_joins_posts
+    @tags = set_tag_count(tags)
   end
 
   def show
+    @comment = Comment.new
+    @violate = Violate.new
   end
 
   def edit

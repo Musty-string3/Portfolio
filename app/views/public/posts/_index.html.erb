@@ -1,9 +1,13 @@
 <!--投稿の一覧表示  -->
+<%# @tags.each do |tag_name, count| %>
+  <%#= link_to tag_name[:name], admin_tag_path(tag_name[:id]) %>
+  <%#= "(#{count}件)" %>
+<%# end %>
 <div class="card-deck">
   <% posts.each do |post| %>
     <div class="col-lg-4 col-md-6 col-sm-12 mb-5">
       <!--TODO style="width: 350px;-->
-      <div class="card h-100" style="max-width: 350px;">
+      <div class="card h-100">
         <div class="card-text">
           <!--ユーザーの場合-->
           <%if current_user&.name? %>

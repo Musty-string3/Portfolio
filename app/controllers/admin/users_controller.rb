@@ -7,8 +7,9 @@ class Admin::UsersController < ApplicationController
   end
 
   def show
-  end  
-  
+    @user_posts = Post.where(user_id: @user.id)
+  end
+
   def edit
   end
 
