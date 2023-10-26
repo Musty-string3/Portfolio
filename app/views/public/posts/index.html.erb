@@ -3,16 +3,16 @@
   <% if @posts.present? %>
   <div class="row">
     <div class="col-12 ml-3">
-      <h4 class="text-center"><%= @index %>で表示しています</h4>
+      <h4 class="text-center"><%= @sort_condition %>で表示しています</h4>
     </div>
     <div class="col-lg-12 text-right">
-        <%= form_with url: posts_path, method: :get do |f| %>
-          <%= f.select :index, options_for_select({"新着投稿"=>"new", "いいね順"=>"like", "直近のいいね順"=>"likes_in_week" }) %>
-          <%= f.submit "検索する" %>
-        <% end %>
+      <%= form_with url: posts_path, method: :get do |f| %>
+        <%= f.select :sort, options_for_select({"新着投稿"=>"new", "いいね順"=>"like", "直近のいいね順"=>"likes_in_week" }) %>
+        <%= f.submit "検索する" %>
+      <% end %>
     </div>
   </div>
-    <%= render 'index', posts: @posts, tag_counts: @tags %>
+    <%= render 'index', posts: @posts %>
   <% else %>
     <h5>
       投稿はまだありません。<br>

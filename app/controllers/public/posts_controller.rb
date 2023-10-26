@@ -6,18 +6,9 @@ class Public::PostsController < ApplicationController
   before_action :current_user?, only: %i[edit update destroy]
 
   def index
-    if params[:index] == "like"
-      @posts = Post.includes(:likes).sort_by {|x| x.likes.size}.reverse
-      @index = "いいね順"
-    elsif params[:index] == "likes_in_week"
-      to  = Time.current.at_end_of_day
-      from  = (to - 6.day).at_beginning_of_day
-      @posts = Post.includes(:likes).sort_by {|x| x.likes.where(created_at: from...to).size}.reverse
-      @index = "直近1週間のいいね順"
-    else
-      @posts = Post.includes(:user).order(created_at: :desc)
-      @index = "新着投稿順"
-    end
+    sort = params[:sort]
+    @posts = Post.sort_by_like(sort)
+    @sort_condition = sort_condition(sort)
     tags = User.tag_joins_posts
     @tags = set_tag_count(tags)
   end
@@ -44,27 +35,22 @@ class Public::PostsController < ApplicationController
     @comment = Comment.new
     @violate = Violate.new
     unless @post.user == current_user
-      # ログインユーザーの投稿 == 自分自身の投稿だった場合、閲覧カウントしない
       ViewCount.find_or_create_by(user_id: current_user.id, post_id: @post.id)
     end
   end
 
   def edit
-    @tag_list = @post.tags.pluck(:name).join('、')
+    @tag_list = @post.tags.pluck(:name).join('　')
   end
 
   def update
-    tag_list = params[:post][:tag].split('、')
+    tag_list = params[:post][:tag].split('　')
     if @post.update(post_params)
-      # 投稿に紐付いているタグを全消去する
-      @post.post_tags.destroy_all
-      # タグを全消去したら再度タグを作成する
-      @post.save_tag(tag_list)
+      @post.save_tag(tag_list, @post)
       redirect_to post_path(@post), notice: "投稿の編集に成功しました。"
     else
       render :edit, notice: "投稿の編集に失敗しました。"
     end
-    # @customer.update(customer_params) ? (redirect_to admin_customer_path(@customer)) : (render :edit)
   end
 
   def destroy
@@ -73,6 +59,17 @@ class Public::PostsController < ApplicationController
   end
 
   private
+
+  def sort_condition(text)
+    if text == "like"
+      "いいね順"
+    elsif text == "likes_in_week"
+      "直近1週間のいいね順"
+    else
+      "新着投稿順"
+    end
+  end
+
 
   def set_post
     @post = Post.find(params[:id])

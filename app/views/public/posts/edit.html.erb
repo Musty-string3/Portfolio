@@ -13,12 +13,13 @@
 <script>
   function postImage(obj){
     let fileReader;
-    $('#edit_preview').empty();
+    const images = $('#edit_images_preview');
+    images.empty();
     for (let i = 0; i < obj.files.length; i++) {
     	fileReader = new FileReader();
     	fileReader.onload = (function (e) {
     	  $('#postImage').hide();
-    		$('#edit_preview').append('<img class="m-1 preview_img border border-secondary rounded" src="' + e.target.result + '">');
+    		images.append('<img class="m-1 preview_img border border-secondary rounded" src="' + e.target.result + '">');
     	});
     	fileReader.readAsDataURL(obj.files[i]);
     }

@@ -6,25 +6,14 @@
 <div class="card-deck">
   <% posts.each do |post| %>
     <div class="col-lg-4 col-md-6 col-sm-12 mb-5">
-      <!--TODO style="width: 350px;-->
       <div class="card h-100">
         <div class="card-text">
-          <!--ユーザーの場合-->
-          <%if current_user&.name? %>
-            <%= link_to user_path(post.user) do %>
-              <%= image_tag post.user.get_profile_image(60, 60), class:"border border-dark rounded-circle", width: 40, height: 40 %>
-              <%= post.user.name %>
-            <% end %>
-          <!--管理者の場合-->
-          <% else %>
-            <%= link_to admin_user_path(post.user) do %>
-              <%= image_tag post.user.get_profile_image(60, 60), class:"border border-dark rounded-circle", width: 40, height: 40 %>
-              <%= post.user.name %>
-            <% end %>
+          <%= link_to user_path(post.user) do %>
+            <%= image_tag post.user.get_profile_image(60, 60), class:"border border-dark rounded-circle", width: 40, height: 40 %>
+            <%= post.user.name %>
           <% end %>
         </div>
-        <!--投稿画像-->
-        <div class="posts_index">
+        <div class="post-image-slider">
           <div class="swiper">
             <div class="swiper-wrapper">
               <% post.images.each do |image| %>
@@ -38,57 +27,24 @@
             <div class="swiper-btn swiper-button-next"></div>
           </div>
         </div>
-        <!--投稿内容の表示-->
         <div class="card-body">
-          <!--投稿名-->
           <h5 class="card-title">
-            <!--ユーザーの場合-->
-            <% if current_user&.name? %>
-              <%= link_to post_path(post) do %>
-                <%= post.post_name %>
-              <% end %>
-            <!--管理者の場合-->
-            <% else %>
-              <%= link_to admin_post_path(post) do %>
-                <%= post.post_name %>
-              <% end %>
+            <%= link_to post_path(post) do %>
+              <%= post.post_name %>
             <% end %>
           </h5>
-          <!--投稿の説明-->
           <p class="card-text"><%= post.explanation %></p>
-          <!--タグ-->
           <% post.tags.each do |tag| %>
-            <!--ユーザーの場合-->
-            <% if current_user&.name? %>
-              <%= link_to tag_path(tag.id) do %>
-                #<%= tag.name %>
-              <% end %>
-            <!--管理者の場合-->
-            <% else %>
-              <%= link_to admin_tag_path(tag.id) do %>
-                #<%= tag.name %>
-              <% end %>
+            <%= link_to tag_path(tag.id) do %>
+              #<%= tag.name %>
             <% end %>
           <% end %>
           <br>
-          <!--ユーザーの場合-->
-          <% if current_user&.name? %>
-            <!--いいね-->
-            <span id="post_<%= post.id %>"><%= render "public/likes/like", post: post %></span>
-            <!--コメント-->
-            <%= link_to "#{post.comments.count}コメント", post_path(post.id) %>
-          <% else %>
-          <!--管理者の場合-->
-            <!--いいね-->
-            <i class="fa-regular fa-heart"></i><%= post.likes.count %>いいね
-            <!--コメント-->
-            <%= post.comments.count %>コメント
-          <% end %>
+          <span id="post_<%= post.id %>"><%= render "public/likes/like", post: post %></span>
+          <%= link_to "#{post.comments.count}コメント", post_path(post.id) %>
           <br>
-          <!--閲覧数-->
           <i class="fa-solid fa-eye"></i><%= post.view_counts.count %>
           <br>
-          <!--何時間前に投稿したか-->
           <i class="fa-regular fa-clock"></i><%= time_ago_in_words(post.created_at)+"前に投稿" %>
         </div>
       </div>

@@ -2,7 +2,6 @@
 <%= form_with model: post do |f| %>
   <div class="row">
     <div class="offset-lg-1 col-lg-10">
-      <!--投稿画像の設定-->
       <div class="form-group">
         <%= f.label :images, "画像(6枚まで投稿可)" %>
         <span class="text-danger form_essential">※必須</span>
@@ -20,13 +19,11 @@
               <%= image_tag image, class:"preview_img border border-secondary rounded ml-1"%>
             <% end %>
           </div>
-          <!--編集にて投稿画像を変更する場合に画像が変化する-->
-          <div id="edit_preview"></div>
+          <div id="edit_images_preview"></div>
         <% end %>
         <div id="error_message_post_image" class="text-danger"></div>
       </div>
 
-      <!--投稿名の設定-->
       <div class="form-group">
         <%= f.label :post_name, "投稿名(20文字以内)" %>
         <span class="text-danger form_essential">※必須</span>
@@ -34,7 +31,6 @@
         <div><span id="name_countUp"><%= post.post_name&.length || 0 %></span>/20文字</div>
       </div>
 
-      <!--投稿の説明の設定-->
       <div class="form-group">
         <%= f.label :explanation, "投稿の説明(100文字以内)" %>
         <span class="text-danger form_essential">※必須</span>
@@ -42,22 +38,18 @@
         <div><span id="explanation_countUp"><%= post.explanation&.length || 0 %></span>/100文字</div>
       </div>
 
-      <!--タグの設定-->
       <div class="form-group">
         <%= f.label :tag, "タグ (全角の空白で区切ると複数タグ登録できます)" %>
         <%= f.text_field :tag, placeholder: "タグを入力", class: "form-control w-75" %>
       </div>
-      <!--入力したタグの表示-->
       <div>
         <p>タグ：<span id="check_post_tags"></span></p>
       </div>
 
-      <!--モーダルウィンドウ表示ボタン-->
       <button type="button" id="GoogleMap" class="btn btn-outline-primary" data-toggle="modal" data-target=".bd-example-modal-lg">
         GoogleMapを使って場所を指定する
       </button>
 
-      <!--submitボタン-->
       <div class="text-left ml-2 mt-4">
         <% if post.new_record? %>
           <%= f.submit "投稿する", id: "submit-btn", class:"btn btn-outline-info" %>
@@ -74,7 +66,6 @@
             <div class="modal-header">
               <div class="modal-title" id="exampleModalLabel">
                 <h4>GoogleMap</h4>
-                <!--Google Mapの位置設定-->
                 <%= f.label :lat,"緯度" %>
                 <%= f.text_field :lat, placeholder: "緯度", id: :lat %>
                 <%= f.label :lng,"経度" %>

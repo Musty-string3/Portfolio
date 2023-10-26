@@ -1,9 +1,40 @@
 <!--管理者、投稿一覧-->
 <div class="container">
   <h3 class="text-center pb-3">投稿一覧</h3>
-  <h5 class="text-center"><%= flash[:notice] if flash[:notice] %></h5>
+  <h5 class="text-center">
+    <%= flash[:notice] if flash[:notice] %>
+  </h5>
   <% if @posts.present? %>
-    <%= render 'public/posts/index', posts: @posts %>
+    <table class="table table-hover mx-auto">
+    <thead>
+      <th>会員ID</th>
+      <th>ユーザー名</th>
+      <th>氏名</th>
+      <th>メールアドレス</th>
+      <th>会員ステータス</th>
+    </thead>
+    <tbody>
+      <% @posts.each do |user| %>
+        <tr>
+          <td><%= user.id %></td>
+          <td>
+            <%= link_to admin_user_path(user.id) do %>
+              <%= truncate(user.name, length: 15, omission: "...") %>
+            <% end %>
+          </td>
+          <td><%= user.full_name %></td>
+          <td><%= truncate(user.email, length: 30, omission: "...") %></td>
+          <td>
+            <% if user.is_deleted == true %>
+              <span class="text-danger font-weight-bold">退会済み</span>
+            <% else %>
+              <span class="text-success font-weight-bold">有効</span>
+            <% end %>
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
   <% else %>
     <h4 class="text-center">投稿はまだありません</h4>
   <% end %>

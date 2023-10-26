@@ -6,7 +6,6 @@
   <div class="col-12 col-lg-8 mx-auto">
     <%= render 'layouts/error_messages', resource: @user %>
       <%= form_with model: @user, url: admin_user_path(@user), method: :patch do |f| %>
-        <!--会員のフルネーム-->
         <div class="form-row">
           <div class="form-group col-6">
             <%= f.label :first_name, "苗字"%>
@@ -17,17 +16,14 @@
             <%= f.text_field :last_name, required: true, class:"form-control" %>
           </div>
         </div>
-        <!--ユーザー名-->
         <div class="form-group">
           <%= f.label :name, "ユーザー名" %>
           <%= f.text_field :name, required: true, class:"form-control" %>
         </div>
-        <!--メールアドレス-->
         <div class="form-group">
           <%= f.label :email, "メールアドレス" %>
           <%= f.email_field :email, required: true, class:"form-control" %>
         </div>
-        <!--会員ステータス-->
         <div class="form-group">
           <%= f.label :is_deleted, "会員ステータス", class:"mr-3" %>
           <%= f.radio_button :is_deleted, false %>

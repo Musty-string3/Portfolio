@@ -55,7 +55,7 @@ Rails.application.routes.draw do
     root to: 'users#index'
     get 'search', to: 'comments#search'
     resources :users, only: %i[index show edit update]
-    resources :posts, only: %i[index show edit update destroy]
+    resources :posts, only: %i[index show destroy]
     resources :tags, only: %i[show]
     resources :comments, only: %i[index destroy]
     resources :rates, only: %i[index]

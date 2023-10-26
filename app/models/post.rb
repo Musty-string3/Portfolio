@@ -6,10 +6,9 @@ class Post < ApplicationRecord
 
   validate :validates_images_count
 
-  # 投稿画像が5枚以上の場合にバリエーションエラー発動
   def validates_images_count
-    if images.attached? && images.length > 6
-      errors.add(:images, 'は5枚までしか投稿できません。')
+    if images.attached? && images.length >= 6
+      errors.add(:images, 'は6枚までしか投稿できません。')
     end
   end
 
@@ -21,23 +20,19 @@ class Post < ApplicationRecord
   has_many :liked_user, through: :likes, source: :user
   has_many :post_tags, dependent: :destroy
   has_many :tags, through: :post_tags
-  # ↑ tagsと多対多の関係であり、post_tagsが中間テーブルという意味
   has_many :notifications, dependent: :destroy
   has_many :view_counts, dependent: :destroy
   has_many :violates, dependent: :destroy
 
-  # タグ機能
-  def save_tag(sent_tags)
+  # タグの保存、編集
+  def save_tag(sent_tags, post)
+    post.post_tags.destroy_all
     current_tags = self.tags.pluck(:name) unless self.tags.nil?
     old_tags = current_tags - sent_tags
     new_tags = sent_tags - current_tags
-
-    # 古いタグ(old_tags)を消す
     old_tags.each do |old|
       self.tags.delete　Tag.find_by(name: old)
     end
-
-    # 新しいタグ(new_tags)を保存
     new_tags.each do |new|
       new_post_tag = Tag.find_or_create_by(name: new)
       self.tags << new_post_tag
@@ -112,5 +107,24 @@ class Post < ApplicationRecord
     end
     notification.save if notification.valid?
   end
+
+
+  def written_by?(current_user)
+    user == current_user
+  end
+
+  def self.sort_by_like(params_index)
+    posts = includes(:likes)
+    if params_index == "like"
+      posts.sort_by {|x| x.likes.size}.reverse
+    elsif params_index == "likes_in_week"
+      to  = Time.current.at_end_of_day
+      from  = (to - 6.day).at_beginning_of_day
+      posts.sort_by {|x| x.likes.where(created_at: from...to).size}.reverse
+    else
+      includes(:user).order(created_at: :desc)
+    end
+  end
+
 
 end

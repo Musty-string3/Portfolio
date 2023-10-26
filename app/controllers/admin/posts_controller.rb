@@ -10,23 +10,8 @@ class Admin::PostsController < ApplicationController
   end
 
   def show
-    @comment = Comment.new
-    @violate = Violate.new
-  end
-
-  def edit
-    @tags = @post.tags.pluck(:name).join('、')
-  end
-
-  def update
-    tag_list = params[:post][:tag].split('、')
-    if @post.update(post_params)
-      @post.post_tags.destroy_all
-      @post.save_tag(tag_list)
-      redirect_to admin_post_path(@post), notice: "投稿の編集に成功しました。"
-    else
-      render :edit, notice: "投稿の編集に失敗しました。"
-    end
+    @comment = nil
+    @violate = nil
   end
 
   def destroy
