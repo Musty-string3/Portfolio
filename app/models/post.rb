@@ -1,13 +1,13 @@
 class Post < ApplicationRecord
 
-  validates :post_name, presence: true, length: { minimum: 1, maximum: 20 }
-  validates :explanation, presence: true, length: { minimum: 1, maximum: 100 }
+  validates :post_name, presence: true, length: { maximum: 20 }
+  validates :explanation, presence: true, length: {  maximum: 100 }
   validates :images, presence: true
 
   validate :validates_images_count
 
   def validates_images_count
-    if images.attached? && images.length >= 6
+    if images.attached? && images.length > 7
       errors.add(:images, 'は6枚までしか投稿できません。')
     end
   end
@@ -23,6 +23,8 @@ class Post < ApplicationRecord
   has_many :notifications, dependent: :destroy
   has_many :view_counts, dependent: :destroy
   has_many :violates, dependent: :destroy
+
+  scope :user_post_created_desc, -> {includes(:user).all.order(created_at: :desc)}
 
   # タグの保存、編集
   def save_tag(sent_tags, post)
@@ -111,6 +113,10 @@ class Post < ApplicationRecord
 
   def written_by?(current_user)
     user == current_user
+  end
+
+  def has_lat_lng
+    lat.present? && lng.present?
   end
 
   def self.sort_by_like(params_index)

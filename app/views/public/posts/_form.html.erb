@@ -1,7 +1,7 @@
 <!--投稿画面のフォーム-->
 <%= form_with model: post do |f| %>
   <div class="row">
-    <div class="offset-lg-1 col-lg-10">
+    <div class="col-12 col-lg-10 mx-auto">
       <div class="form-group">
         <%= f.label :images, "画像(6枚まで投稿可)" %>
         <span class="text-danger form_essential">※必須</span>
@@ -14,10 +14,16 @@
             <%= f.file_field :images, accept: "image/*", multiple: true, onchange: "postImage(this)" %><br>
           </div>
           <!--存続の投稿画像の表示-->
-          <div id="postImage">
-            <% post.images.each do |image| %>
-              <%= image_tag image, class:"preview_img border border-secondary rounded ml-1"%>
-            <% end %>
+          <div id="postImage" class="row">
+            <div class="col-10">
+              <div class="row">
+                <% @post.images.each do |image| %>
+                  <div class="col-4 p-1 text-center">
+                    <%= image_tag image, class:'preview_img img-thumbnail' %>
+                  </div>
+                <% end %>
+              </div>
+            </div>
           </div>
           <div id="edit_images_preview"></div>
         <% end %>
@@ -50,7 +56,7 @@
         GoogleMapを使って場所を指定する
       </button>
 
-      <div class="text-left ml-2 mt-4">
+      <div class="justify-content-around mt-3">
         <% if post.new_record? %>
           <%= f.submit "投稿する", id: "submit-btn", class:"btn btn-outline-info" %>
         <% else %>

@@ -4,14 +4,12 @@ class Admin::PostsController < ApplicationController
   before_action :set_post, except: %i[index]
 
   def index
-    @posts = Post.includes(:user).all.order(created_at: :desc)
+    @posts = Post.user_post_created_desc
     tags = User.tag_joins_posts
     @tags = set_tag_count(tags)
   end
 
   def show
-    @comment = nil
-    @violate = nil
   end
 
   def destroy

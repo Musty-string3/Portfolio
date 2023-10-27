@@ -1,4 +1,39 @@
 <!--管理者の投稿詳細画面-->
 <div class="container">
-  <%= render 'public/posts/show', post: @post, comment: @comment, violate: @violate %>
+  <div class="row">
+    <div class="col-8 mx-auto">
+      <div class="row">
+        <% @post.images.each do |image| %>
+          <div class="col-4 p-1">
+            <%= image_tag image, class:'preview_img img-thumbnail' %>
+          </div>
+        <% end %>
+      </div>
+      <h4 class="pt-4">投稿ID<span class="ml-3"><%= @post.id %></span></h4>
+      <div class="border-bottom"></div>
+      <h4 class="pt-2">投稿名</h4>
+      <h5 class="ml-3"><%= @post.post_name %></h5>
+      <div class="border-bottom"></div>
+      <h4 class="pt-2">投稿名</h4>
+      <h5 class="ml-3"><%= @post.explanation %></h5>
+      <div class="border-bottom"></div>
+      <h4 class="pt-2">投稿したユーザー</h4>
+      <h4 class="pt-2">
+        <span class="ml-3">
+          <%= @post.user.name %>
+          （ユーザーID：<%= @post.user.id %>）
+        </span>
+      </h4>
+      <div class="border-bottom"></div>
+      <div class="row justify-content-around mt-4">
+        <% if @post.has_lat_lng %>
+          <button type="button" class="btn btn-primary" data-toggle="modal" data-target=".bd-example-modal-lg">
+            GoogleMapを表示する
+          </button>
+          <%= render 'public/posts/google_map' %>
+        <% end %>
+        <%= link_to '投稿の削除', admin_post_path(@post.id), method: :delete, data: {confirm: "この投稿を削除しますか？"}, class:"btn btn-danger" %>
+      </div>
+    </div>
+  </div>
 </div>

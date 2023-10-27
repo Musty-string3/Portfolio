@@ -22,7 +22,7 @@ class Public::PostsController < ApplicationController
     @post = current_user.posts.new(post_params)
     tag_list = params[:post][:tag].split('　')
     if @post.save
-      @post.save_tag(tag_list)
+      @post.save_tag(tag_list, @post)
       redirect_to post_path(@post), notice: "投稿されました！"
     else
       render :new
