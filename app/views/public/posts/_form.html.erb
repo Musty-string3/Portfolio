@@ -1,31 +1,29 @@
 <!--投稿画面のフォーム-->
 <%= form_with model: post do |f| %>
   <div class="row">
-    <div class="col-12 col-lg-10 mx-auto">
+    <div class="col-12 col-lg-8 mx-auto">
       <div class="form-group">
         <%= f.label :images, "画像(6枚まで投稿可)" %>
         <span class="text-danger form_essential">※必須</span>
         <br>
         <% if post.new_record? %>
           <%= f.file_field :images, accept: "image/*", required: true, multiple: true, onchange: "loadImage(this)" %>
-          <div id="preview"></div>
+          <div id="preview" class="d-flex flex-wrap"></div>
         <% else %>
           <div class="mb-2">
             <%= f.file_field :images, accept: "image/*", multiple: true, onchange: "postImage(this)" %><br>
           </div>
           <!--存続の投稿画像の表示-->
           <div id="postImage" class="row">
-            <div class="col-10">
-              <div class="row">
-                <% @post.images.each do |image| %>
-                  <div class="col-4 p-1 text-center">
-                    <%= image_tag image, class:'preview_img img-thumbnail' %>
-                  </div>
-                <% end %>
-              </div>
+            <div class="d-flex flex-wrap">
+              <% @post.images.each do |image| %>
+                <div class="col-6 col-lg-4 p-1 text-center">
+                  <%= image_tag image, class:'preview_img img-thumbnail' %>
+                </div>
+              <% end %>
             </div>
           </div>
-          <div id="edit_images_preview"></div>
+          <div id="edit_images_preview" class="d-flex flex-wrap"></div>
         <% end %>
         <div id="error_message_post_image" class="text-danger"></div>
       </div>
@@ -33,30 +31,32 @@
       <div class="form-group">
         <%= f.label :post_name, "投稿名(20文字以内)" %>
         <span class="text-danger form_essential">※必須</span>
-        <%= f.text_field :post_name, required: true, data: {'max-length' => 20}, class: "form-control valid-check w-75" %>
+        <%= f.text_field :post_name, required: true, data: {'max-length' => 20}, class: "form-control valid-check w-100" %>
         <div><span id="name_countUp"><%= post.post_name&.length || 0 %></span>/20文字</div>
       </div>
 
       <div class="form-group">
         <%= f.label :explanation, "投稿の説明(100文字以内)" %>
         <span class="text-danger form_essential">※必須</span>
-        <%= f.text_area :explanation, required: true, data: { 'max-length' => 100 }, class: "form-control valid-check w-75" %>
+        <%= f.text_area :explanation, required: true, data: { 'max-length' => 100 }, class: "form-control valid-check w-100" %>
         <div><span id="explanation_countUp"><%= post.explanation&.length || 0 %></span>/100文字</div>
       </div>
 
       <div class="form-group">
         <%= f.label :tag, "タグ (全角の空白で区切ると複数タグ登録できます)" %>
-        <%= f.text_field :tag, placeholder: "タグを入力", class: "form-control w-75" %>
+        <%= f.text_field :tag, placeholder: "タグを入力", class: "form-control w-100" %>
       </div>
       <div>
         <p>タグ：<span id="check_post_tags"></span></p>
       </div>
 
-      <button type="button" id="GoogleMap" class="btn btn-outline-primary" data-toggle="modal" data-target=".bd-example-modal-lg">
-        GoogleMapを使って場所を指定する
-      </button>
+      <div class="row justify-content-start">
+        <button type="button" id="GoogleMap" class="ml-3 btn btn-outline-primary" data-toggle="modal" data-target=".bd-example-modal-lg">
+          GoogleMapを使って場所を指定する
+        </button>
+      </div>
 
-      <div class="justify-content-around mt-3">
+      <div class="row justify-content-around mt-3">
         <% if post.new_record? %>
           <%= f.submit "投稿する", id: "submit-btn", class:"btn btn-outline-info" %>
         <% else %>

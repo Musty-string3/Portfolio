@@ -1,50 +1,56 @@
 <div class="container">
-  <div class="row d-flex">
-    <h4>ユーザーからの違反報告</h4>
-  </div>
+  <h4 class="text-center pb-3">ユーザーからの違反報告</h4>
   <div class="row">
     <table class="table table-bordered">
       <thead>
         <th class="col-lg-2">報告したユーザー</th>
         <th class="col-lg-2">違反したユーザー</th>
         <th class="col-lg-2">投稿名</th>
-        <th class="col-lg-2">違反の説明</th>
         <th class="col-lg-2">違反理由</th>
-        <th class="col-lg-2">URL</th>
+        <th class="col-lg-2">違反の説明</th>
+        <th class="col-lg-2">詳細</th>
       </thead>
       <tbody>
         <% @violates.each do |violate| %>
           <tr>
             <td>
               <%= link_to admin_user_path(violate.reporter.id) do %>
-                <%= violate.reporter.name %>
+                <span class='border-bottom border-dark text-dark'>
+                  <%= violate.reporter.name %>
+                </span>
               <% end %>
             </td>
             <td>
               <%= link_to admin_user_path(violate.reported.id) do %>
-                <%= violate.reported.name %>
+                <span class='border-bottom border-dark text-dark'>
+                  <%= violate.reported.name %>
+                </span>
               <% end %>
             </td>
             <td>
               <%= link_to admin_post_path(violate.post.id) do %>
-                <%= violate.post.post_name %>
-              <% end %>
-            </td>
-            <td>
-              <% if violate.text.present? %>
-                <%= truncate(violate.text, length: 15, omission: "...") %>
-              <% else %>
-                なし
+                <span class='border-bottom border-dark text-dark'>
+                  <%= violate.post.post_name %>
+                </span>
               <% end %>
             </td>
             <td><%= violate.status_i18n %></td>
             <td>
-              <p class="text_dark" data-toggle="modal" data-target="#violate">
-                詳細確認
+              <% if violate.text.present? %>
+                <%= truncate(violate.text, length: 20, omission: "...") %>
+              <% else %>
+                なし
+              <% end %>
+            </td>
+            <td>
+              <p class="text_dark" data-toggle="modal" data-target="#violate<%= violate.id %>">
+                <span class='border-bottom border-dark text-dark'>
+                  詳細を確認する
+                </span>
               </p>
 
-              <div class="modal fade" id="violate" tabindex="-1" role="dialog" aria-labelledby="reporteTitle" aria-hidden="true">
-                <div class="modal-dialog" role="document">
+              <div class="modal fade" id="violate<%= violate.id %>" tabindex="-1" role="dialog" aria-labelledby="reporteTitle" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered" role="document">
                   <div class="modal-content">
                     <div class="modal-header">
                       <h5 class="modal-title" id="reporteTitle">
@@ -55,23 +61,19 @@
                       </button>
                     </div>
                     <div class="modal-body">
-                      <p>
-                        ユーザー名：<%= violate.reported.name %>
-                        (ユーザーID：<%= violate.reported.id %>)
-                      </p>
-                      <p>
-                        投稿名：<%= violate.post.post_name %>
-                        (投稿ID：<%= violate.post.id %>)
-                      </p>
+                      <p>ユーザー名：<%= violate.reported.name %></p>
+                      <p>投稿名：<%= violate.post.post_name %>
                       <p>違反内容：<%= violate.status_i18n %></p>
-                      <p>
-                        説明：
-                        <% if violate.text.present? %>
-                          <%= violate.text %>
-                        <% else %>
-                          なし
-                        <% end %>
-                      </p>
+                      <div>
+                        <div>説明</div>
+                        <div class="pl-2">
+                          <% if violate.text.present? %>
+                            <%= violate.text %>
+                          <% else %>
+                            なし
+                          <% end %>
+                        </div>
+                      </div>
                     </div>
                     <div class="modal-footer">
                       <%= link_to "投稿を見る", admin_post_path(violate.post.id), class:"btn btn-primary"%>

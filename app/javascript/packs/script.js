@@ -11,7 +11,7 @@ function loadImage(obj){
 	for (let i = 0; i < obj.files.length; i++) {
 		fileReader = new FileReader();
 		fileReader.onload = (function (e) {
-			$('#preview').append('<img class="m-1 preview_img border border-secondary rounded" src="' + e.target.result + '">');
+			$('#preview').append('<div class="col-6 col-lg-4 p-1 text-center"><img class="preview_img img-thumbnail" src="' + e.target.result + '"></div>');
 			$('#images_check_field').show();
 		});
 		fileReader.readAsDataURL(obj.files[i]);

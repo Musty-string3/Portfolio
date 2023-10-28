@@ -54,8 +54,7 @@
 }
 
 .preview_img {
-	width: 280px;
-	height: 180px;
+	aspect-ratio: 4/3;
 	object-fit: cover;
 }
 
