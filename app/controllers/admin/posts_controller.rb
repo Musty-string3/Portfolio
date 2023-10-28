@@ -4,9 +4,14 @@ class Admin::PostsController < ApplicationController
   before_action :set_post, except: %i[index]
 
   def index
-    @posts = Post.user_post_created_desc
-    tags = User.tag_joins_posts
-    @tags = set_tag_count(tags)
+    user_id = params[:user_id]
+    if user_id
+      @posts = Post.for_user_created_desc(user_id)
+    else
+      @posts = Post.for_users_created_desc
+      tags = User.tag_joins_posts
+      @tags = set_tag_count(tags)
+    end
   end
 
   def show

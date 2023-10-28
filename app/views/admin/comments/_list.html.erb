@@ -1,0 +1,34 @@
+<table class="table table-bordered">
+  <thead>
+    <th class="col-2">コメントしたユーザー</th>
+    <th class="col-3">コメントされた投稿</th>
+    <th class="col-4">コメント内容</th>
+    <th class="col-2">コメントされた日時</th>
+    <th class="col-1">削除</th>
+  </thead>
+  <tbody>
+    <% comments.each do |comment| %>
+      <tr>
+        <td>
+          <%= link_to admin_user_path(comment.user) do %>
+            <span class='border-bottom border-dark text-dark'>
+              <%= comment.user.name %>
+            </span>
+          <% end %>
+        </td>
+        <td>
+          <%= link_to admin_post_path(comment.post) do %>
+            <span class='border-bottom border-dark text-dark'>
+              <%= comment.post.post_name %>
+            </span>
+          <% end %>
+        </td>
+        <td><%= truncate(comment.text, length: 40, omission: "...") %></td>
+        <td><%= comment.created_at.strftime('%Y/%m/%d %H:%M:%S') %></td>
+        <td>
+          <%= link_to '削除', admin_comment_path(comment.id), method: :delete, data: {confirm: "コメントを削除しますか？"}, class:'btn btn-outline-danger' %>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>

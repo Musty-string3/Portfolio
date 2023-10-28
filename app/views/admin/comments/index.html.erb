@@ -1,30 +1,21 @@
 <div class="container">
-  <div class="offset-lg-8">
-    <%= form_with url: admin_search_path, method: :get do |f| %>
-      <%= f.text_field :keyword, placeholder: "検索内容" %>
-      <%= f.select :model, options_for_select({'ユーザー'=>'user', '投稿'=>'post'}) %>
-      <%= f.submit "検索" %>
-    <% end %>
-  </div>
-  <table class="table table-bordered">
-    <thead>
-      <th>コメントしたユーザー</th>
-      <th>コメントされた投稿</th>
-      <th>コメント内容</th>
-      <th>コメントされた日時</th>
-    </thead>
-    <tbody>
-      <% @comments.each do |comment| %>
-        <tr>
-          <td><%= link_to comment.user.name, admin_user_path(comment.user) %></td>
-          <td>
-            <%= link_to comment.post.post_name, admin_post_path(comment.post) %>
-            (コメント件数<%= @comment_count[comment.post_id] %>件)
-          </td>
-          <td><%= comment.text %></td>
-          <td><%= comment.created_at.strftime('%Y/%m/%d %H:%M:%S') %></td>
-        </tr>
+  <h3 class="text-center">コメント一覧</h3>
+  <div class="form-inline">
+    <div class="mx-auto form-group mb-3">
+      <% if @comments.present? %>
+        <%= form_with url: admin_search_path, method: :get do |f| %>
+          <%= f.text_field :keyword, placeholder: "検索内容", class:'form-control' %>
+          <!--TODO selectのheight?-->
+          <%= f.select :model, options_for_select({'ユーザー'=>'user', '投稿'=>'post'}), class:'p-1' %>
+          <%= f.submit "検索", class:'btn btn-primary' %>
+        <% end %>
       <% end %>
-    </tbody>
-  </table>
+    </div>
+  </div>
+  <h5 class="text-center p-3 text-danger"><%= flash[:notice] if flash[:notice] %></h5>
+  <% if @comments.present? %>
+    <%= render 'list', comments: @comments %>
+  <% else %>
+    <h4 class="text-center">コメントはありません。</h4>
+  <% end %>
 </div>

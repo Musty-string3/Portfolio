@@ -24,7 +24,7 @@ class Post < ApplicationRecord
   has_many :view_counts, dependent: :destroy
   has_many :violates, dependent: :destroy
 
-  scope :user_post_created_desc, -> {includes(:user).all.order(created_at: :desc)}
+  scope :for_users_created_desc, -> {includes(:user).all.order(created_at: :desc)}
 
   # タグの保存、編集
   def save_tag(sent_tags, post)
@@ -46,23 +46,14 @@ class Post < ApplicationRecord
     Post.where('post_name LIKE?', keyword+'%')
   end
 
-  # 検索機能(管理者側)
-  def self.search_comments(keyword)
-    Post.includes(:user).where('post_name LIKE?', keyword+'%')
-  end
-
-  # like?(user)メソッドはlikesテーブルに引数で渡されたuser(current_user)が存在(exists)するか調べる
-  # whereはlikesテーブル内にuser.id(current_user)が存在するか全部確認して存在していたらtrueを返し、逆ならfalseを返す
   def like?(user)
     likes.where(user_id: user.id).exists?
   end
 
-  # 1週間のいいね数
   def likes_in_week
     likes.where(created_at: (Time.current.at_end_of_day - 6.day).at_beginning_of_day...Time.current.at_end_of_day).size
   end
 
-  # 本日の投稿閲覧回数
   def today_view_count(post)
     view_counts.where(created_at: Time.zone.now.all_day, post_id: post).count
   end
@@ -117,6 +108,10 @@ class Post < ApplicationRecord
 
   def has_lat_lng
     lat.present? && lng.present?
+  end
+
+  def self.for_user_created_desc(user_id)
+    where(user_id: user_id).order(created_at: :desc)
   end
 
   def self.sort_by_like(params_index)

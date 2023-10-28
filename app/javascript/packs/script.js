@@ -98,7 +98,6 @@ function validateForm() {
 
 // バリデーションチェック結果に応じてclassを変更する
 function changeValidClass(elem, maxLength) {
-  // パスワード6文字以上でOK
   if (maxLength == 999 && elem.val().length < 6) {
     elem.removeClass("is-valid");
     elem.addClass("is-invalid");
@@ -119,7 +118,7 @@ jQuery(document).on('turbolinks:load', function(){
   $(document).ready(function() {
 
 
-    // 文字数カウントしたい
+    // 文字数カウントしたい箇所
     const array = [
       ["#user_name", "#new_user_name_countUp", 20], //ユーザー新規登録のニックネーム
       ["#user_name", "#user_name_countUp", 20], //ユーザー編集のニックネーム
@@ -129,7 +128,9 @@ jQuery(document).on('turbolinks:load', function(){
       ["#room_group_group_description", "#group_description_countUp", 100], //グループチャットの説明(新規、編集)
       ["#user_password", "#new_user_password_countUp", 6],  //ユーザー新規登録のパスワード
       ["#user_password_confirmation", "#new_user_password_check_countUp", 6], //ユーザー新規登録のパスワード確認
-      ["#user_introduction", "#user_introduction_countUp", 100] //ユーザーの説明(編集)
+      ["#user_introduction", "#user_introduction_countUp", 100], //ユーザーの説明(編集)
+      ["#user_name", "#name_countUp", 20], //管理者ユーザー名(編集)
+      ["#user_introduction", "#introduction_countUp", 100] //管理者ユーザー説明(編集)
     ]
     for (const value of array) {
       setupTextCounter(value[0], value[1], value[2]);
@@ -137,13 +138,11 @@ jQuery(document).on('turbolinks:load', function(){
 
     // 文字数カウント
     function setupTextCounter(inputId, countUpId, maxLength){
-      console.log('hello');
       const textInput = $(inputId);
       const countUp = $(countUpId);
       textInput.on('keyup', function(){
         const textLength = textInput.val().length;
         countUp.text(textLength);
-        // パスワード6文字以上でOK
         if (maxLength == 6 && textLength < 6) {
           countUp.css('color', 'red');
         }else if (maxLength == 6) {
@@ -177,13 +176,6 @@ jQuery(document).on('turbolinks:load', function(){
       const max_length = $(this).data("max-length");
       changeValidClass($(this), max_length);
     });
-
-    // Enterキーを押せなくする
-    // $(document).on("keypress", function(event) {
-    //   if (event.keyCode === 13) {
-    //     return false;
-    //   }
-    // });
   });
 });
 

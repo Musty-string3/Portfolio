@@ -7,10 +7,10 @@
       <% else %>
         <h5>検索名：全ユーザー</h5>
       <% end %>
-      <p>（マッチした検索数<%= @count %>件）</p>
+      <p>（マッチした検索数<%= @comments.count %>件）</p>
     </div>
-    <% if @users.present? %>
-      <%= render 'comment_users', users: @users %>
+    <% if @comments.present? %>
+      <%= render 'list', comments: @comments %>
     <% else %>
       検索したユーザーのコメントは見つかりませんでした。
     <% end %>
@@ -21,12 +21,15 @@
       <% else %>
         <h5>検索名：全投稿</h5>
       <% end %>
-      <p>（マッチした検索数<%= @count %>件）</p>
+      <p>（マッチした検索数<%= @comments.count %>件）</p>
     </div>
-    <% if @posts.present? %>
-      <%= render 'comment_posts', posts: @posts %>
+    <% if @comments.present? %>
+      <%= render 'list', comments: @comments %>
     <% else %>
       検索した投稿は見つかりませんでした。
     <% end %>
   <% end %>
+  <div class="row justify-content-center pt-3">
+    <%= link_to 'コメント一覧に戻る', admin_comments_path, class:'btn btn-outline-primary' %>
+  </div>
 </div>

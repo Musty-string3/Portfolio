@@ -22,6 +22,7 @@ window.loadImage = script.loadImage;
 window.initMap = script.initMap;
 window.codeAddress = script.codeAddress;
 window.validateForm = script.validateForm;
+window.profileImage = script.profileImage;
 
 import Raty from "raty.js"
 window.raty = function(elem,opt) {

@@ -17,7 +17,7 @@ class Admin::UsersController < ApplicationController
     if @user.update(user_params)
       redirect_to admin_user_path(@user), notice: "ユーザー情報の変更に成功しました。"
     else
-     render :show, notice: "会員情報の編集に失敗しました。再度内容をご確認ください。"
+     render :edit, notice: "会員情報の編集に失敗しました。再度内容をご確認ください。"
     end
   end
 
@@ -28,6 +28,6 @@ class Admin::UsersController < ApplicationController
   end
 
   def user_params
-    params.require(:user).permit(:first_name, :last_name, :name, :email, :is_deleted)
+    params.require(:user).permit(:first_name, :last_name, :name, :introduction, :email, :is_deleted, :profile_image)
   end
 end

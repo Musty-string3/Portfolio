@@ -72,14 +72,9 @@ class User < ApplicationRecord
     profile_image.variant(resize: "#{width}x#{height}", gravity: "center", crop: "#{width}x#{height}+0+0").processed
   end
 
+  # TODO
   # 検索機能
   def self.search_for(keyword)
-    #検索したkeywordがusersテーブルにある場合、その名前を全取得する
-    User.where('name LIKE?', keyword+'%')
-  end
-
-  # 検索機能(管理者側)
-  def self.search_comments(keyword)
     User.where('name LIKE?', keyword+'%')
   end
 

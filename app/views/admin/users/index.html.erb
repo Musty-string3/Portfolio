@@ -1,7 +1,7 @@
 <!--管理者のユーザー一覧-->
 <div class="container">
   <%= flash[:notice] if flash[:notice] %>
-  <table class="table table-hover mx-auto">
+  <table class="table table-bordered mx-auto">
     <thead>
       <th>会員ID</th>
       <th>ユーザー名</th>
@@ -15,7 +15,9 @@
           <td><%= user.id %></td>
           <td>
             <%= link_to admin_user_path(user.id) do %>
-              <%= truncate(user.name, length: 15, omission: "...") %>
+              <span class='border-bottom border-dark text-dark'>
+                <%= truncate(user.name, length: 15, omission: "...") %>
+              </span>
             <% end %>
           </td>
           <td><%= user.full_name %></td>
