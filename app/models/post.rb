@@ -1,4 +1,6 @@
 class Post < ApplicationRecord
+  
+  
 
   validates :post_name, presence: true, length: { maximum: 20 }
   validates :explanation, presence: true, length: {  maximum: 100 }

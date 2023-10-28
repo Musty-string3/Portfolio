@@ -1,4 +1,5 @@
 class Rate < ApplicationRecord
+  include Sortable  # app/models/concerns/sortable.rbが使える
 
   belongs_to :user
 

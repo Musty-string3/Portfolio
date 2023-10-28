@@ -12,7 +12,9 @@
       <% end %>
     </div>
   </div>
-  <h5 class="text-center p-3 text-danger"><%= flash[:notice] if flash[:notice] %></h5>
+  <h5 class="text-center p-3 text-danger">
+    <%= flash[:notice] if flash[:notice] %>
+  </h5>
   <% if @comments.present? %>
     <%= render 'list', comments: @comments %>
   <% else %>
