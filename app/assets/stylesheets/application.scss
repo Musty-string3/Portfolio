@@ -13,3 +13,11 @@
  *= require_tree .
  *= require_self
  */
+
+ .top_bg_image {
+   background-image: image-url("mountain.jpg");
+   background-size: cover;
+   background-position: center center;
+   height: 400px;
+   width: 100%;
+ }

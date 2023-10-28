@@ -1,14 +1,73 @@
-<!--ユーザートップ画面-->
+<!--トップ画面-->
 <div class="container">
-  <div class="text-center">
+  <div class="text-center pb-3">
     <%= flash[:notice] if flash[:notice] %>
-    <h4>
-      ようこそ！<br>
-      ここでは観光地に訪れるのが好きな方や観光地を探したい方<br>
-      またはお気に入りの観光地をみんなに宣伝したい！<br>
-      といった機能を実装したサイトとなっています。<br>
-      投稿、または登録に対してのいいねやコメントをするには<br>
-      ユーザー登録が必要になります。
-    </h4>
+  </div>
+  <div class="row">
+    <div class="col-10 col-lg-12 mx-auto top_bg_image">
+      <h1 class="col text-center pt-4 swiper-btn">
+        あなたのお気に入りの<br>
+        観光地を共有しよう
+      </h1>
+      <p class="text-center swiper-btn">Discover Your Dream Destinations</p>
+      <div class="row d-flex align-items-center pt-5">
+        <div class="mx-auto">
+          <%= link_to "新規登録はこちら", new_user_registration_path, class: 'm-3 btn btn-success' %>
+          <%= link_to "ログイン", new_user_session_path, class: 'm-3 btn btn-primary' %>
+          <%= link_to "ゲストログイン", guest_sign_in_path, method: :post, class: 'm-3 btn btn-info' %>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="bg-light pt-5">
+    <h4 class="text-center pb-3">最新の投稿</h4>
+    <div class="card-deck">
+      <% @posts.each do |post| %>
+        <div class="col-lg-4 col-md-6 col-sm-12 mb-5">
+          <div class="card h-100">
+            <div class="card-text">
+              <%= link_to user_path(post.user) do %>
+                <%= image_tag post.user.get_profile_image(60, 60), class:"border border-dark rounded-circle", width: 40, height: 40 %>
+                <%= post.user.name %>
+              <% end %>
+            </div>
+            <div class="post-image-slider">
+              <div class="swiper">
+                <div class="swiper-wrapper">
+                  <% post.images.each do |image| %>
+                    <div class="swiper-slide">
+                      <%= image_tag image, class: "card-img-top rounded post_index_images" %>
+                    </div>
+                  <% end %>
+                </div>
+                <div class="swiper-pagination"></div>
+                <div class="swiper-btn swiper-button-prev"></div>
+                <div class="swiper-btn swiper-button-next"></div>
+              </div>
+            </div>
+            <div class="card-body">
+              <h5 class="card-title">
+                <%= link_to post_path(post) do %>
+                  <%= post.post_name %>
+                <% end %>
+              </h5>
+              <p class="card-text"><%= post.explanation %></p>
+              <% post.tags.each do |tag| %>
+                <%= link_to tag_path(tag.id) do %>
+                  #<%= tag.name %>
+                <% end %>
+              <% end %>
+              <br>
+              <i class="fa-regular fa-heart"></i><%= post.likes.count %>いいね
+              <%= post.comments.count %>コメント
+              <br>
+              <i class="fa-solid fa-eye"></i><%= post.view_counts.count %>
+              <br>
+              <i class="fa-regular fa-clock"></i><%= time_ago_in_words(post.created_at)+"前に投稿" %>
+            </div>
+          </div>
+        </div>
+      <% end %>
+    </div>
   </div>
 </div>

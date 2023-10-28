@@ -1,7 +1,8 @@
 class Public::TagsController < ApplicationController
+  before_action :authenticate_user!
 
   def show
     @tag = Tag.find(params[:id])
-    @posts = Post.includes(:post_tags, :user).where(post_tags: {tag_id: params[:id]})
+    @posts = @tag.posts.includes(:user)
   end
 end

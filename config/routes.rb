@@ -19,7 +19,6 @@ Rails.application.routes.draw do
   # ユーザー用
   scope module: :public do
     root to: 'homes#top'
-    get 'about', to: 'homes#about'
     get 'search', to: 'searches#search' # 検索
     resources :users, only: %i[show update] do
       member do

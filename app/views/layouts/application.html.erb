@@ -7,6 +7,7 @@
     <%= csp_meta_tag %>
 
     <script src="https://kit.fontawesome.com/5960b679dc.js" crossorigin="anonymous"></script>
+    <%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
     <%= stylesheet_pack_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
     <%= javascript_pack_tag 'application', 'data-turbolinks-track': 'reload' %>
   </head>
@@ -108,9 +109,6 @@
             <% else %>
               <li class="nav-item" >
                 <%= link_to "Top", root_path, class: 'nav-link text-dark' %>
-              </li>
-              <li class="nav-item" >
-                <%= link_to "About", about_path, class: 'nav-link text-dark' %>
               </li>
               <li class="nav-item" >
                 <%= link_to "新規登録", new_user_registration_path, class: 'nav-link text-dark' %>
