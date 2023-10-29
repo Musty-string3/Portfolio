@@ -2,14 +2,16 @@
 <div class="container">
   <% if @posts.present? %>
   <div class="row">
-    <div class="col-12 ml-3">
+    <div class="col-12">
       <h4 class="text-center"><%= @sort_condition %>で表示しています</h4>
     </div>
-    <div class="col-lg-12 text-right">
-      <%= form_with url: posts_path, method: :get do |f| %>
-        <%= f.select :sort, options_for_select({"新着投稿"=>"new", "いいね順"=>"like", "直近のいいね順"=>"likes_in_week" }) %>
-        <%= f.submit "検索する" %>
-      <% end %>
+    <div class="col-12 mx-auto">
+      <div class="justify-content-end form-inline mr-3 mb-3">
+        <%= form_with url: posts_path, method: :get do |f| %>
+          <%= f.select :sort, options_for_select({"新着投稿"=>"new", "いいね順"=>"like", "直近のいいね順"=>"likes_in_week" }), {prompt: false}, class:"pt-1 pb-2 rounded border border-secondary mr-2" %>
+          <%= f.submit '検索', class:"btn btn-outline-success my-2 my-sm-0" %>
+        <% end %>
+      </div>
     </div>
   </div>
     <%= render 'index', posts: @posts %>

@@ -1,6 +1,4 @@
 class Post < ApplicationRecord
-  
-  
 
   validates :post_name, presence: true, length: { maximum: 20 }
   validates :explanation, presence: true, length: {  maximum: 100 }
@@ -9,7 +7,7 @@ class Post < ApplicationRecord
   validate :validates_images_count
 
   def validates_images_count
-    if images.attached? && images.length > 7
+    if images.attached? && images.length > 6
       errors.add(:images, 'は6枚までしか投稿できません。')
     end
   end
@@ -127,6 +125,18 @@ class Post < ApplicationRecord
     else
       includes(:user).order(created_at: :desc)
     end
+  end
+
+  def self.where_records_for_user(user)
+    includes(:user).where(user_id: user.id)
+  end
+
+  def self.liked_by_others(current_user)
+    joins(:likes).where(likes: {user_id: current_user.id}).where.not(user_id: current_user.id)
+  end
+
+  def self.posts_by_followings(current_user)
+    where(user_id: [*current_user.followings.ids])
   end
 
 

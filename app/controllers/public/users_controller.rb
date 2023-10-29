@@ -1,6 +1,6 @@
 class Public::UsersController < ApplicationController
 
-  include TagCount  # app/concerns/tag_count.rbが使える
+  include TagCount
   before_action :authenticate_user!
   before_action :set_current_user, except: %i[show]
   before_action :current_user?, only: %i[edit_information update withdrawal likes timeline]
@@ -8,30 +8,15 @@ class Public::UsersController < ApplicationController
 
   def show
     @user = User.find(params[:id])
-    @post_counts = Post.where(user_id: @user).count
-    @user_posts = Post.includes(:user).where(user: { id: @user})
-    # タグ機能
-    tags = User.tag_joins_posts.where(posts: {user_id: @user})
-    @tags = set_tag_count(tags)
-    # DMしている人数
-    @entries_count = Entry.where(user_id: @user.id).count
-    # DM機能
-    current_user_entry = Entry.where(user_id: current_user.id)
-    user_entry = Entry.where(user_id: @user.id)
+    @user_posts = Post.where_records_for_user(@user)
+    @entries_count = Entry.count_by_user(@user)
+    @room_id = Entry.check_chatroom(@user, current_user)
     @isRoom = false
-    unless @user == current_user
-      current_user_entry.each do |current|
-        user_entry.each do |user|
-          if current.room_id == user.room_id
-            @isRoom = true
-            @room_id = current.room_id
-          end
-        end
-      end
-      unless @isRoom
-        @room = Room.new
-        @entry = Entry.new
-      end
+    if @room_id.nil?
+      @room = Room.new
+      @entry = Entry.new
+    else
+      @isRoom = true
     end
   end
 
@@ -41,26 +26,27 @@ class Public::UsersController < ApplicationController
 
   def update
     if @user.update(user_params)
-      redirect_to user_path(@user), notice: "会員情報の編集に成功しました。"
+      flash[:notice] = "会員情報の編集に成功しました。"
+      redirect_to user_path(@user)
     else
-      render :edit_information, notice: "会員情報の編集に失敗しました。再度内容をご確認ください。"
+      flash.now[:alert] = "会員情報の編集に失敗しました。再度内容をご確認ください。"
+      render :edit_information
     end
   end
 
   def withdrawal
-    @user.update(is_deleted: true)  #is_deletedをtrueに変更する
-    reset_session                   #セッション情報を全て削除
-    redirect_to root_path, notice: "退会処理を実行いたしました"
+    @user.update(is_deleted: true)
+    reset_session
+    redirect_to root_path
+    flash[:notice] ="退会処理を実行いたしました"
   end
 
-  # いいねした投稿
   def likes
-    @posts = Post.includes(:likes).where(likes: {user_id: current_user.id}).where.not(user_id: current_user.id)
+    @posts = Post.liked_by_others(current_user)
   end
 
-  # タイムライン
   def timeline
-    @posts = Post.where(user_id: [*current_user.followings.ids])
+    @posts = Post.posts_by_followings(current_user)
   end
 
   private
@@ -69,10 +55,10 @@ class Public::UsersController < ApplicationController
     @user = current_user
   end
 
-  # ログインユーザーでない場合の処理
   def current_user?
     user = User.find(params[:id])
     unless user == current_user
+      flash[:alert] = "他のユーザーの情報は操作できません"
       redirect_back fallback_location: user_path(current_user.id)
     end
   end

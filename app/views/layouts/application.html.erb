@@ -14,120 +14,99 @@
 
   <body>
     <header>
-      <nav class="navbar navbar-expand-lg navbar-light">
-        <div class="container pb-4">
-          <ul class="navbar-nav ml-auto">
-            <% if user_signed_in? %>
-              <li class="nav-item" >
-                <%= link_to "レビュー", new_rate_path, class: 'nav-link text-dark' %>
-              </li>
-              <!--ユーザー詳細-->
-              <li class="nav-item" >
-                <%= link_to user_path(current_user), class: 'nav-link text-dark' do %>
-                  <i class="fa-solid fa-user"></i>
-                <% end %>
-              </li>
-              <!--タイムライン-->
-              <li class="nav-item" >
-                <%= link_to timeline_user_path(current_user), class: 'nav-link text-dark' do %>
-                  <i class="fa-solid fa-house"></i>
-                <% end %>
-              </li>
-              <!--新規投稿-->
-              <li class="nav-item" >
-                <%= link_to new_post_path, class: 'nav-link text-dark' do %>
-                  <i class="fa-solid fa-plus"></i>
-                <% end %>
-              </li>
-              <!--通知-->
-              <li class="nav-item" >
-                <%= link_to notifications_path, class: 'nav-link text-dark' do %>
-                  <% if current_user.unchecked_notifications == 0 %>
-                     <i class="fa-solid fa-bell"style="font-size: 1.1em;"></i>
-                  <% else %>
+      <nav class="navbar navbar-expand-lg navbar-light" style="background-color: #e3f2fd;">
+        <div class="container">
+          <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav mr-auto">
+              <% if user_signed_in? %>
+                <li class="nav-item" >
+                  <%= link_to 'マイページ', user_path(current_user), class: 'nav-link text-dark' %>
+                </li>
+                <li class="nav-item" >
+                  <%= link_to 'タイムライン', timeline_user_path(current_user), class: 'nav-link text-dark' %>
+                </li>
+                <li class="nav-item" >
+                  <%= link_to '新規投稿', new_post_path, class: 'nav-link text-dark' %>
+                </li>
+                <li class="nav-item" >
+                  <%= link_to "投稿一覧", posts_path, class: 'nav-link text-dark' %>
+                </li>
+                <li class="nav-item" >
+                  <%= link_to "グループチャット", room_groups_path, class: 'nav-link text-dark' %>
+                </li>
+                <li class="nav-item" >
+                  <%= link_to '通知', notifications_path, class: 'nav-link text-dark' %>
+                  <% if current_user.unchecked_notifications > 0 %>
                     <span class="fa-layers" style="position: relative;">
-                      <i class="far fa-bell fa-lg icon_layers_icon" style="font-size: 1.5em;"></i>
                       <span class="icon_layers_counter"><%= current_user.unchecked_notifications %></span>
                     </span>
                   <% end %>
-                <% end %>
-              </li>
-              <!--投稿一覧-->
-              <li class="nav-item" >
-                <%= link_to "投稿一覧", posts_path, class: 'nav-link text-dark' %>
-              </li>
-              <!--グループチャット-->
-              <li class="nav-item" >
-                <%= link_to "グループチャット", room_groups_path, class: 'nav-link text-dark' %>
-              </li>
-              <!--ログアウト-->
-              <li class="nav-item" >
-                <%= link_to destroy_user_session_path, method: :delete, class: 'nav-link text-dark' do %>
-                  <i class="fa-solid fa-right-from-bracket"></i>
-                <% end %>
-              </li>
-              <!--検索-->
-              <li>
-                <%= render 'public/searches/form' %>
-              </li>
-            <% elsif admin_signed_in? %>
-              <li class="nav-item" >
-                <%= link_to "会員一覧", admin_root_path, class: 'nav-link text-dark' %>
-              </li>
-              <li class="nav-item" >
-                <%= link_to "投稿一覧", admin_posts_path, class: 'nav-link text-dark' %>
-              </li>
-              <li class="nav-item" >
-                <%= link_to "コメント一覧", admin_comments_path, class: 'nav-link text-dark' %>
-              </li>
-              <li class="nav-item" >
-                <%= link_to "ログアウト", destroy_admin_session_path, method: :delete, class: 'nav-link text-dark' %>
-              </li>
-              <li class="nav-item" >
-                <%= link_to admin_rates_path, class: 'nav-link text-dark' do %>
-                  <% if Rate.unchecked_rates_notifications == 0 %>
-                    レビュー一覧
-                  <% else %>
-                    <p class="icon_layers">レビュー一覧</p>
-                     <span class="n-circle"><%= Rate.unchecked_rates_notifications %></span>
+                </li>
+              <% elsif admin_signed_in? %>
+                <li class="nav-item" >
+                  <%= link_to "会員一覧", admin_root_path, class: 'nav-link text-dark' %>
+                </li>
+                <li class="nav-item" >
+                  <%= link_to "投稿一覧", admin_posts_path, class: 'nav-link text-dark' %>
+                </li>
+                <li class="nav-item" >
+                  <%= link_to "コメント一覧", admin_comments_path, class: 'nav-link text-dark' %>
+                </li>
+                <li class="nav-item" >
+                  <%= link_to "ログアウト", destroy_admin_session_path, method: :delete, class: 'nav-link text-dark' %>
+                </li>
+                <li class="nav-item" >
+                  <%= link_to admin_rates_path, class: 'nav-link text-dark' do %>
+                    <% if Rate.unchecked_rates_notifications == 0 %>
+                      レビュー一覧
+                    <% else %>
+                      <p class="icon_layers">レビュー一覧</p>
+                       <span class="n-circle"><%= Rate.unchecked_rates_notifications %></span>
+                    <% end %>
                   <% end %>
-                <% end %>
-              </li>
-              <li class="nav-item" >
-                <%= link_to admin_violates_path, class: 'nav-link text-dark' do %>
-                  <% if Violate.unchecked_violate_notifications == 0 %>
-                    違反通知
-                  <% else %>
-                    <p class="icon_layers">違反通知</p>
-                     <span class="n-circle"><%= Violate.unchecked_violate_notifications %></span>
+                </li>
+                <li class="nav-item" >
+                  <%= link_to admin_violates_path, class: 'nav-link text-dark' do %>
+                    <% if Violate.unchecked_violate_notifications == 0 %>
+                      違反通知
+                    <% else %>
+                      <p class="icon_layers">違反通知</p>
+                       <span class="n-circle"><%= Violate.unchecked_violate_notifications %></span>
+                    <% end %>
                   <% end %>
-                <% end %>
-              </li>
-              <li>
-                <%= render 'public/searches/form' %>
-              </li>
-            <% else %>
-              <li class="nav-item" >
-                <%= link_to "Top", root_path, class: 'nav-link text-dark' %>
-              </li>
-              <li class="nav-item" >
-                <%= link_to "新規登録", new_user_registration_path, class: 'nav-link text-dark' %>
-              </li>
-              <li class="nav-item" >
-                <%= link_to "ログイン", new_user_session_path, class: 'nav-link text-dark' %>
-              </li>
-              <li class="nav-item" >
-                <%= link_to "ゲストログイン", guest_sign_in_path, method: :post, class: 'nav-link text-dark' %>
-              </li>
-              <li class="nav-item" >
-                <%= link_to "管理者ログイン", new_admin_session_path, class: 'nav-link text-dark' %>
-              </li>
+                </li>
+              <% else %>
+                <li class="nav-item" >
+                  <%= link_to "Top", root_path, class: 'nav-link text-dark' %>
+                </li>
+                <li class="nav-item" >
+                  <%= link_to "新規登録", new_user_registration_path, class: 'nav-link text-dark' %>
+                </li>
+                <li class="nav-item" >
+                  <%= link_to "ログイン", new_user_session_path, class: 'nav-link text-dark' %>
+                </li>
+                <li class="nav-item" >
+                  <%= link_to "ゲストログイン", guest_sign_in_path, method: :post, class: 'nav-link text-dark' %>
+                </li>
+                <li class="nav-item" >
+                  <%= link_to "管理者ログイン", new_admin_session_path, class: 'nav-link text-dark' %>
+                </li>
+              <% end %>
+            </ul>
+            <% if user_signed_in? || admin_signed_in? %>
+              <%= render 'public/searches/form' %>
             <% end %>
-          </ul>
+          </div>
         </div>
       </nav>
     </header>
-    <%= yield %>
+    <div class="border border-bottom"></div>
+    <div class="pt-3">
+      <%= yield %>
+    </div>
     <footer>
       <div class="pt-5 pb-5"></div>
     </footer>

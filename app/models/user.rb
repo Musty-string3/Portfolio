@@ -80,8 +80,11 @@ class User < ApplicationRecord
 
   # フォローしているかの判定
   def follow?(user)
-    #include?で引数のuserが1つでもあった場合はtrueを返し、逆ならfalseを返す
     followings.include?(user)
+  end
+
+  def written_by?(current_user, user)
+    user == current_user
   end
 
   def create_notification_follow!(current_user)

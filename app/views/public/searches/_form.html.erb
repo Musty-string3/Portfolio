@@ -1,7 +1,8 @@
-<!--検索内容入力画面-->
 <!--検索は前方一致のみ-->
-<%= form_with url: search_path, method: :get, local: true do |f| %>
-  <%= f.text_field :keyword %>
-  <%= f.select :model, options_for_select({"ユーザー"=>"user", "投稿"=>"post"})%>
-  <%= f.submit '検索' %>
-<% end %>
+<div class="form-inline my-2 my-lg-0">
+  <%= form_with url: search_path, method: :get, local: true do |f| %>
+    <%= f.text_field :keyword, placeholder: "キーワードを検索", class:"form-control mr-sm-2" %>
+    <%= f.select :model, options_for_select({"ユーザー"=>"user", "投稿"=>"post"}), {prompt: false}, class:"pt-1 pb-2 rounded border border-secondary mr-2" %>
+    <%= f.submit '検索', class:"btn btn-outline-success my-2 my-sm-0" %>
+  <% end %>
+</div>
