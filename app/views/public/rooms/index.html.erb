@@ -1,33 +1,30 @@
-<!--連絡を取り合っている人の一覧画面-->
+<!--DMしているユーザーの一覧画面-->
 <div class="container">
-  <div class="rooms_index">
-    <h5>あなたと連絡を取り合っているユーザー数は<%= @entries.count %>人です</h5>
-    <!--DMしているユーザー一覧-->
-    <table class="table table-hover">
-      <tbody>
-        <% @another_entries.each do |entry| %>
-          <tr onclick='window.location="<%= room_path(entry.room.id) %>"' role="link">
-            <td class="col-2" style="border-top: none;"></td>
-            <td class="col-6">
-              <div class="row">
-                <div class="col-2">
+  <h4 class="text-center">あなたと連絡を取り合っているユーザー数は<%= @entries.count %>人です</h4>
+  <div class="row">
+    <div class="col-10 col-lg-8 mx-auto">
+      <div class="row">
+        <table class="table table-hover mt-2">
+          <tbody>
+            <% @another_entries.each do |entry| %>
+              <tr onclick='window.location="<%= room_path(entry.room.id) %>"' role="link">
+                <td class="col-2 text-center">
                   <%= image_tag entry.user.get_profile_image(60, 60), class:"border border-dark rounded-circle", width: 40, height: 40 %>
-                </div>
-                <div class="pl-3 col-10">
-                  <div class="row">
-                    <div class="col-3"><span class="h5"><%= entry.user.name %></span></div>
-                    <div class="col-9">
-                      <p><%= truncate(entry.user.introduction, length: 20, omission: "...") %></p>
-                    </div>
+                </td>
+                <td class="col-6 col-lg-8">
+                  <div>
+                    <h5><%= entry.user.name %></h5>
                   </div>
-                </div>
-              </div>
-            </td>
-            <td class="col-2"><%= time_ago_in_words(entry.created_at)+'前' %></td>
-            <td class="col-2" style="border-top: none;"></td>
-          </tr>
-        <% end %>
-      </tbody>
-    </table>
+                  <div class="d-none d-md-block">
+                    <%= truncate(entry.user.introduction, length: 30, omission: "...") %>
+                  </div>
+                </td>
+                <td class="col-4 col-lg-2"><%= time_ago_in_words(entry.created_at)+'前' %></td>
+              </tr>
+            <% end %>
+          </tbody>
+        </table>
+      </div>
+    </div>
   </div>
 </div>

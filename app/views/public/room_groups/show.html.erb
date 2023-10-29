@@ -1,36 +1,38 @@
 <!--各グループチャット画面-->
 <div class="container">
   <%= flash[:notice] if flash[:notice] %>
-  <!--グループチャット名-->
-  <div>
-    <h3 class="col-10">
-      <%= @group.name %>
-      <span class="float-right">
+  <div class="row">
+    <div class="col-12 col-md-10 mx-auto">
+      <h3 class="text-center"><%= @group.name %></h3>
+      <div class="justify-content-center d-flex">
+        <p>参加しているユーザー数<%= @group_users.count %>人</p>
+        <%= link_to room_group_user_groups_path(@group) do %>
+        <span class='border-bottom border-dark text-dark'>
+          ユーザーを見る
+        </span>
+        <% end %>
+      </div>
+      <div class="row justify-content-end mb-5 mr-3">
         <button type="button" class="mr-2 btn btn-outline-danger" data-toggle="modal" data-target="#exampleModalCenter">
           退会
         </button>
         <%= render 'delete', leader: @is_leader, group: @room_group, ejected: @ejected, current_user_group: @current_user_group %>
-        <% if @leader.user_id == current_user.id %>
+        <!--TODO @leader.written_by?(current_user)-->
+        <% if @leader.written_by?(current_user) %>
           <%= link_to "編集", edit_room_group_path(@group), class:"btn btn-outline-success" %>
         <% end %>
-      </span>
-    </h3>
+      </div>
+      <% if @message_groups.present? %>
+        <%= render 'public/messages/messages',messages: @message_groups %>
+      <% else %>
+        <h4 class="pt-5 pb-3 text-center">
+          まだグループチャット内で会話が行われていません。<br>
+          グループチャットメンバーと話してみよう！
+        </h4>
+      <% end %>
+    </div>
   </div>
-  <div>
-    参加しているユーザー数<%= @group_users.count %>人
-    <%= link_to "ユーザーを見る", room_group_user_groups_path(@group) %>
-  </div>
-  <% if @message_groups.present? %>
-    <!--メッセージフィールド-->
-    <%= render 'public/messages/messages',messages: @message_groups %>
-  <% else %>
-    <h4 class="pt-5 pb-3 text-center">
-      まだグループチャット内で会話が行われていません。<br>
-      グループチャットメンバーと話してみよう！
-    </h4>
-  <% end %>
-  <!--メッセージ入力-->
-  <div class="dm-form">
+  <div class="col-12 col-lg-8 mx-auto">
     <%= form_with model: @message_group, url: polymorphic_path([@group, :message_groups]), method: :post do |f| %>
       <div class="row">
         <div class="col-9 col-sm-10">
@@ -43,5 +45,4 @@
       </div>
     <% end %>
   </div>
-  <h6 style="color: red;">参加、退会時のテキスト未追加</h6>
 </div>

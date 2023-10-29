@@ -1,4 +1,5 @@
 class Post < ApplicationRecord
+  include WrittenBy
 
   validates :post_name, presence: true, length: { maximum: 20 }
   validates :explanation, presence: true, length: {  maximum: 100 }
@@ -99,11 +100,6 @@ class Post < ApplicationRecord
       notification.checked = true
     end
     notification.save if notification.valid?
-  end
-
-
-  def written_by?(current_user)
-    user == current_user
   end
 
   def has_lat_lng

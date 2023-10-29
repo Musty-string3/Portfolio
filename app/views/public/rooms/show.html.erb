@@ -1,26 +1,20 @@
 <!--１対１のDM画面-->
 <div class="container">
-  <div class="row">
-    <div class="col-2"></div>
-    <p class="col-8 text-center">
-      <%= image_tag @current_entry.user.get_profile_image(60, 60), class:"border border-dark rounded-circle", width: 40, height: 40 %>
-      <%= @current_entry.user.name %>(あなた)と
-      <%= image_tag @another_entry.user.get_profile_image(60, 60), class:"border border-dark rounded-circle", width: 40, height: 40 %>
-      <%= @another_entry.user.name %>さんのチャットルームです
-    </p>
-  </div>
-
-  <!--メッセージの表示-->
+  <h5 class="d-none d-md-block text-center">
+    <%= image_tag @current_entry.user.get_profile_image(60, 60), class:"border border-dark rounded-circle", width: 40, height: 40 %>
+    <%= @current_entry.user.name %>(あなた)と
+    <%= image_tag @another_entry.user.get_profile_image(60, 60), class:"border border-dark rounded-circle", width: 40, height: 40 %>
+    <%= @another_entry.user.name %>さんのチャットルームです
+    <div class="border-bottom pt-2"></div>
+  </h5>
   <div id="messages">
     <%= render 'public/messages/messages', messages: @messages %>
   </div>
-
-  <!--メッセージ入力フィールド-->
-  <div class="dm-form">
+  <div class="col-12 col-lg-8 mx-auto">
     <%= form_with model: @message, url: messages_path, method: :post, local: false do |f| %>
       <div class="row">
         <div class="col-9 col-sm-10">
-          <%= f.text_field :text, placeholder: "メッセージを入力してください", class:"w-100 form-control" %>
+          <%= f.text_field :text, required: true, placeholder: "メッセージを入力してください", class:"w-100 form-control" %>
           <%= f.hidden_field :room_id, value: @room.id %>
         </div>
         <div class="col-3 col-sm-2 pl-0">

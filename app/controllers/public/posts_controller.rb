@@ -23,10 +23,12 @@ class Public::PostsController < ApplicationController
     tag_list = params[:post][:tag].split('　')
     if @post.save
       @post.save_tag(tag_list, @post)
-      redirect_to post_path(@post), notice: "投稿されました！"
+      redirect_to post_path(@post)
+      flash[:notice] = "投稿されました"
     else
-      render :new
       @tag_list = Tag.new
+      flash[:alert] = "投稿に失敗しました"
+      render :new
     end
   end
 
@@ -47,9 +49,11 @@ class Public::PostsController < ApplicationController
     tag_list = params[:post][:tag].split('　')
     if @post.update(post_params)
       @post.save_tag(tag_list, @post)
-      redirect_to post_path(@post), notice: "投稿の編集に成功しました。"
+      redirect_to post_path(@post)
+      flash[:notice] = "投稿の編集に成功しました。"
     else
-      render :edit, notice: "投稿の編集に失敗しました。"
+      render :edit
+      flash[:alert] = "投稿の編集に失敗しました。"
     end
   end
 

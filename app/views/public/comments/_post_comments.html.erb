@@ -1,5 +1,7 @@
 <!--コメントの表示（非同期通信）-->
-<p>コメント件数<%= post.comments.count %>件</p>
+<% if post.comments.count > 0%>
+  <p>コメント件数<%= post.comments.count %>件</p>
+<% end %>
 <% post.comments.each do |comment| %>
   <div class="border-top pt-1"></div>
   <!--ユーザーの場合-->

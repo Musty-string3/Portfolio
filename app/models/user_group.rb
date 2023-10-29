@@ -1,4 +1,6 @@
 class UserGroup < ApplicationRecord
+  include WrittenBy
+
   belongs_to :user
   belongs_to :room_group
 
@@ -12,9 +14,9 @@ class UserGroup < ApplicationRecord
       user.name
     end
   end
-  
+
   def self.user_group_join?(user, group)
     find_by(user_id: user.id, room_group_id: group.id)
   end
-  
+
 end
