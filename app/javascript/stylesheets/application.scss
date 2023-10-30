@@ -79,3 +79,17 @@
 .list_none {
 	list-style:none;
 }
+
+.new_btn{
+  font-size: 80px;
+  right: 350px;
+  bottom: 75px;
+}
+
+@media screen and ( max-width:1024px) {
+  .new_btn{
+    font-size: 50px;
+    right: 5px;
+    bottom: 50px;
+  }
+}

@@ -29,9 +29,6 @@
                   <%= link_to 'タイムライン', timeline_user_path(current_user), class: 'nav-link text-dark' %>
                 </li>
                 <li class="nav-item" >
-                  <%= link_to '新規投稿', new_post_path, class: 'nav-link text-dark' %>
-                </li>
-                <li class="nav-item" >
                   <%= link_to "投稿一覧", posts_path, class: 'nav-link text-dark' %>
                 </li>
                 <li class="nav-item" >
@@ -104,9 +101,7 @@
       </nav>
     </header>
     <div class="border border-bottom"></div>
-    <div class="pt-3">
-      <%= yield %>
-    </div>
+    <%= yield %>
     <footer>
       <div class="pt-5 pb-5"></div>
     </footer>
