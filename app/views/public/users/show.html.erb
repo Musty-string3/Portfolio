@@ -1,70 +1,71 @@
 <!--ユーザーページ-->
-<div class="bg-light">
-
-  <div class="container">
-    <div class="text-center text-success">
-      <%= flash[:notice] if flash[:notice] %>
-    </div>
-    <div class="text-center text-danger">
-      <%= flash[:alert] if flash[:alert] %>
-    </div>
-    <div class="row">
-      <div class="col-10 mx-auto">
-        <div class="row">
-          <div class="col-lg-2">
-            <div class="text-center mb-xs-0 mb-5">
-              <%= image_tag @user.get_profile_image(150, 150), class:"border border-dark rounded-circle", width: 100, height: 100 %>
-            </div>
+<div class="container">
+  <div class="text-center text-success">
+    <%= flash[:notice] if flash[:notice] %>
+  </div>
+  <div class="text-center text-danger">
+    <%= flash[:alert] if flash[:alert] %>
+  </div>
+  <div class="row">
+    <div class="col-12 col-lg-10 mx-auto">
+      <div class="row">
+        <div class="col-lg-2">
+          <div class="text-center mb-xs-0 mb-5">
+            <%= image_tag @user.get_profile_image(150, 150), class:"border border-dark rounded-circle", width: 100, height: 100 %>
           </div>
-          <div class="col-lg-10">
-            <h3 class="pt-1 pb-1">
-              <%= @user.name %>
-              <span class="float-right">
-                <% if @user == current_user %>
-                  <%= link_to "編集", edit_user_path(@user), class:"btn btn-outline-success" %>
-                  <%= link_to "いいねした一覧", likes_user_path(@user), class:"btn btn-outline-info" %>
-                <% end %>
-              </span>
-            </h3>
-            <div class="pt-1 pb-4">
-              <h5><%= @user.introduction %></h5>
-              <div class="d-flex">
-                <div id="follow_<%= @user.id %>" class="pt-1">
-                  <%= render 'public/relations/follow', user: @user, isRoom: @isRoom, room_id: @room_id, room: @room, entry: @entry %>
-                </div>
-                <div class="pl-2 pt-1">
-                  <% if @user == current_user && @entries_count > 0 %>
-                    <%= link_to rooms_path do %>
-                      <i class="fa-regular fa-envelope"></i>
-                    <% end %>
-                  <% end %>
-                </div>
+        </div>
+        <div class="col-lg-10">
+          <h3 class="pt-1 pb-1">
+            <%= @user.name %>
+            <span class="float-right">
+              <% if @user == current_user %>
+                <%= link_to "編集", edit_user_path(@user), class:"btn btn-outline-success" %>
+                <%= link_to "いいねした一覧", likes_user_path(@user), class:"btn btn-outline-info" %>
+              <% end %>
+            </span>
+          </h3>
+          <div class="pt-1 pb-4">
+            <h5><%= @user.introduction %></h5>
+            <div class="d-flex">
+              <div id="follow_<%= @user.id %>" class="pt-1">
+                <%= render 'public/relations/follow', user: @user, isRoom: @isRoom, room_id: @room_id, room: @room, entry: @entry %>
               </div>
-              投稿数 <%= @user.posts.count %>投稿
+              <div class="pl-2 pt-1">
+                <% if @user == current_user && @entries_count > 0 %>
+                  <%= link_to rooms_path do %>
+                    <i class="fa-regular fa-envelope"></i>
+                  <% end %>
+                <% end %>
+              </div>
             </div>
+            投稿数 <%= @user.posts.count %>投稿
           </div>
-        </div>
-        <div class="row">
-          <% if @user == current_user %>
-            <h4 class="mx-auto pb-3">あなたの投稿一覧</h4>
-          <% else %>
-            <h4 class="mx-auto pb-3"><%= @user.name %>さんの投稿一覧</h4>
-          <% end %>
-          <div class="col-lg-12">
-            <% if @user_posts.present? %>
-              <%= render 'public/posts/index', posts: @user_posts, tag_counts: @tags %>
-            <% else %>
-              <h5 class="text-center">投稿はまだありません。</h5>
-            <% end %>
-          </div>
-        </div>
-        <div class="row justify-content-around">
-          <% if @user.written_by?(current_user, @user) %>
-            <%= link_to "レビュー", new_rate_path, class: 'btn btn-outline-info' %>
-            <%= link_to "ログアウト", destroy_user_session_path, method: :delete, class: 'btn btn-outline-dark' %>
-          <% end %>
         </div>
       </div>
+      <div class="row">
+        <% if @user == current_user %>
+          <h4 class="mx-auto pb-3">あなたの投稿一覧</h4>
+        <% else %>
+          <h4 class="mx-auto pb-3"><%= @user.name %>さんの投稿一覧</h4>
+        <% end %>
+      </div>
+      <% if @user_posts.present? %>
+        <%= render 'public/posts/index', posts: @user_posts, tag_counts: @tags %>
+      <% else %>
+        <h5 class="text-center">投稿はまだありません。</h5>
+      <% end %>
+      <% if @user.written_by?(current_user, @user) %>
+        <div class="row justify-content-center">
+          <p>
+            <span><%= link_to "こちら", new_rate_path, class: 'text-dark border-bottom border-dark' %></span>
+            からサイトの評価をお願いします
+          </p>
+        </div>
+        <div class="row justify-content-center">
+          <p><%= link_to "ログアウト", destroy_user_session_path, method: :delete, class: 'text-dark border-bottom border-dark' %></p>
+        </div>
+      <% end %>
     </div>
   </div>
+  <%= render 'public/posts/new_btn' %>
 </div>

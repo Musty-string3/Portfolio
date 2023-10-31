@@ -34,13 +34,14 @@
       </div>
     </h4>
     <% if @records.present? %>
-    <% if user_signed_in? %>
-      <%= render 'public/posts/index', posts: @records %>
-    <% else %>
-      <%= render 'admin/posts/index', posts: @records %>
-    <% end %>
+      <% if user_signed_in? %>
+        <%= render 'public/posts/index', posts: @records %>
+      <% else %>
+        <%= render 'admin/posts/index', posts: @records %>
+      <% end %>
     <% else %>
       検索した投稿は見つかりませんでした。
     <% end %>
+    <%= render 'public/posts/new_btn' %>
   <% end %>
 </div>

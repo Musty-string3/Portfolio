@@ -5,7 +5,7 @@
 <%# end %>
 <div class="card-deck">
   <% posts.each do |post| %>
-    <div class="col-lg-4 col-md-6 col-sm-12 mb-5">
+    <div class="col-lg-4 col-md-6 col-sm-12 mb-5 p-0">
       <div class="card h-100">
         <div class="card-text">
           <%= link_to user_path(post.user) do %>
@@ -50,9 +50,4 @@
       </div>
     </div>
   <% end %>
-  <div id="new_post" class="position-fixed new_btn">
-    <%= link_to new_post_path, class: 'text-white' do %>
-    <i class="fa-solid fa-circle-plus text-primary"></i>
-    <% end %>
-  </div>
 </div>
