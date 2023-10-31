@@ -7,6 +7,14 @@ ja:
         copyright_violation: "著作権違反"
         slander:  "誹謗中傷、悪口"
   activerecord:
+    models:
+      user: "ユーザー"
+    attributes:
+      user:
+        first_name: "苗字"
+        last_name: "名前"
+        name: "ニックネーム"
+        introduction: "自己紹介"
     errors:
       messages:
         record_invalid: 'バリデーションに失敗しました: %{errors}'

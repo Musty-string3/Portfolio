@@ -29,7 +29,7 @@ class Post < ApplicationRecord
 
   # タグの保存、編集
   def save_tag(sent_tags, post)
-    post.post_tags.destroy_all
+    post.tags.destroy_all
     current_tags = self.tags.pluck(:name) unless self.tags.nil?
     old_tags = current_tags - sent_tags
     new_tags = sent_tags - current_tags

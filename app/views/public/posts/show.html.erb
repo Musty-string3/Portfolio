@@ -1,82 +1,86 @@
 <!--投稿詳細画面-->
 <div class="container">
   <%= flash[:notice] if flash[:notice] %>
-  <div class="row mt-3">
-    <div class="col-lg-6">
-      <%= link_to user_path(@post.user.id) do %>
-        <%= image_tag @post.user.get_profile_image(60, 60), class:"border border-dark rounded-circle", width: 40, height: 40 %>
-        <%= @post.user.name %>
-      <% end %>
-      <div class="swiper">
-        <div class="swiper-wrapper">
-          <% @post.images.each do |image| %>
-            <div class="swiper-slide">
-              <%= image_tag image, class:'preview_img img-thumbnail' %>
+  <div class="row">
+    <div class="col-12 col-md-10 mx-auto">
+      <div class="row mt-3">
+        <div class="col-lg-6">
+          <%= link_to user_path(@post.user.id) do %>
+            <%= image_tag @post.user.get_profile_image(60, 60), class:"border border-dark rounded-circle", width: 40, height: 40 %>
+            <%= @post.user.name %>
+          <% end %>
+          <div class="swiper">
+            <div class="swiper-wrapper">
+              <% @post.images.each do |image| %>
+                <div class="swiper-slide">
+                  <%= image_tag image, class:'preview_img img-thumbnail swiper_image' %>
+                </div>
+              <% end %>
+            </div>
+            <div class="swiper-pagination"></div>
+            <div class="swiper-btn swiper-button-prev"></div>
+            <div class="swiper-btn swiper-button-next"></div>
+          </div>
+        </div>
+        <div class="col-lg-5 ml-3 mt-5">
+          <h3 class="pt-2 pb-3"><%= @post.post_name %></h3>
+          <h5 class="pd-3"><%= @post.explanation %></h5>
+          <% @post.tags.each do |tag| %>
+            <%= link_to tag_path(tag) do %>
+              #<%= tag.name %>
+            <% end %>
+          <% end %>
+          <div class="pt-2">
+            <div class="ml-2">
+              <span id="post_<%= @post.id %>"><%= render "public/likes/like", post: @post %></span>
+            </div>
+            <i class="ml-2 mt-1 fa-solid fa-eye pt-1"></i><%= @post.view_counts.count %>
+            <div class="ml-2 mt-1">
+              <i class="fa-regular fa-clock pt-1"></i><%= time_ago_in_words(@post.created_at)+"前に投稿" %>
+            </div>
+            <div>
+              <% if @post.has_lat_lng %>
+                <div>
+                  <button type="button" class="btn btn-primary mt-3" data-toggle="modal" data-target=".bd-example-modal-lg">
+                    GoogleMapを表示する
+                  </button>
+                </div>
+                <%= render 'google_map' %>
+              <% end %>
+              <% if @post.written_by?(current_user) %>
+                <div>
+                  <%= link_to "投稿を編集する", edit_post_path(@post), class:"btn btn-info mt-3" %>
+                </div>
+              <% end %>
+              <% unless @post.user == current_user %>
+                <div>
+                  <button type="button" class="btn btn-danger mt-3" data-toggle="modal" data-target="#testModal">投稿違反を報告する</button>
+                </div>
+              <% end %>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="row mt-5">
+        <div class="col-lg-6">
+          <%= form_with model: [@post, @comment], local: false do |f| %>
+            <div class="form-group">
+              <%= f.text_area :text, required: true, size: "35x2", placeholder: "コメント入力欄", class: "form-control" %>
+              <%= f.submit "コメントする", class:"btn btn-outline-success mt-2" %>
             </div>
           <% end %>
         </div>
-        <div class="swiper-pagination"></div>
-        <div class="swiper-btn swiper-button-prev"></div>
-        <div class="swiper-btn swiper-button-next"></div>
+      </div>
+
+      <div class="row mt-2">
+        <div class="col-lg-10">
+          <div id="comment_area">
+            <%= render 'public/comments/post_comments', post: @post %>
+          </div>
+        </div>
       </div>
     </div>
-    <div class="col-lg-5 ml-3 mt-5">
-      <h3 class="pt-2 pb-3"><%= @post.post_name %></h3>
-      <h5 class="pd-3"><%= @post.explanation %></h5>
-      <% @post.tags.each do |tag| %>
-        <%= link_to tag_path(tag) do %>
-          #<%= tag.name %>
-        <% end %>
-      <% end %>
-      <div class="pt-2">
-        <div class="ml-2">
-          <span id="post_<%= @post.id %>"><%= render "public/likes/like", post: @post %></span>
-        </div>
-        <i class="ml-2 mt-1 fa-solid fa-eye pt-1"></i><%= @post.view_counts.count %>
-        <div class="ml-2 mt-1">
-          <i class="fa-regular fa-clock pt-1"></i><%= time_ago_in_words(@post.created_at)+"前に投稿" %>
-        </div>
-        <div>
-          <% if @post.has_lat_lng %>
-            <div>
-              <button type="button" class="btn btn-primary mt-3" data-toggle="modal" data-target=".bd-example-modal-lg">
-                GoogleMapを表示する
-              </button>
-            </div>
-            <%= render 'google_map' %>
-          <% end %>
-          <% if @post.written_by?(current_user) %>
-            <div>
-              <%= link_to "投稿を編集する", edit_post_path(@post), class:"btn btn-info mt-3" %>
-            </div>
-          <% end %>
-          <% unless @post.user == current_user %>
-            <div>
-              <button type="button" class="btn btn-danger mt-3" data-toggle="modal" data-target="#testModal">投稿違反を報告する</button>
-            </div>
-          <% end %>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <div class="row mt-5">
-    <div class="col-lg-6">
-      <%= form_with model: [@post, @comment], local: false do |f| %>
-        <div class="form-group">
-          <%= f.text_area :text, required: true, size: "35x2", placeholder: "コメント入力欄", class: "form-control" %>
-          <%= f.submit "コメントする", class:"btn btn-outline-success mt-2" %>
-        </div>
-      <% end %>
-    </div>
-  </div>
-
-  <div class="row mt-2">
-  <div class="col-lg-10">
-    <div id="comment_area">
-      <%= render 'public/comments/post_comments', post: @post %>
-    </div>
-  </div>
   </div>
 
   <div class="modal fade" id="testModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">

@@ -18,7 +18,7 @@
       <!--ニックネーム-->
       <div class="form-group">
         <span class="mr-5">
-          <%= f.label :name, "ニックネーム(最大10文字)" %>
+          <%= f.label :name, "ニックネーム(最大20文字)" %>
         </span>
         <%= f.text_field :name, required: true, class:"form-control" %>
         <div><span id="user_name_countUp"><%= @user.name&.length || 0 %></span>/20文字</div>
