@@ -44,8 +44,7 @@ post_data = [
     lat: 43.0625276,
     lng: 141.3534824,
     images: [
-      "time1.jpg",
-      "time2.jpg"
+      "time1.jpg"
     ]
   },
   {

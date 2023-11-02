@@ -42,7 +42,6 @@ class Post < ApplicationRecord
     end
   end
 
-  # 検索機能
   def self.search_for(keyword)
     Post.where('post_name LIKE?', keyword+'%')
   end
@@ -134,6 +133,9 @@ class Post < ApplicationRecord
   def self.posts_by_followings(current_user)
     where(user_id: [*current_user.followings.ids])
   end
-
+  
+  def self.related_to_tag(tag)
+    joins(:user, :tags).where(tags:{name: tag.name})
+  end
 
 end

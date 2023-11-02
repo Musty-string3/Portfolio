@@ -15,6 +15,11 @@ ja:
         last_name: "名前"
         name: "ニックネーム"
         introduction: "自己紹介"
+      post: "投稿"
+    attributes:
+      post:
+        post_name: "投稿名"
+        explanation: "投稿の説明"
     errors:
       messages:
         record_invalid: 'バリデーションに失敗しました: %{errors}'

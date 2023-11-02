@@ -1,12 +1,7 @@
 <!--ユーザーページ-->
 <div class="container">
-  <div class="text-center text-success">
-    <%= flash[:notice] if flash[:notice] %>
-  </div>
-  <div class="text-center text-danger">
-    <%= flash[:alert] if flash[:alert] %>
-  </div>
-  <div class="row">
+  <%= render 'layouts/flash' %>
+  <div class="row pt-3">
     <div class="col-12 col-lg-10 mx-auto">
       <div class="row">
         <div class="col-lg-2">

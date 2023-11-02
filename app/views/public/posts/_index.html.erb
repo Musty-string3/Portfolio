@@ -8,7 +8,7 @@
     <div class="col-lg-4 col-md-6 col-sm-12 mb-5 p-0">
       <div class="card h-100">
         <div class="card-text">
-          <%= link_to user_path(post.user) do %>
+          <%= link_to user_path(post.user), class:"text-dark" do %>
             <%= image_tag post.user.get_profile_image(60, 60), class:"border border-dark rounded-circle", width: 40, height: 40 %>
             <%= post.user.name %>
           <% end %>
@@ -29,19 +29,19 @@
         </div>
         <div class="card-body">
           <h5 class="card-title">
-            <%= link_to post_path(post) do %>
+            <%= link_to post_path(post), class:"text-dark" do %>
               <%= post.post_name %>
             <% end %>
           </h5>
           <p class="card-text"><%= post.explanation %></p>
           <% post.tags.each do |tag| %>
-            <%= link_to tag_path(tag.id) do %>
+            <%= link_to tag_path(tag.id), class:"text-dark" do %>
               #<%= tag.name %>
             <% end %>
           <% end %>
           <br>
           <span id="post_<%= post.id %>"><%= render "public/likes/like", post: post %></span>
-          <%= link_to "#{post.comments.count}コメント", post_path(post.id) %>
+          <%= post.comments.count %>コメント
           <br>
           <i class="fa-solid fa-eye"></i><%= post.view_counts.count %>
           <br>

@@ -60,25 +60,20 @@ class User < ApplicationRecord
     "#{first_name} #{last_name}"
   end
 
-  # ユーザーのプロフィール画像
   has_one_attached :profile_image
 
-  # プロフィール画像のサイズを指定
   def get_profile_image(width, height)
     unless profile_image.attached?
       file_path = Rails.root.join('app/assets/images/profile_image.jpg')
       profile_image.attach(io: File.open(file_path), filename: 'default-image.jpg', content_type: 'image/jpeg')
     end
-    profile_image.variant(resize: "#{width}x#{height}", gravity: "center", crop: "#{width}x#{height}+0+0").processed
+    profile_image.variant(resize_to_limit: [width, height]).processed
   end
 
-  # TODO
-  # 検索機能
   def self.search_for(keyword)
     User.where('name LIKE?', keyword+'%')
   end
 
-  # フォローしているかの判定
   def follow?(user)
     followings.include?(user)
   end
@@ -109,9 +104,8 @@ class User < ApplicationRecord
   def self.guest
     find_or_create_by(email: 'guest@sample.com') do |user|
       user.password = SecureRandom.urlsafe_base64
-      # SecureRandom.urlsafe_base64はランダム文字列でパスワードを生成する
-      user.last_name = "ゲスト"
-      user.first_name = "ユーザー"
+      user.first_name = "ゲスト"
+      user.last_name = "ユーザー"
       user.name = "ゲストユーザー"
       user.introduction = "こちらはゲストユーザーです。"
     end

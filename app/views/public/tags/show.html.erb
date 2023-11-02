@@ -1,13 +1,12 @@
-<!--タグが含まれている投稿の一覧画面-->
-<div class="container">
+<div class="container pt-3">
   <div class="text-center">
     <h4>
       "<%= @tag.name %>"タグの投稿一覧
       <span class="h6">
-        (<%= @posts.count %>件)
+        (<%= @tag_posts.count %>件)
       </span>
     </h4>
   </div>
-  <%= render 'public/posts/index', posts: @posts %>
+  <%= render 'public/posts/index', posts: @tag_posts %>
   <%= render 'public/posts/new_btn' %>
 </div>

@@ -1,8 +1,6 @@
 <% if resource.errors.any? %>
-  <div>
-    <h3 class="text-center text-danger">
-      <%= resource.errors.count %>件のエラーが発生しました
-    </h3>
+  <div class="text-center text-danger pt-3 pb-1">
+    <h4><%= resource.errors.count %>件のエラーが発生しました</h4>
     <ul>
       <% resource.errors.full_messages.each do |message| %>
         <div class="row">

@@ -1,45 +1,52 @@
 <!--ユーザー情報編集画面-->
 <div class="container">
-  <!--エラーメッセージ-->
-  <div class="text-center">
-    <%= render 'layouts/error_messages', resource: @user %>
-  </div>
+  <%= render 'layouts/error_messages', resource: @user %>
   <%= form_with model: @user, url: user_path(@user), method: :patch do |f| %>
-    <div class="w-50 mx-auto">
-      <!--ユーザーのアイコンのフォーム-->
+    <div class="col-12 col-lg-8 mx-auto pt-3">
       <div class="form-group">
+        <!--TODO-->
         <%= f.file_field :profile_image, accept: "image/*", onchange: "profileImage(this)" %>
         <div class="text-center">
           <%= image_tag @user.get_profile_image(500, 500), class:"m-2 profile_image border border-dark rounded-circle", id:"profile_image" %>
           <span id="preview"></span>
         </div>
       </div>
-
-      <!--ニックネーム-->
       <div class="form-group">
-        <span class="mr-5">
-          <%= f.label :name, "ニックネーム(最大20文字)" %>
-        </span>
+        <%= f.label :name, "ニックネーム(最大20文字)" %>
         <%= f.text_field :name, required: true, class:"form-control" %>
         <div><span id="user_name_countUp"><%= @user.name&.length || 0 %></span>/20文字</div>
       </div>
-      <!--自己紹介文-->
       <div class="form-group">
-        <span class="mr-5">
-          <%= f.label :name, "自己紹介文(最大100文字)" %>
-        </span>
-        <%= f.text_area :introduction, required: true, class:"form-control" %>
+        <%= f.label :name, "自己紹介文(最大100文字)" %>
+        <%= f.text_area :introduction, class:"form-control" %>
         <div><span id="user_introduction_countUp"><%= @user.introduction&.length || 0 %></span>/100文字</div>
       </div>
-    </div>
-    <div class="mx-auto row justify-content-around w-50 pt-3">
-      <%= f.submit "変更する", class:"btn btn-success mr-5" %>
-      <!--退会ボタン-->
-      <button type="button" class="btn btn-danger ml-5" data-toggle="modal" data-target="#exampleModal">
-        退会する
-      </button>
-      <!--モーダルウィンドウ-->
-      <%= render 'unsubscribe' %>
+      <div class="row justify-content-around pt-3">
+        <%= link_to '戻る', user_path(@user.id), class:"btn btn-primary" %>
+        <%= f.submit "変更する", class:"btn btn-success" %>
+        <!--退会ボタン-->
+        <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#unsubscribe">
+          退会する
+        </button>
+        <div class="modal fade" id="unsubscribe" tabindex="-1" role="dialog" aria-labelledby="unsubscribeModalLabel" aria-hidden="true">
+          <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+              <div class="modal-body">
+                <h5 class="pt-3 pb-1 text-center">
+                  退会すると、現在のアカウントでは<br>
+                  ログインができなくなります。<br>
+                  また、投稿した情報は削除され<br>
+                  様々な機能が利用不可になります。
+                </h5>
+              </div>
+              <div class="modal-footer justify-content-around">
+                <button type="button" class="btn btn-success" data-dismiss="modal">キャンセル</button>
+                <%= link_to "退会する", withdrawal_user_path, method: :patch, class:"btn btn-danger" %>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   <% end %>
 </div>

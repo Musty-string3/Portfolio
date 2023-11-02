@@ -1,9 +1,7 @@
 <!--トップ画面-->
 <div class="container">
-  <div class="text-center pb-3">
-    <%= flash[:notice] if flash[:notice] %>
-  </div>
-  <div class="row">
+  <%= render 'layouts/flash' %>
+  <div class="row pt-3">
     <div class="col-10 col-lg-12 mx-auto top_bg_image">
       <h1 class="col text-center pt-4 swiper-btn">
         あなたのお気に入りの<br>

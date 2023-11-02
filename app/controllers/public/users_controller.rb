@@ -26,10 +26,10 @@ class Public::UsersController < ApplicationController
 
   def update
     if @user.update(user_params)
-      flash[:notice] = "会員情報の編集に成功しました。"
+      flash[:notice] = "ユーザー情報を変更しました"
       redirect_to user_path(@user)
     else
-      flash.now[:alert] = "会員情報の編集に失敗しました。再度内容をご確認ください。"
+      flash[:alert] = "会員情報の編集に失敗しました。再度内容をご確認ください。"
       render :edit_information
     end
   end
@@ -38,7 +38,7 @@ class Public::UsersController < ApplicationController
     @user.update(is_deleted: true)
     reset_session
     redirect_to root_path
-    flash[:notice] ="退会処理を実行いたしました"
+    flash[:notice] ="退会処理を実行しました"
   end
 
   def likes
@@ -67,7 +67,7 @@ class Public::UsersController < ApplicationController
   def guest_user
     if @user.email == 'guest@sample.com'
       redirect_back fallback_location: root_path
-      flash[:notice] = "ゲストユーザーのプロフィール編集はできません。"
+      flash[:alert] = "ゲストユーザーのプロフィール編集はできません。"
     end
   end
 

@@ -3,8 +3,9 @@
   <h3 class="pb-3 text-center">
     <%= @user.name %>さん（ユーザーID：<%= @user.id %>）の会員情報編集画面
   </h3>
+  <%= render 'layouts/error_messages', resource: @user %>
   <div class="col-12 col-lg-8 mx-auto">
-    <%= render 'layouts/error_messages', resource: @user %>
+    
       <%= form_with model: @user, url: admin_user_path(@user), method: :patch do |f| %>
         <div class="form-group">
           <%= f.file_field :profile_image, accept: "image/*", onchange: "profileImage(this)" %>
@@ -30,7 +31,7 @@
         </div>
         <div class="form-group">
           <%= f.label :introduction, "ユーザーの説明" %>
-          <%= f.text_area :introduction, required: true, class:"form-control" %>
+          <%= f.text_area :introduction, class:"form-control" %>
           <div><span id="introduction_countUp"><%= @user.introduction&.length %></span>/100文字</div>
         </div>
         <div class="form-group">
