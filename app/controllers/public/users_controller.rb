@@ -63,7 +63,6 @@ class Public::UsersController < ApplicationController
     end
   end
 
-  # ゲストユーザーはプロフィール編集ができないよう設定している
   def guest_user
     if @user.email == 'guest@sample.com'
       redirect_back fallback_location: root_path

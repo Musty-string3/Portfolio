@@ -1,8 +1,13 @@
 <!--各グループチャット画面-->
 <div class="container">
-  <%= flash[:notice] if flash[:notice] %>
+  <%= render 'layouts/flash' %>
   <div class="row">
     <div class="col-12 col-md-10 mx-auto">
+      <span class="float-left pt-1">
+        <%= link_to room_groups_path do %>
+          <i class="fa-solid fa-arrow-left fa-xl text-dark"></i>
+        <% end %>
+      </span>
       <h3 class="text-center"><%= @group.name %></h3>
       <div class="justify-content-center d-flex">
         <p>参加しているユーザー数<%= @group_users.count %>人</p>
@@ -40,7 +45,7 @@
     <%= form_with model: @message_group, url: polymorphic_path([@group, :message_groups]), method: :post do |f| %>
       <div class="row">
         <div class="col-9 col-sm-10">
-          <%= f.text_field :text, placeholder: "メッセージを入力してください", class:"w-100 form-control" %>
+          <%= f.text_field :text, required: true, placeholder: "メッセージを入力してください", class:"w-100 form-control" %>
           <%= f.hidden_field :room_group_id, value: @group.id %>
         </div>
         <div class="col-3 col-sm-2 pl-0">

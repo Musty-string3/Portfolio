@@ -9,9 +9,11 @@ class Public::UserGroupsController < ApplicationController
       if room_group.count > room_group.user_groups.count
         UserGroup.create(
         user_id: current_user.id, room_group_id: params[:group_id])
-        redirect_to room_group_path(params[:group_id]), notice: "グループチャットに参加しました。"
+        redirect_to room_group_path(params[:group_id])
+        flash[:notice] = "グループチャットに参加しました。"
       else
-        redirect_back fallback_location: root_path, notice: "グループチャットに参加できませんでした。"
+        redirect_back fallback_location: root_path
+        flash[:alert] = "グループチャットに参加できませんでした。"
       end
     end
   end
@@ -28,13 +30,16 @@ class Public::UserGroupsController < ApplicationController
     # 退会のURLをbefore_actionで制限しないとハッキングされる？
     if @user_group.is_leader == false && params[:removed?]
       @user_group.destroy
-      redirect_to room_group_path(@group), notice: "#{@user_group.user.name}さんを強制退会させました。"
+      redirect_to room_group_path(@group)
+      flash[:alert] = "#{@user_group.user.name}さんを強制退会させました。"
     elsif @user_group.is_leader
       @user_group.room_group.destroy
-      redirect_to room_groups_path, notice: "グループチャットを削除しました。"
+      redirect_to room_groups_path
+      flash[:alert] = "グループチャットを削除しました。"
     else
       @user_group.destroy
-      redirect_to room_groups_path, notice: "グループチャットを退会しました。"
+      redirect_to room_groups_path
+      flash[:alert] = "グループチャットを退会しました。"
     end
   end
 

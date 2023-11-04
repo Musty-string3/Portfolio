@@ -3,15 +3,19 @@ class Public::RatesController < ApplicationController
 
   def new
     @rate = Rate.new
-    # ログインユーザーのレビューは存在する？
     @is_rate = Rate.find_by(user_id: current_user.id)
   end
 
   def create
-    unless Rate.find_by(user_id: current_user.id)
-      rate = Rate.create(rate_params)
-      rate.create_notification_rate!(current_user)
-      redirect_back fallback_location: root_path
+    if Rate.find_by(user_id: current_user.id).nil?
+      rate = Rate.new(rate_params)
+      if rate.save
+        rate.create_notification_rate!(current_user)
+        redirect_back fallback_location: root_path
+      else
+        flash[:alert] = "もう一度入力をお願いします。"
+        redirect_back fallback_location: root_path
+      end
     end
   end
 

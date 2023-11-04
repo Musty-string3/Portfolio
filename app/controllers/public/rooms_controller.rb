@@ -3,9 +3,7 @@ class Public::RoomsController < ApplicationController
 
   def create
     room = Room.create
-    # ログインユーザーのEntryテーブルを作成
     Entry.create(room_id: room.id, user_id: current_user.id)
-    # ログインユーザーと同じroom_idのEntryテーブルを作成(他ユーザー)
     Entry.create(room_id: room.id, user_id: params[:entry][:user_id])
     redirect_to room_path(room)
   end

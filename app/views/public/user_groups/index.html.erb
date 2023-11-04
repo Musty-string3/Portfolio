@@ -1,10 +1,17 @@
 <!--グループチャットに参加しているユーザーの一覧-->
 <div class="container">
-  <%= flash[:notice] if flash[:notice] %>
-  <h3 class="text-center"><%= @user_groups.first.room_group.name %>に参加しているユーザー</h3>
+  <%= render 'layouts/flash' %>
   <div class="row">
-    <% @user_groups.each do |user_group| %>
-      <div class="col-12 col-md-8 mx-auto">
+    <div class="col-12 col-md-8 mx-auto">
+      <span class="float-left pt-1">
+        <%= link_to room_group_path(@group.id) do %>
+          <i class="fa-solid fa-arrow-left fa-xl text-dark"></i>
+        <% end %>
+      </span>
+      <h3 class="text-center">
+        <%= @user_groups.first.room_group.name %>に参加しているユーザー
+      </h3>
+      <% @user_groups.each do |user_group| %>
         <div class="border-top pb-2"></div>
         <div class="d-flex justify-content-between">
           <%= link_to user_path(user_group.user.id) do %>
@@ -23,7 +30,7 @@
         <div class="pl-5">
           <%= truncate(user_group.user.introduction, length: 50, omission: "...") %>
         </div>
-      </div>
-    <% end %>
+      <% end %>
+    </div>
   </div>
 </div>

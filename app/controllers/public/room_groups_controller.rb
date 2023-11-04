@@ -19,7 +19,8 @@ class Public::RoomGroupsController < ApplicationController
         room_group_id: @group.id,
         is_leader: true
       )
-      redirect_to room_group_path(@group.id), notice: "グループチャットを作成しました！"
+      redirect_to room_group_path(@group.id)
+      flash[:notice] = "グループチャットを作成しました！"
     else
       render :new
     end
@@ -52,7 +53,8 @@ class Public::RoomGroupsController < ApplicationController
 
   def update
     if @group.update(room_group_params)
-      redirect_to room_group_path(@group.id), notice: "グループチャットを更新しました！"
+      redirect_to room_group_path(@group.id)
+      flash[:notice] = "グループチャットを更新しました！"
     else
       render :edit
     end
@@ -60,7 +62,8 @@ class Public::RoomGroupsController < ApplicationController
 
   def destroy
     @group.destroy
-    redirect_to room_groups_path, notice: "グループチャットを削除しました。"
+    redirect_to room_groups_path
+    flash[:alert] = "グループチャットを削除しました。"
   end
 
   private
