@@ -2,10 +2,7 @@
 <div class="container">
   <div class="row pb-2">
     <div class="col-10 mx-auto d-flex border-bottom">
-      <%= link_to user_path(@notifications.first.visited_id) do %>
-        <i class="fa-solid fa-arrow-left fa-xl text-dark"></i>
-      <% end %>
-      <span class="mx-auto h4">あなたへの通知</span>
+      <h3 class="mx-auto">あなたへの通知</h3>
     </div>
   </div>
   <% if @notifications.nil? %>

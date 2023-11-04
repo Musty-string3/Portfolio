@@ -5,7 +5,6 @@ class Public::ViolatesController < ApplicationController
     reported = params[:violate][:reported_id]
     post = params[:violate][:post_id]
     status = params[:violate][:status]
-    
     is_exist_violate = Violate.find?(current_user, reported, post, status)
     if is_exist_violate.nil?
       violate = current_user.reporter_violates.create!(violate_params)
@@ -15,7 +14,7 @@ class Public::ViolatesController < ApplicationController
       violate.create_notification_violate!(current_user)
     else
       redirect_back fallback_location: root_path
-      flash[:notice] = "この投稿に対する報告は既に申請済みです。"
+      flash[:alert] = "この投稿に対する報告は既に申請済みです。"
     end
   end
 

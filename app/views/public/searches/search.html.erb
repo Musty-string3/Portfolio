@@ -1,5 +1,5 @@
 <!--検索結果一覧画面-->
-<div class="container pt-3">
+<div class="container">
   <% if @model == 'user' %>
     <div class="d-flex justify-content-center">
       <!--TODO 一つ前の画面に戻るとユーザー検索画面になってしまう-->
@@ -41,7 +41,7 @@
         <%= render 'admin/posts/index', posts: @records %>
       <% end %>
     <% else %>
-      検索した投稿は見つかりませんでした。
+      <h5 class="pt-2 text-center">検索した投稿は見つかりませんでした。</h5>
     <% end %>
     <%= render 'public/posts/new_btn' %>
   <% end %>

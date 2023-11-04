@@ -8,12 +8,11 @@ class Violate < ApplicationRecord
 
   validates :status, presence: true
 
-  enum status: { inappropriate: 0, copyright_violation: 1, slander: 2}
-  # 0 = 不正、不適切な投稿, 1 = 著作権違反, 2 = 誹謗中傷、悪口
+  enum status: { inappropriate: 0, copyright_violation: 1, slander: 2, others: 3}
+  # 0 = 不正、不適切な投稿, 1 = 著作権違反, 2 = 誹謗中傷、悪口, 3 = その他
 
-  # 違反報告の内容は存在してるか？
   def self.find?(current_user, reported, post, status)
-    Violate.find_by(
+    find_by(
       reporter_id: current_user.id,
       reported_id: reported,
       post_id: post,

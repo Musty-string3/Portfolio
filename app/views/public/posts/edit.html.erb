@@ -1,11 +1,7 @@
 <!--投稿編集画面-->
 <div class="container">
-  <div class="p-3">
-    <h2 class="text-center">投稿編集</h2>
-    <div class="text-center">
-      <%= render 'layouts/error_messages', resource: @post %>
-    </div>
-  </div>
+  <h2 class="text-center">投稿編集</h2>
+  <%= render 'layouts/error_messages', resource: @post %>
   <%= render 'form', post: @post %>
 </div>
 
@@ -15,6 +11,11 @@
     let fileReader;
     const images = $('#edit_images_preview');
     images.empty();
+    if (obj.files.length == 0 || obj.files.length > 6){
+	    images.html("画像は1枚以上かつ6枚以下で指定してください");
+	    $('#postImage').show();
+	    return false
+	  }
     for (let i = 0; i < obj.files.length; i++) {
     	fileReader = new FileReader();
     	fileReader.onload = (function (e) {

@@ -2,7 +2,7 @@
 <div class="container">
   <%= render 'layouts/error_messages', resource: @user %>
   <%= form_with model: @user, url: user_path(@user), method: :patch do |f| %>
-    <div class="col-12 col-lg-8 mx-auto pt-3">
+    <div class="col-12 col-lg-8 mx-auto">
       <div class="form-group">
         <!--TODO-->
         <%= f.file_field :profile_image, accept: "image/*", onchange: "profileImage(this)" %>
