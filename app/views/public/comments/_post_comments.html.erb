@@ -4,43 +4,22 @@
 <% end %>
 <% post.comments.each do |comment| %>
   <div class="border-top pt-1"></div>
-  <!--ユーザーの場合-->
-  <% if current_user&.name? %>
-    <%= link_to user_path(comment.user) do %>
-      <%= image_tag comment.user.get_profile_image(30, 30), class:"border border-dark rounded-circle" %>
-      <% if comment.user == post.user %>
-        <%= comment.user.name %>(投稿者)
-      <% else %>
-        <%= comment.user.name %>
-      <% end %>
-    <% end %>
-  <!--管理者の場合-->
-  <% else %>
-    <%= link_to admin_user_path(comment.user) do %>
-      <%= image_tag comment.user.get_profile_image(30, 30), class:"border border-dark rounded-circle" %>
-      <% if comment.user == post.user %>
-        <%= comment.user.name %>(投稿者)
-      <% else %>
-        <%= comment.user.name %>
-      <% end %>
+  <%= link_to user_path(comment.user), class:"text-dark" do %>
+    <%= image_tag comment.user.get_profile_image(45, 45), class:"border border-dark rounded-circle", width: 30, height: 30%>
+    <% if comment.user == post.user %>
+      <%= comment.user.name %>(投稿者)
+    <% else %>
+      <%= comment.user.name %>
     <% end %>
   <% end %>
-  <%= comment.created_at.strftime('%Y/%m/%d %H:%M') %>
+  <span class="ml-2"><%= comment.created_at.strftime('%Y/%m/%d %H:%M') %></span>
   <% if comment.user == current_user || !current_user&.name %>
     <%= link_to "削除", post_comment_path(comment.post, comment), method: :delete, remote: true, data: {confirm: "コメントを削除しますか？"}, class:"float-right mr-3 mt-1 btn btn-outline-danger" %>
   <% end %>
   <div class="ml-5">
     <div><%= comment.text %></div>
-    <!--ユーザーの場合-->
-    <% if current_user&.name? %>
-      <div id="comment_likes_<%= comment.id %>" class="pt-1 pd-1">
-        <%= render 'public/comment_likes/comment_likes', post: post, comment: comment %>
-      </div>
-    <!--管理者の場合-->
-    <% else %>
-      <div class="pt-1 pb-1">
-        <i class="fa-regular fa-heart"></i><%= comment.comment_likes.count %>いいね
-      </div>
-    <% end %>
+    <div id="comment_likes_<%= comment.id %>" class="pt-1 pd-1">
+      <%= render 'public/comment_likes/comment_likes', post: post, comment: comment %>
+    </div>
   </div>
 <% end %>

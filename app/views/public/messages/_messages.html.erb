@@ -1,11 +1,13 @@
 <!--メッセージフィールド-->
-<ul class="col-12 col-lg-8 mx-auto list_none">
+<ul class="col-12 col-lg-8 mx-auto list_none pt-3">
   <% messages.each do |message| %>
     <li class="mb-4">
       <% unless message.user.id == current_user.id %>
         <div class="row justify-content-start">
           <div class="col-10 col-md-8">
-            <%= message.user.name %>
+            <%= link_to user_path(message.user.id),class:'text-dark' do %>
+              <%= message.user.name %>
+            <% end %>
             <div class="d-flex">
               <%= image_tag message.user.get_profile_image(55, 55), class:"border border-dark rounded-circle", width: 35, height: 35 %>
               <div class="mt-1 ml-2">

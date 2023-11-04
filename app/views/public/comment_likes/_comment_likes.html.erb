@@ -1,10 +1,10 @@
 <!--コメントにいいねしたときの処理（非同期通信）-->
 <% if comment.comment_like(comment, current_user) %>
-  <%= link_to post_comment_comment_likes_path(post, comment), method: :post, remote: true do %>
+  <%= link_to post_comment_comment_likes_path(post, comment), method: :post, remote: true, class:"text-dark" do %>
     <i class="fa-regular fa-heart"></i><%= comment.comment_likes.count %>いいね
   <% end %>
 <% else %>
-  <%= link_to post_comment_comment_likes_path(post, comment), method: :delete, remote: true do %>
-    <i class="fa-solid fa-heart"></i><%= comment.comment_likes.count %>いいね
+  <%= link_to post_comment_comment_likes_path(post, comment), method: :delete, remote: true, class:"text-dark" do %>
+    <i class="fa-solid fa-heart text-danger"></i><%= comment.comment_likes.count %>いいね
   <% end %>
 <% end %>

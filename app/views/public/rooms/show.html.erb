@@ -1,12 +1,22 @@
 <!--１対１のDM画面-->
 <div class="container">
-  <h5 class="d-none d-md-block text-center">
-    <%= image_tag @current_entry.user.get_profile_image(60, 60), class:"border border-dark rounded-circle", width: 40, height: 40 %>
-    <%= @current_entry.user.name %>(あなた)と
-    <%= image_tag @another_entry.user.get_profile_image(60, 60), class:"border border-dark rounded-circle", width: 40, height: 40 %>
-    <%= @another_entry.user.name %>さんのチャットルームです
+  <div class="row">
+    <div class="col-12 col-md-10 mx-auto d-flex">
+      <%= link_to rooms_path do %>
+        <i class="fa-solid fa-arrow-left fa-xl text-dark"></i>
+      <% end %>
+      <h5 class="mx-auto d-none d-md-block">
+        <%= image_tag @current_entry.user.get_profile_image(60, 60), class:"border border-dark rounded-circle", width: 40, height: 40 %>
+        <%= @current_entry.user.name %>(あなた)と
+        <%= link_to user_path(@another_entry.user.id) do %>
+          <%= image_tag @another_entry.user.get_profile_image(60, 60), class:"border border-dark rounded-circle", width: 40, height: 40 %>
+        <% end %>
+        <%= @another_entry.user.name %>さんのチャットルームです
+      </h5>
+      <h5 class="d-block d-md-none">DM</h5>
+    </div>
     <div class="border-bottom pt-2"></div>
-  </h5>
+  </div>
   <div id="messages">
     <%= render 'public/messages/messages', messages: @messages %>
   </div>

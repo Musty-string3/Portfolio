@@ -24,13 +24,8 @@ class Public::RoomsController < ApplicationController
     @messages = Message.where(room_id: @room.id)
     @message = Message.new
     @entries = Entry.where(room_id: @room.id)
-    @entries.each do |entry|
-      if entry.user_id == current_user.id
-        @current_entry = entry
-      else
-        @another_entry = entry
-      end
-    end
+    @current_entry = @entries.find {|entry| entry.user_id == current_user.id}
+    @another_entry = @entries.find {|entry| entry.user_id != current_user.id}
   end
 
 end

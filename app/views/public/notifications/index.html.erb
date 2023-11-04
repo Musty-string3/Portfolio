@@ -1,8 +1,22 @@
 <!--通知一覧画面-->
 <div class="container">
-  <% if @notifications.present? %>
-    <%= render 'notification', notifications: @notifications %>
+  <div class="row pb-2">
+    <div class="col-10 mx-auto d-flex border-bottom">
+      <%= link_to user_path(@notifications.first.visited_id) do %>
+        <i class="fa-solid fa-arrow-left fa-xl text-dark"></i>
+      <% end %>
+      <span class="mx-auto h4">あなたへの通知</span>
+    </div>
+  </div>
+  <% if @notifications.nil? %>
+    <h4 class="text-center pt-3">通知はありません。</h4>
   <% else %>
-    <h4>通知はありません。</h4>
+    <div class="row">
+      <div class="col-10 mx-auto">
+        <div class="row justify-content-center">
+          <%= render 'notification', notifications: @notifications %>
+        </div>
+      </div>
+    </div>
   <% end %>
 </div>

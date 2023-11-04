@@ -1,22 +1,21 @@
 <!--ユーザー検索画面-->
 <div class="row">
-  <div class="col-12 col-md-10 mx-auto">
+  <div class="col-12 col-md-8 mx-auto">
     <table class="table table-hover">
       <tbody>
         <% users.each do |user| %>
-          <% if user_signed_in? %>
-            <tr onclick='window.location="<%= user_path(user) %>"' role="link">
-          <% else %>
-            <tr onclick='window.location="<%= admin_user_path(user) %>"' role="link">
-          <% end %>
+          <tr onclick='window.location="<%= user_path(user) %>"' role="link">
             <td class="col-1">
-              <%= image_tag user.profile_image, size: "75x75", class:"rounded-circle border border-dark" %>
+              <%= image_tag user.get_profile_image(75, 75), class:"rounded-circle border border-dark", width: 50, height: 50 %>
             </td>
             <td>
-              <span class="h5"><%= user.name %></span><br>
-              <%= user.introduction %><br>
-              フォロー中<%= user.followings.count %>
-              フォロワー<%= user.followers.count %>
+              <h5><%= user.name %></h5>
+              <div><%= user.introduction %></div>
+              <div>
+                フォロー中<span class="ml-1"><%= user.followings.count %></span>
+                フォロワー<span class="ml-1"><%= user.followers.count %></span>
+                投稿数<span class="ml-1"><%= user.posts.count %></span>
+              </div>
             </td>
           </tr>
         <% end %>

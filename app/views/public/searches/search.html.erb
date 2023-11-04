@@ -1,8 +1,9 @@
 <!--検索結果一覧画面-->
-<div class="container">
+<div class="container pt-3">
   <% if @model == 'user' %>
-    <h4 class="d-flex justify-content-center">
-      ユーザー検索
+    <div class="d-flex justify-content-center">
+      <!--TODO 一つ前の画面に戻るとユーザー検索画面になってしまう-->
+      <h4>ユーザー検索</h4>
       <div class="h5 ml-3 mt-1">
         検索名：<%= @keyword %>
         <% if @keyword.present? %>
@@ -13,7 +14,7 @@
           全ユーザー
         <% end %>
       </div>
-    </h4>
+    </div>
     <% if @records.present? %>
       <%= render 'public/searches/search_user', users: @records %>
     <% else %>

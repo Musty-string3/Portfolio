@@ -67,7 +67,7 @@ class User < ApplicationRecord
       file_path = Rails.root.join('app/assets/images/profile_image.jpg')
       profile_image.attach(io: File.open(file_path), filename: 'default-image.jpg', content_type: 'image/jpeg')
     end
-    profile_image.variant(resize_to_limit: [width, height]).processed
+    profile_image.variant(resize: "#{width}x#{height}", gravity: "center", crop: "#{width}x#{height}+0+0").processed
   end
 
   def self.search_for(keyword)
@@ -83,14 +83,14 @@ class User < ApplicationRecord
   end
 
   def create_notification_follow!(current_user)
-    # 連続でフォローボタンを押すことに備えて、同じ通知レコードが存在しないときだけレコードを作成する
-    temp = Notification.where(["visitor_id = ? and visited_id = ? and action = ?", current_user, id, 'follow'])
+    temp = Notification.find_by(
+      ["visitor_id = ? and visited_id = ? and action = ?", current_user, id, 'follow']
+    )
     if temp.blank?
       notification = current_user.myself_notifications.new(
         visited_id: id,
         action: 'follow'
       )
-      # バリエーションエラーではなかった場合にnotificationをセーブする
       notification.save if notification.valid?
     end
   end

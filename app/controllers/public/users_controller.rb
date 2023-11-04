@@ -12,11 +12,11 @@ class Public::UsersController < ApplicationController
     @entries_count = Entry.count_by_user(@user)
     @room_id = Entry.check_chatroom(@user, current_user)
     @isRoom = false
-    if @room_id.nil?
+    if @room_id
+      @isRoom = true
+    else
       @room = Room.new
       @entry = Entry.new
-    else
-      @isRoom = true
     end
   end
 
