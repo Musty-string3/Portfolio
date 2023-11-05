@@ -1,0 +1,55 @@
+<!--管理者のタグ一覧-->
+<div class="container">
+  <% if @post_tag.present? %>
+    <h3 class="text-center"><%= @post_name %>の投稿のタグ一覧</h3>
+  <% else %>
+    <h3 class="text-center">タグ一覧</h3>
+  <% end %>
+  <%= render 'layouts/flash' %>
+  <div class="col-6 mx-auto">
+    <%= form_with url: admin_tags_path, method: :get do |f| %>
+      <div class="form-group row">
+        <div class="col-10">
+          <%= f.text_field :keyword, placeholder: "検索したいタグを入力", class:"form-control" %>
+        </div>
+        <div class="col-2">
+          <%= f.submit "検索", class:"btn btn-success" %>
+        </div>
+      </div>
+    <% end %>
+  </div>
+  <% if @tags.present? %>
+    <table class="table table-bordered col-8 mx-auto">
+      <div class="row">
+        <thead>
+          <th class="col-2">タグID</th>
+          <th class="col-4">タグ名</th>
+          <th class="col-6">投稿名</th>
+        </thead>
+        <tbody>
+          <% @tags.each do |tag| %>
+            <tr>
+              <td><%= tag.id %></td>
+              <td>
+                <%= link_to admin_tags_path(tag_name: tag.name), class:"border-bottom border-dark text-dark" do %>
+                  <%= tag.name %>
+                <% end %>
+              </td>
+              <td>
+                <%= link_to admin_post_path(tag.posts.ids), class:"border-bottom border-dark text-dark" do %>
+                  <%= tag.posts.first.post_name %>
+                <% end %>
+              </td>
+            </tr>
+          <% end %>
+        </tbody>
+      </div>
+    </table>
+  <% else %>
+    <% if @keyword %>
+      <h3 class="text-center"><%= @keyword %>に関連したタグは見つかりませんでした</h3>
+    <% else %>
+      <h3 class="text-center">タグはありません</h3>
+    <% end %>
+  <% end %>
+</div>

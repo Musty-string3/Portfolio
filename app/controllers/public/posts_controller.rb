@@ -2,8 +2,8 @@ class Public::PostsController < ApplicationController
 
   include TagCount  # app/controllers/concerns/tag_count.rbが使える
   before_action :authenticate_user!
-  before_action :set_post, only: %i[edit update destroy]
   before_action :current_user?, only: %i[edit update destroy]
+  before_action :set_post, only: %i[edit update destroy]
 
   def index
     sort = params[:sort]
@@ -81,15 +81,15 @@ class Public::PostsController < ApplicationController
   end
 
   def current_user?
-    post = Post.find_by(user_id: current_user.id, id: @post.id)
-    unless post
-      redirect_back fallback_location: user_path(current_user.id)
+    post = Post.find_by_user_post(params[:id], current_user)
+    if post.blank?
+      flash[:alert] = "別のユーザーの投稿は操作できません。"
+      redirect_to user_path(current_user.id)
     end
   end
 
   def post_params
     params.require(:post).permit(:user_id, :post_name, :explanation, :lat, :lng, images: [])
   end
-
 
 end

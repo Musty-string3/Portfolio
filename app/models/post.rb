@@ -127,4 +127,8 @@ class Post < ApplicationRecord
     joins(:user, :tags).where(tags:{name: tag.name})
   end
 
+  def self.find_by_user_post(post, current_user)
+    find_by(user_id: current_user.id, id: post)
+  end
+
 end

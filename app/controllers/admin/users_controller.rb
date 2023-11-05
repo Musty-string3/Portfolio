@@ -3,7 +3,12 @@ class Admin::UsersController < ApplicationController
   before_action :set_users, except: %i[index]
 
   def index
-    @users = User.all
+    @keyword = params[:keyword]
+    if @keyword.present? && @keyword != ""
+      @users = User.search_for(@keyword)
+    else
+      @users = User.all.order(created_at: :desc)
+    end
   end
 
   def show

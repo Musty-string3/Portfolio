@@ -4,4 +4,8 @@ class Tag < ApplicationRecord
   #tagsとpostsの多対多の関係の設定↓
   has_many :posts, dependent: :destroy, through: :post_tags
 
+  def self.search_for(keyword)
+    Tag.where('name LIKE?', keyword+'%')
+  end
+  
 end

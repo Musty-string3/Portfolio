@@ -1,36 +1,59 @@
 <!--管理者のユーザー一覧-->
 <div class="container">
-  <%= flash[:notice] if flash[:notice] %>
-  <table class="table table-bordered mx-auto">
-    <thead>
-      <th>会員ID</th>
-      <th>ユーザー名</th>
-      <th>氏名</th>
-      <th>メールアドレス</th>
-      <th>会員ステータス</th>
-    </thead>
-    <tbody>
-      <% @users.each do |user| %>
-        <tr>
-          <td><%= user.id %></td>
-          <td>
-            <%= link_to admin_user_path(user.id) do %>
-              <span class='border-bottom border-dark text-dark'>
-                <%= truncate(user.name, length: 15, omission: "...") %>
-              </span>
-            <% end %>
-          </td>
-          <td><%= user.full_name %></td>
-          <td><%= truncate(user.email, length: 30, omission: "...") %></td>
-          <td>
-            <% if user.is_deleted == true %>
-              <span class="text-danger font-weight-bold">退会済み</span>
-            <% else %>
-              <span class="text-success font-weight-bold">有効</span>
-            <% end %>
-          </td>
-        </tr>
-      <% end %>
-    </tbody>
-  </table>
+  <h3 class="text-center">会員一覧</h3>
+  <%= render 'layouts/flash' %>
+  <div class="col-6 mx-auto">
+    <%= form_with url: admin_root_path, method: :get do |f| %>
+      <div class="form-group row">
+        <div class="col-10">
+          <%= f.text_field :keyword, placeholder: "検索したいユーザーを入力", class:"form-control" %>
+        </div>
+        <div class="col-2">
+          <%= f.submit "検索", class:"btn btn-success" %>
+        </div>
+      </div>
+    <% end %>
+  </div>
+  <% if @users.present? %>
+    <table class="table table-bordered mx-auto">
+      <thead>
+        <th>会員ID</th>
+        <th>ユーザー名</th>
+        <th>氏名</th>
+        <th>メールアドレス</th>
+        <th>会員ステータス</th>
+      </thead>
+      <tbody>
+        <% @users.each do |user| %>
+          <tr>
+            <td><%= user.id %></td>
+            <td>
+              <%= link_to admin_user_path(user.id) do %>
+                <span class='border-bottom border-dark text-dark'>
+                  <%= truncate(user.name, length: 15, omission: "...") %>
+                </span>
+              <% end %>
+            </td>
+            <td><%= user.full_name %></td>
+            <td><%= truncate(user.email, length: 30, omission: "...") %></td>
+            <td>
+              <% if user.is_deleted == true %>
+                <span class="text-danger font-weight-bold">退会済み</span>
+              <% else %>
+                <span class="text-success font-weight-bold">有効</span>
+              <% end %>
+            </td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  <% else %>
+    <% if @keyword %>
+      <h3 class="text-center">
+        <%= @keyword %>に関連したユーザーは見つかりませんでした
+      </h3>
+    <% else %>
+      <h3 class="text-center">ユーザーはいません</h3>
+    <% end %>
+  <% end %>
 </div>

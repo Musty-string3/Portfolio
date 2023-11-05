@@ -50,6 +50,9 @@
                   <%= link_to "投稿一覧", admin_posts_path, class: 'nav-link text-dark' %>
                 </li>
                 <li class="nav-item" >
+                  <%= link_to "タグ一覧", admin_tags_path, class: 'nav-link text-dark' %>
+                </li>
+                <li class="nav-item" >
                   <%= link_to "コメント一覧", admin_comments_path, class: 'nav-link text-dark' %>
                 </li>
                 <li class="nav-item" >
@@ -93,7 +96,7 @@
                 </li>
               <% end %>
             </ul>
-            <% if user_signed_in? || admin_signed_in? %>
+            <% if user_signed_in? %>
               <%= render 'public/searches/form' %>
             <% end %>
           </div>

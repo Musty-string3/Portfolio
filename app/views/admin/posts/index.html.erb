@@ -1,8 +1,32 @@
 <!--管理者、投稿一覧-->
 <div class="container">
-  <h3 class="text-center pb-3">投稿一覧</h3>
-  <h5 class="text-center">
-    <%= flash[:notice] if flash[:notice] %>
-  </h5>
-  <%= render 'index', posts: @posts %>
+  <% if @user_post %>
+    <h3 class="text-center pb-3"><%= @posts.first.user.name %>さんの投稿一覧</h3>
+  <% else %>
+    <h3 class="text-center pb-3">投稿一覧</h3>
+  <% end %>
+  <div class="col-6 mx-auto">
+    <%= form_with url: admin_posts_path, method: :get do |f| %>
+      <div class="form-group row">
+        <div class="col-10">
+          <%= f.text_field :keyword, placeholder: "検索したい投稿を入力", class:"form-control" %>
+        </div>
+        <div class="col-2">
+          <%= f.submit "検索", class:"btn btn-success" %>
+        </div>
+      </div>
+    <% end %>
+  </div>
+  <%= render 'layouts/flash' %>
+  <% if @posts.present? %>
+    <%= render 'index', posts: @posts %>
+  <% else %>
+    <% if @keyword %>
+      <h3 class="text-center">
+        <%= @keyword %>に関連した投稿は見つかりませんでした。
+      </h3>
+    <% else %>
+      <h3 class="text-center">投稿はありません</h3>
+    <% end %>
+  <% end %>
 </div>

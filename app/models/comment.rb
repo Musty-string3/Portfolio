@@ -15,25 +15,15 @@ class Comment < ApplicationRecord
   end
 
   def self.search_by_keyword_and_model(keyword, model)
-    comments = []
     if model == 'user'
       users = User.search_for(keyword)
-      users.each do |user|
-        user.comments.each do |comment|
-          comments << comment
-        end
-      end
+      Comment.joins(:user).where(user_id: users.ids)
     else
       posts = Post.search_for(keyword)
-      posts.each do |post|
-        post.comments.each do |comment|
-          comments << comment
-        end
-      end
+      Comment.joins(:post).where(post_id: posts.ids)
     end
-    comments
   end
-  
+
   def self.load_for_posts(post_comments)
     if post_comments
       Comment.where(post_id: post_comments)

@@ -2,22 +2,27 @@
   <h3 class="text-center">コメント一覧</h3>
   <div class="form-inline">
     <div class="mx-auto form-group mb-3">
-      <% if @comments.present? %>
-        <%= form_with url: admin_search_path, method: :get do |f| %>
-          <%= f.text_field :keyword, placeholder: "検索内容", class:'form-control' %>
-          <!--TODO selectのheight?-->
-          <%= f.select :model, options_for_select({'ユーザー'=>'user', '投稿'=>'post'}), class:'p-1' %>
-          <%= f.submit "検索", class:'btn btn-primary' %>
-        <% end %>
+      <%= form_with url: admin_comments_path, method: :get do |f| %>
+        <%= f.text_field :keyword, placeholder: "検索内容", class:'form-control' %>
+        <%= f.select :model, options_for_select({'ユーザー'=>'user', '投稿'=>'post'}), {prompt: false}, class:"pt-1 pb-2 rounded border border-secondary mr-2" %>
+        <%= f.submit "検索", class:'btn btn-primary' %>
       <% end %>
     </div>
   </div>
-  <h5 class="text-center p-3 text-danger">
-    <%= flash[:notice] if flash[:notice] %>
-  </h5>
+  <%= render 'layouts/flash' %>
   <% if @comments.present? %>
     <%= render 'list', comments: @comments %>
   <% else %>
-    <h4 class="text-center">コメントはありません。</h4>
+    <% if @keyword && @model == 'post' %>
+      <h3 class="text-center">
+        <%= @keyword %>の投稿に関連したコメントは見つかりませんでした。
+      </h3>
+    <% elsif %>
+      <h3 class="text-center">
+        <%= @keyword %>のユーザーに関連したコメントは見つかりませんでした。
+      </h3>
+    <% else %>
+      <h3 class="text-center">コメントはありません</h3>
+    <% end %>
   <% end %>
 </div>
