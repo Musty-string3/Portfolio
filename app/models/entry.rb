@@ -14,4 +14,11 @@ class Entry < ApplicationRecord
     )
     return room.present? ? room.room_id : false
   end
+
+  def self.find_matching_entry(room, current_user)
+    find_by(
+      user_id: Entry.where(room_id: room).where.not(user_id: current_user.id).pluck(:user_id),
+      room_id: room
+    )
+  end
 end

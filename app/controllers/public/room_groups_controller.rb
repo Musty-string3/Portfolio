@@ -1,7 +1,7 @@
 class Public::RoomGroupsController < ApplicationController
   before_action :authenticate_user!
+  before_action :room_group_join?, except: %i[index new create]
   before_action :set_room_groups, only: %i[show edit update destroy]
-  before_action :room_group_join, except: %i[index new create]
   # ↑ ユーザーが加入していない別のグループに入ってこないための処理
 
   def index
@@ -72,10 +72,11 @@ class Public::RoomGroupsController < ApplicationController
     @group = RoomGroup.find(params[:id])
   end
 
-  def room_group_join
-    group = UserGroup.find_by(user_id: current_user.id, room_group_id: params[:id])
-    unless group.present?
-      redirect_back fallback_location: room_groups_path
+  def room_group_join?
+    group = UserGroup.find_matching_room(params[:id], current_user)
+    if group.blank?
+      redirect_to room_groups_path
+      flash[:alert] = "参加していないチャットルームには入れません。"
     end
   end
 

@@ -25,15 +25,14 @@
               <div id="follow_<%= @user.id %>" class="pt-1">
                 <%= render 'public/relations/follow', user: @user, isRoom: @isRoom, room_id: @room_id, room: @room, entry: @entry %>
               </div>
-              <div class="pl-2 pt-1">
-                <% if @user == current_user && @entries_count > 0 %>
-                  <%= link_to rooms_path do %>
-                    <i class="fa-regular fa-envelope"></i>
-                  <% end %>
-                <% end %>
-              </div>
             </div>
-            投稿数 <%= @user.posts.count %>投稿
+            <% if @user == current_user && @entries_count > 0 %>
+              <%= link_to rooms_path, class:'text-dark' do %>
+                <i class="fa-solid fa-square-envelope fa-lg"></i>
+                <span>やり取りしているユーザー数は<%= @entries_count %>人です</span>
+              <% end %>
+            <% end %>
+            <div>投稿数<span class="pl-1"><%= @user.posts.count %></span>投稿</div>
           </div>
         </div>
       </div>

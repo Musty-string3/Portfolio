@@ -56,8 +56,8 @@ class Public::UsersController < ApplicationController
   end
 
   def current_user?
-    user = User.find(params[:id])
-    unless user == current_user
+    user = params[:id].to_i
+    unless user == current_user.id
       flash[:alert] = "他のユーザーの情報は操作できません"
       redirect_back fallback_location: user_path(current_user.id)
     end

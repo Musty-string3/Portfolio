@@ -18,5 +18,12 @@ class UserGroup < ApplicationRecord
   def self.user_group_join?(user, group)
     find_by(user_id: user.id, room_group_id: group.id)
   end
+  
+  def self.find_matching_room(group, current_user)
+    find_by(
+      user_id: current_user.id, 
+      room_group_id: group
+    )
+  end
 
 end

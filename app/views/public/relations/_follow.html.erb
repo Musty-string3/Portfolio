@@ -1,29 +1,31 @@
 <!--ユーザーページのフォロー部分-->
 <span>
   フォロー中
-  <%= link_to user_followings_path(user) do %>
+  <%= link_to user_followings_path(user), class:'text-dark' do %>
     <%= user.followings.count %>
   <% end %>
 </span>
 <span>
   フォロワー
-  <%= link_to user_followers_path(user) do %>
+  <%= link_to user_followers_path(user), class:'text-dark' do %>
     <%= user.followers.count %>
   <% end %>
 </span>
 
 <% unless user == current_user %>
   <% if current_user.follow?(user) %>
-    <%= link_to "フォローを解除する", user_relations_path(user), method: :delete, remote: true %>
+    <%= link_to "フォローを解除する", user_relations_path(user), method: :delete, remote: true, class:'text-info' %>
   <% else %>
-    <%= link_to "フォローする", user_relations_path(user), method: :post, remote: true %>
+    <%= link_to "フォローする", user_relations_path(user), method: :post, remote: true, class:'text-info' %>
   <% end %>
 <% end %>
 
 <% if user != current_user && (room_id || (current_user.follow?(user) && user.follow?(current_user))) %>
   <% if isRoom %>
     <%= link_to room_path(room_id) do %>
-      <br><i class="fa-regular fa-envelope"></i>
+      <div class='text-dark'>
+        <i class="fa-regular fa-envelope fa-lg"></i>
+      </div>
     <% end %>
   <% else %>
    <%= form_with model: room, url: rooms_path, method: :post do |f| %>

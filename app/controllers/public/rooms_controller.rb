@@ -1,5 +1,6 @@
 class Public::RoomsController < ApplicationController
   before_action :authenticate_user!
+  before_action :room_join?, only: %i[show]
 
   def create
     room = Room.create
@@ -7,7 +8,7 @@ class Public::RoomsController < ApplicationController
     Entry.create(room_id: room.id, user_id: params[:entry][:user_id])
     redirect_to room_path(room)
   end
-  
+
   def index
     @entries = Entry.includes(:user).where(user_id: current_user.id)
     room_id = []
@@ -24,6 +25,17 @@ class Public::RoomsController < ApplicationController
     @entries = Entry.where(room_id: @room.id)
     @current_entry = @entries.find {|entry| entry.user_id == current_user.id}
     @another_entry = @entries.find {|entry| entry.user_id != current_user.id}
+  end
+
+  private
+
+  def room_join?
+    room = params[:id]
+    chat_partner = Entry.find_matching_entry(room, current_user)
+    unless chat_partner
+      flash[:alert] = "指定されたDMルームは利用できません。"
+      redirect_to rooms_path
+    end
   end
 
 end
