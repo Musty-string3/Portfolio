@@ -70,8 +70,13 @@ class User < ApplicationRecord
     profile_image.variant(resize: "#{width}x#{height}", gravity: "center", crop: "#{width}x#{height}+0+0").processed
   end
 
+  # processedがあるとバリデーションエラーの際にActiveStorage::FileNotFoundErrorになるためprocessedなしのメソッド
+  def get_profile_image_edit(width, height)
+    profile_image.variant(resize: "#{width}x#{height}", gravity: "center", crop: "#{width}x#{height}+0+0")
+  end
+
   def self.search_for(keyword)
-    User.where('name LIKE?', keyword+'%')
+    User.where('name LIKE?', keyword+'%').order(created_at: :desc)
   end
 
   def follow?(user)

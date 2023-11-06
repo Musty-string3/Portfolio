@@ -5,7 +5,7 @@ class Tag < ApplicationRecord
   has_many :posts, dependent: :destroy, through: :post_tags
 
   def self.search_for(keyword)
-    Tag.where('name LIKE?', keyword+'%')
+    Tag.where('name LIKE?', keyword+'%').order(created_at: :desc)
   end
-  
+
 end

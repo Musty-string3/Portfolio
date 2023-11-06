@@ -17,10 +17,10 @@ class Comment < ApplicationRecord
   def self.search_by_keyword_and_model(keyword, model)
     if model == 'user'
       users = User.search_for(keyword)
-      Comment.joins(:user).where(user_id: users.ids)
+      Comment.joins(:user).where(user_id: users.ids).order(created_at: :desc)
     else
       posts = Post.search_for(keyword)
-      Comment.joins(:post).where(post_id: posts.ids)
+      Comment.joins(:post).where(post_id: posts.ids).order(created_at: :desc)
     end
   end
 

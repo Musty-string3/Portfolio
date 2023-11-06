@@ -4,6 +4,7 @@ class Admin::UsersController < ApplicationController
 
   def index
     @keyword = params[:keyword]
+    @search_path = admin_root_path
     if @keyword.present? && @keyword != ""
       @users = User.search_for(@keyword)
     else
@@ -20,9 +21,10 @@ class Admin::UsersController < ApplicationController
 
   def update
     if @user.update(user_params)
-      redirect_to admin_user_path(@user), notice: "ユーザー情報の変更に成功しました。"
+      redirect_to admin_user_path(@user)
+      flash[:notice] = "ユーザー情報を変更しました。"
     else
-     render :edit, notice: "会員情報の編集に失敗しました。再度内容をご確認ください。"
+     render :edit
     end
   end
 

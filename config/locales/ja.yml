@@ -5,23 +5,21 @@ ja:
       status:
         inappropriate: "不適切な投稿"
         copyright_violation: "著作権違反"
-        slander:  "誹謗中傷、悪口"
+        slander: "誹謗中傷、悪口"
   activerecord:
     models:
       user: "ユーザー"
+      post: "投稿"
+      room_group: "グループチャット"
     attributes:
       user:
         first_name: "苗字"
         last_name: "名前"
         name: "ニックネーム"
         introduction: "自己紹介"
-      post: "投稿"
-    attributes:
       post:
         post_name: "投稿名"
         explanation: "投稿の説明"
-      room_group: "グループチャット"
-    attributes:
       room_group:
         name: "グループチャット名"
         group_description: "チャットルームの説明"

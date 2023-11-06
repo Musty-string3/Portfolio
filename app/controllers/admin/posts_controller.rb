@@ -5,6 +5,7 @@ class Admin::PostsController < ApplicationController
   def index
     user_id = params[:user_id]
     @keyword = params[:keyword]
+    @search_path = admin_posts_path
     @user_post = false
     if @keyword.present? && @keyword != ""
       @posts = Post.search_for(@keyword)

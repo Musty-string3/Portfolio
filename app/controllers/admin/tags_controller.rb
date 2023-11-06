@@ -1,10 +1,12 @@
 class Admin::TagsController < ApplicationController
+  before_action :authenticate_admin!
 
   def index
     post_id = params[:post_id]
     tag_name = params[:tag_name]
     @keyword = params[:keyword]
     @post_tag = false
+    @search_path = admin_tags_path
     # TODOメソッドにできる
     if @keyword.present? && @keyword != ""
       @tags = Tag.search_for(@keyword)

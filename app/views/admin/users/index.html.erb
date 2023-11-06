@@ -2,18 +2,7 @@
 <div class="container">
   <h3 class="text-center">会員一覧</h3>
   <%= render 'layouts/flash' %>
-  <div class="col-6 mx-auto">
-    <%= form_with url: admin_root_path, method: :get do |f| %>
-      <div class="form-group row">
-        <div class="col-10">
-          <%= f.text_field :keyword, placeholder: "検索したいユーザーを入力", class:"form-control" %>
-        </div>
-        <div class="col-2">
-          <%= f.submit "検索", class:"btn btn-success" %>
-        </div>
-      </div>
-    <% end %>
-  </div>
+  <%= render 'admin/search/search_form', search_path: @search_path %>
   <% if @users.present? %>
     <table class="table table-bordered mx-auto">
       <thead>

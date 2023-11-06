@@ -11,7 +11,7 @@
           <div id="preview" class="d-flex flex-wrap"></div>
         <% else %>
           <div class="mb-2">
-            <%= f.file_field :images, accept: "image/*", multiple: true, onchange: "postImage(this)" %><br>
+            <%= f.file_field :images, accept: "image/*", direct_upload: true, multiple: true, onchange: "postImage(this)" %><br>
           </div>
           <!--存続の投稿画像の表示-->
           <div id="postImage" class="row">
