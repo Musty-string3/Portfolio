@@ -6,6 +6,7 @@ ja:
         inappropriate: "不適切な投稿"
         copyright_violation: "著作権違反"
         slander: "誹謗中傷、悪口"
+        others: "その他"
   activerecord:
     models:
       user: "ユーザー"

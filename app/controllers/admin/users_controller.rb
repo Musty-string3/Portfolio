@@ -17,9 +17,11 @@ class Admin::UsersController < ApplicationController
   end
 
   def edit
+    @image_url = url_for @user.profile_image
   end
 
   def update
+    @image_url = url_for @user.profile_image
     if @user.update(user_params)
       redirect_to admin_user_path(@user)
       flash[:notice] = "ユーザー情報を変更しました。"

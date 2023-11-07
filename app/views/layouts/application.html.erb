@@ -56,9 +56,6 @@
                   <%= link_to "コメント一覧", admin_comments_path, class: 'nav-link text-dark' %>
                 </li>
                 <li class="nav-item" >
-                  <%= link_to "ログアウト", destroy_admin_session_path, method: :delete, class: 'nav-link text-dark' %>
-                </li>
-                <li class="nav-item" >
                   <%= link_to admin_rates_path, class: 'nav-link text-dark' do %>
                     <% if Rate.unchecked_rates_notifications == 0 %>
                       レビュー一覧
@@ -77,6 +74,9 @@
                        <span class="n-circle"><%= Violate.unchecked_violate_notifications %></span>
                     <% end %>
                   <% end %>
+                </li>
+                <li class="nav-item" >
+                  <%= link_to "ログアウト", destroy_admin_session_path, method: :delete, class: 'nav-link text-dark' %>
                 </li>
               <% else %>
                 <li class="nav-item" >

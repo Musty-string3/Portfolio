@@ -1,7 +1,7 @@
 <!--管理者のユーザー情報編集画面-->
 <div class="container">
   <h3 class="pb-3 text-center">
-    <%= @user.name %>さん（ユーザーID：<%= @user.id %>）の会員情報編集画面
+    <%= @user.name_in_database %>さん（ユーザーID：<%= @user.id %>）の会員情報編集画面
   </h3>
   <%= render 'layouts/error_messages', resource: @user %>
   <div class="col-12 col-lg-8 mx-auto">
@@ -9,7 +9,7 @@
         <div class="form-group">
           <%= f.file_field :profile_image, accept: "image/*", direct_upload: true, onchange: "profileImage(this)" %>
           <div class="text-center">
-            <%= image_tag @user.get_profile_image_edit(500, 500), class:"m-2 profile_image border border-dark rounded-circle", id:"profile_image" %>
+            <%= image_tag @image_url, class:"m-2 profile_image border border-dark rounded-circle", id:"profile_image" %>
             <span id="preview"></span>
           </div>
         </div>

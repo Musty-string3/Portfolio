@@ -3,16 +3,18 @@
   <div class="row">
     <table class="table table-bordered">
       <thead>
-        <th class="col-lg-2">報告したユーザー</th>
-        <th class="col-lg-2">違反したユーザー</th>
-        <th class="col-lg-2">投稿名</th>
-        <th class="col-lg-2">違反理由</th>
-        <th class="col-lg-2">違反の説明</th>
-        <th class="col-lg-2">詳細</th>
+        <th class="col-1">報告ID</th>
+        <th class="col-2">報告したユーザー</th>
+        <th class="col-2">報告されたユーザー</th>
+        <th class="col-2">投稿名</th>
+        <th class="col-2">違反理由</th>
+        <th class="col-2">違反の説明</th>
+        <th class="col-1">詳細</th>
       </thead>
       <tbody>
         <% @violates.each do |violate| %>
           <tr>
+            <td><%= violate.id %></td>
             <td>
               <%= link_to admin_user_path(violate.reporter.id) do %>
                 <span class='border-bottom border-dark text-dark'>
@@ -45,7 +47,7 @@
             <td>
               <p class="text_dark" data-toggle="modal" data-target="#violate<%= violate.id %>">
                 <span class='border-bottom border-dark text-dark'>
-                  詳細を確認する
+                  詳細確認
                 </span>
               </p>
 
@@ -60,7 +62,7 @@
                         <span aria-hidden="true">&times;</span>
                       </button>
                     </div>
-                    <div class="modal-body">
+                    <div class="modal-body h5">
                       <p>ユーザー名：<%= violate.reported.name %></p>
                       <p>投稿名：<%= violate.post.post_name %>
                       <p>違反内容：<%= violate.status_i18n %></p>

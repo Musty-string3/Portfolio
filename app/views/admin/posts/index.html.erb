@@ -8,7 +8,38 @@
   <%= render 'admin/search/search_form', search_path: @search_path %>
   <%= render 'layouts/flash' %>
   <% if @posts.present? %>
-    <%= render 'index', posts: @posts %>
+    <table class="table table-bordered mx-auto">
+      <thead>
+        <th class="col-1">投稿ID</th>
+        <th class="col-3">ユーザー名</th>
+        <th class="col-3">投稿名</th>
+        <th class="col-4">投稿の説明</th>
+        <th>GoogleMap</th>
+      </thead>
+      <tbody>
+        <% @posts.each do |post| %>
+          <tr>
+            <td><%= post.id %></td>
+            <td>
+              <%= link_to admin_user_path(post.user.id) do %>
+                <span class="border-bottom border-dark text-dark"><%= post.user.name %></span>
+              <% end %>
+            </td>
+            <td>
+              <%= link_to admin_post_path(post.id) do %>
+                <span class="border-bottom border-dark text-dark"><%= post.post_name %></span>
+              <% end %>
+            </td>
+            <td><%= truncate(post.explanation, length: 20, omission: "...") %></td>
+            <td class="text-left">
+              <% if post.has_lat_lng %>
+                <i class="pl-2 ml-4 text-success fa-solid fa-check"></i>
+              <% end %>
+            </td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
   <% else %>
     <% if @keyword %>
       <h3 class="text-center">
