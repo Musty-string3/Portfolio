@@ -109,3 +109,10 @@
     border-radius: 45px;
   }
 }
+
+.bg-height-color {
+  min-height: 100vh;
+  background-attachment:fixed;
+  background-size:cover;
+  background-position: center;
+}

@@ -7,7 +7,7 @@
   <div class="col-12 col-lg-8 mx-auto">
       <%= form_with model: @user, url: admin_user_path(@user), method: :patch do |f| %>
         <div class="form-group">
-          <%= f.file_field :profile_image, accept: "image/*", direct_upload: true, onchange: "profileImage(this)" %>
+          <%= f.file_field :profile_image, accept: "image/*", onchange: "profileImage(this)" %>
           <div class="text-center">
             <%= image_tag @image_url, class:"m-2 profile_image border border-dark rounded-circle", id:"profile_image" %>
             <span id="preview"></span>

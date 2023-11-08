@@ -7,7 +7,7 @@
   <% posts.each do |post| %>
     <div class="col-lg-4 col-md-6 col-sm-12 mb-5 p-0">
       <div class="card h-100">
-        <div class="card-text">
+        <div class="card-text p-1">
           <%= link_to user_path(post.user), class:"text-dark" do %>
             <%= image_tag post.user.get_profile_image(60, 60), class:"border border-dark rounded-circle", width: 40, height: 40 %>
             <%= post.user.name %>

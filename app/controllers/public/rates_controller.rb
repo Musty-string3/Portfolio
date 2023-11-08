@@ -19,7 +19,6 @@ class Public::RatesController < ApplicationController
     end
   end
 
-  # TODO
   private
 
   def rate_params

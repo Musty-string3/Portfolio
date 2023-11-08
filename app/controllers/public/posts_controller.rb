@@ -33,7 +33,13 @@ class Public::PostsController < ApplicationController
   end
 
   def show
-    @post = Post.find(params[:id])
+    begin
+      @post = Post.find(params[:id])
+    rescue  ActiveRecord::RecordNotFound
+      redirect_to posts_path
+      flash[:alert] = "投稿は存在しません"
+      return
+    end
     @comment = Comment.new
     @violate = Violate.new
     unless @post.user == current_user
@@ -42,10 +48,12 @@ class Public::PostsController < ApplicationController
   end
 
   def edit
+    @post_images_url = @post.images.map{|image| url_for image}
     @tag_list = @post.tags.pluck(:name).join('　')
   end
 
   def update
+    @post_images_url = @post.images.map{|image| url_for image}
     tag_list = params[:post][:tag].split('　')
     if @post.update(post_params)
       @post.save_tag(tag_list, @post)

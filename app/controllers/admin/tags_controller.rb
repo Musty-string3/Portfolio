@@ -7,7 +7,6 @@ class Admin::TagsController < ApplicationController
     @keyword = params[:keyword]
     @post_tag = false
     @search_path = admin_tags_path
-    # TODOメソッドにできる
     if @keyword.present? && @keyword != ""
       @tags = Tag.search_for(@keyword)
     elsif post_id.present?

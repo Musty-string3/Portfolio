@@ -46,19 +46,16 @@
   </div>
 </div>
 
-<!--TODO scriptここでいいの？-->
 <script>
-  // 星の表示
   $(document).on('turbolinks:load', function() {
     let elem = document.getElementById('rate');
     if (!elem) return;
     elem.innerHTML = ""
-    //id=rateの場所のHTMLを消す。意味としてはelem.empty()と同じ
     let opt = {
       starOn: "<%= asset_path('star-on.png') %>",
       starOff: "<%= asset_path('star-off.png') %>",
       starHalf: "<%= asset_path('star-half.png') %>",
-      scoreName: 'rate[star]'  // rateテーブルのstarカラムに追加する
+      scoreName: 'rate[star]'
     };
     raty(elem, opt);
   });

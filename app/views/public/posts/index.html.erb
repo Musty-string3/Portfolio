@@ -7,7 +7,6 @@
     <div class="col-12 mx-auto">
       <div class="justify-content-end form-inline mr-3 mb-3">
         <%= form_with url: posts_path, method: :get do |f| %>
-        <!--TODO-->
           <%= f.select :sort, options_for_select({"新着投稿"=>"new", "いいね順"=>"like", "直近のいいね順"=>"likes_in_week" }), {prompt: false}, class:"pt-1 pb-2 rounded border border-secondary mr-2" %>
           <%= f.submit '検索', class:"btn btn-outline-success my-2 my-sm-0" %>
         <% end %>

@@ -16,7 +16,7 @@
           <!--存続の投稿画像の表示-->
           <div id="postImage" class="row">
             <div class="d-flex flex-wrap">
-              <% @post.images.each do |image| %>
+              <% @post_images_url.each do |image| %>
                 <div class="col-6 col-lg-4 p-1 text-center">
                   <%= image_tag image, class:'preview_img img-thumbnail' %>
                 </div>

@@ -11,9 +11,9 @@
     let fileReader;
     const images = $('#edit_images_preview');
     images.empty();
-    if (obj.files.length == 0 || obj.files.length > 6){
-	    images.html("画像は1枚以上かつ6枚以下で指定してください");
-	    $('#postImage').show();
+    if (obj.files.length > 6){
+	    images.html("<span class='text-danger'>画像は6枚以下で指定してください</span>");
+	    $('#postImage').hide();
 	    return false
 	  }
     for (let i = 0; i < obj.files.length; i++) {

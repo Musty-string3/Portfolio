@@ -22,9 +22,11 @@ class Public::UsersController < ApplicationController
 
 
   def edit_information
+    @image_url = url_for @user.profile_image
   end
 
   def update
+    @image_url = url_for @user.profile_image
     if @user.update(user_params)
       flash[:notice] = "ユーザー情報を変更しました"
       redirect_to user_path(@user)
