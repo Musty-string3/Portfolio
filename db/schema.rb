@@ -131,9 +131,6 @@ ActiveRecord::Schema.define(version: 2023_10_10_113334) do
     t.boolean "checked", default: false, null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.index "\"post\"", name: "index_notifications_on_post"
-    t.index "\"relation\"", name: "index_notifications_on_relation"
-    t.index "\"user\"", name: "index_notifications_on_user"
     t.index ["comment_id"], name: "index_notifications_on_comment_id"
     t.index ["post_id"], name: "index_notifications_on_post_id"
     t.index ["visited_id"], name: "index_notifications_on_visited_id"
