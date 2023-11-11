@@ -37,7 +37,7 @@ class DeviseCreateUsers < ActiveRecord::Migration[6.1]
       t.string :last_name, null: false                    #名
       t.string :first_name, null: false                   #姓
       t.string :name, null: false                         #ニックネーム
-      t.text :introduction, null: false, default: ""      #自己紹介文章
+      t.text :introduction      #自己紹介文章
       t.boolean :is_deleted, null: false, default: false  #退会ステータス(デフォルト=退会してない)
     end
 
