@@ -18,7 +18,6 @@ class Post < ApplicationRecord
   belongs_to :user
   has_many :comments, dependent: :destroy
   has_many :likes, dependent: :destroy
-  has_many :liked_user, through: :likes, source: :user
   has_many :post_tags, dependent: :destroy
   has_many :tags, through: :post_tags
   has_many :notifications, dependent: :destroy
@@ -113,14 +112,6 @@ class Post < ApplicationRecord
 
   def self.where_records_for_user(user)
     includes(:user).where(user_id: user.id)
-  end
-
-  def self.liked_by_others(current_user)
-    joins(:likes).where(likes: {user_id: current_user.id}).where.not(user_id: current_user.id)
-  end
-
-  def self.posts_by_followings(current_user)
-    where(user_id: [*current_user.followings.ids])
   end
 
   def self.related_to_tag(tag)

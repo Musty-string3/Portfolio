@@ -6,7 +6,7 @@ class User < ApplicationRecord
   has_many :posts, dependent: :destroy
   has_many :comments, dependent: :destroy
   has_many :likes, dependent: :destroy
-  # コメントに対するいいね
+  has_many :liked_posts, through: :likes, source: :post
   has_many :comment_likes, dependent: :destroy
   has_many :view_counts, dependent: :destroy
 
@@ -22,13 +22,12 @@ class User < ApplicationRecord
   #フォローした、されたの関係
   has_many :relations, class_name: "Relation", foreign_key: "follow_id", dependent: :destroy
   has_many :reverse_relations, class_name: "Relation", foreign_key: "followed_id", dependent: :destroy
+  has_many :followings_posts, through: :relations, source: :followed
   #class_name: "Relation"でRelationクラスの参照、foreign_key: カラム名で保存するカラムの指定
 
   #フォロー一覧
   has_many :followings, through: :relations, source: :followed #フォロー中のユーザー一覧
   has_many :followers, through: :reverse_relations, source: :follow  #フォロワーのユーザー一覧
-  #through: :名前 でその中間テーブルを通る、source: :名前  で参照するカラムを指定する
-  #User.find(1).followingsでフォローしてくれたユーザーの一覧
 
   # 通知機能のアソシエーション
   has_many :myself_notifications, class_name: 'Notification', foreign_key: 'visitor_id', dependent: :destroy
@@ -44,9 +43,6 @@ class User < ApplicationRecord
   # 管理者通知のアソシエーション
   has_many :admin_notifications, foreign_key: 'visitor_id', dependent: :destroy
 
-  #is_deletedがtrue(退会してない)の会員レコードを取得
-  scope :only_active, -> { where(is_deleted: true) }
-
   # 投稿に紐付いたタグテーブルのidカラムとnameカラムをjoins(内部結合)にて新テーブルを作成
   scope :tag_joins_posts, -> { Tag.joins(:posts).select(:id, :name) }
 
@@ -55,13 +51,13 @@ class User < ApplicationRecord
   validates :name, presence: true, uniqueness: true, length: { maximum: 20 }
   validates :introduction, length: { maximum: 100 }
   validates :encrypted_password, length: {minimum: 6}
-  
+
   def full_name
     "#{first_name} #{last_name}"
   end
 
   has_one_attached :profile_image
-  
+
 
   def get_profile_image(width, height)
     unless profile_image.attached?

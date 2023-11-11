@@ -2,28 +2,21 @@
 <div class="row">
   <div class="col-10 col-md-8 mx-auto">
     <div class="row justify-content-center">
-      <% if users.exists? %>
-        <table class="table text-center">
+      <% if users.present? %>
+        <table class="table">
           <thead>
-            <th>ユーザー</th>
-            <th>投稿数</th>
-            <th>フォロー数</th>
-            <th>フォロワー数</th>
+            <th class="col-5">ユーザー</th>
+            <th class="col-2">投稿数</th>
+            <th class="col-2">フォロー数</th>
+            <th class="col-2">フォロワー数</th>
           </thead>
           <tbody>
             <% @users.each do |user| %>
               <tr>
                 <td>
-                  <% if user == current_user %>
-                    <%= link_to user_path(user) do %>
-                      <%= image_tag user.get_profile_image(50, 50), class:"border border-dark rounded-circle", width: 35, height: 35 %>
-                      <%= user.name %>(自分)
-                    <% end %>
-                  <% else %>
-                    <%= link_to user_path(user) do %>
-                      <%= image_tag user.get_profile_image(50, 50), class:"border border-dark rounded-circle", width: 35, height: 35 %>
-                      <%= user.name %>
-                    <% end %>
+                  <%= link_to user_path(user) do %>
+                    <%= image_tag user.get_profile_image(50, 50), class:"border border-dark rounded-circle", width: 35, height: 35 %>
+                    <%= user == current_user ? "#{user.name}（自分）" : user.name %>
                   <% end %>
                 </td>
                 <td><%= user.posts.count %></td>

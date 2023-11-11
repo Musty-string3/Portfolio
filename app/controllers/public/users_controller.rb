@@ -2,7 +2,6 @@ class Public::UsersController < ApplicationController
 
   include TagCount
   before_action :authenticate_user!
-  before_action :set_current_user, except: %i[show]
   before_action :current_user?, only: %i[edit_information update withdrawal likes timeline]
   before_action :guest_user, only: %i[edit_information update withdrawal]
 
@@ -22,14 +21,14 @@ class Public::UsersController < ApplicationController
 
 
   def edit_information
-    @image_url = url_for @user.profile_image
+    @image_url = url_for current_user.profile_image
   end
 
   def update
-    @image_url = url_for @user.profile_image
+    @image_url = url_for current_user.profile_image
     if @user.update(user_params)
       flash[:notice] = "ユーザー情報を変更しました"
-      redirect_to user_path(@user)
+      redirect_to user_path(current_user)
     else
       flash[:alert] = "会員情報の編集に失敗しました。再度内容をご確認ください。"
       render :edit_information
@@ -37,25 +36,22 @@ class Public::UsersController < ApplicationController
   end
 
   def withdrawal
-    @user.update(is_deleted: true)
+    current_user.update(is_deleted: true)
     reset_session
     redirect_to root_path
     flash[:notice] ="退会処理を実行しました"
   end
 
   def likes
-    @posts = Post.liked_by_others(current_user)
+    @posts = current_user.liked_posts
   end
 
   def timeline
-    @posts = Post.posts_by_followings(current_user)
+    # @posts = @user.followings_posts
+    @posts = Post.where(user_id: current_user.followings_posts)
   end
 
   private
-
-  def set_current_user
-    @user = current_user
-  end
 
   def current_user?
     user = params[:id].to_i
@@ -66,7 +62,7 @@ class Public::UsersController < ApplicationController
   end
 
   def guest_user
-    if @user.email == 'guest@sample.com'
+    if current_user.email == 'guest@sample.com'
       redirect_back fallback_location: root_path
       flash[:alert] = "ゲストユーザーのプロフィール編集はできません。"
     end

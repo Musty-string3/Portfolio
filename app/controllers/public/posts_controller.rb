@@ -1,6 +1,4 @@
 class Public::PostsController < ApplicationController
-
-  include TagCount  # app/controllers/concerns/tag_count.rbが使える
   before_action :authenticate_user!
   before_action :current_user?, only: %i[edit update destroy]
   before_action :set_post, only: %i[edit update destroy]
@@ -9,8 +7,6 @@ class Public::PostsController < ApplicationController
     sort = params[:sort]
     @posts = Post.sort_by_like(sort)
     @sort_condition = sort_condition(sort)
-    tags = User.tag_joins_posts
-    @tags = set_tag_count(tags)
   end
 
   def new
