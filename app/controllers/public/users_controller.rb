@@ -21,10 +21,12 @@ class Public::UsersController < ApplicationController
 
 
   def edit_information
+    @user = current_user
     @image_url = url_for current_user.profile_image
   end
 
   def update
+    @user = current_user
     @image_url = url_for current_user.profile_image
     if @user.update(user_params)
       flash[:notice] = "ユーザー情報を変更しました"
