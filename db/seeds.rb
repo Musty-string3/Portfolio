@@ -6,17 +6,18 @@
 #   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
 #   Character.create(name: 'Luke', movie: movies.first)
 
+puts "seedの実行を開始"
 
 # 管理者ログイン設定
 Admin.create!(
-  email: "admin@01",
-  password: "111111"
+  email: ENV['ADMIN_EMAIL'],
+  password: ENV['ADMIN_PASSWORD']
 )
 
-# ユーザー　OK
+# ユーザー
 5.times do |n|
   User.create(
-    email: "#{SecureRandom.urlsafe_base64(10)}@gmail.com",
+    email: "#{SecureRandom.urlsafe_base64(10)}@hoge",
     password: SecureRandom.urlsafe_base64(10),
     name: "デフォルトユーザー(No.#{n + 1})",
     introduction: "デフォルトユーザー(No.#{n + 1})です!",
@@ -25,7 +26,7 @@ Admin.create!(
   )
 end
 
-# 投稿(3種類) OK
+# 投稿(3種類)
 post_data = [
   {
     post_name: "清水寺",
@@ -77,7 +78,7 @@ post_data.each_with_index do |data, i|
   post.save!
 end
 
-# タグの設定 OK
+# タグの設定
 tags_sets = [
   ["京都", "清水寺", "観光地", "世界遺産"],
   ["北海道", "時計台", "観光地"],
@@ -89,7 +90,7 @@ tags_sets.each do |tags|
   end
 end
 
-# タグの中間テーブルの設定 OK
+# タグの中間テーブルの設定
 11.times do |i|
   if i + 1 < 5
     tag = Tag.find(i + 1)
@@ -113,13 +114,13 @@ text = ['素敵ですね！', '私もいつか行ってみたいです!', '物�
   )
 end
 
-# グループチャットの設定 OK
+# グループチャットの設定
 RoomGroup.create!(
   name: "観光地好き集まれ！！",
   group_description: "観光地に訪れるのが好きな方は是非ご参加ください！！"
 )
 
-# グループチャットのユーザー管理(中間テーブル)の設定 OK
+# グループチャットのユーザー管理(中間テーブル)の設定
 5.times do |n|
   leader = (n + 1 == 1)
   UserGroup.create!(
@@ -129,7 +130,7 @@ RoomGroup.create!(
   )
 end
 
-# グループチャットのメッセージ管理(中間テーブル)の設定 OK
+# グループチャットのメッセージ管理(中間テーブル)の設定
 5.times do |n|
   MessageGroup.create!(
     user: User.find(n + 1),
@@ -138,14 +139,14 @@ end
   )
 end
 
-# レビューの設定 OK
+# レビューの設定
 Rate.create!(
   user: User.find(1),
   star: '3',
   text: '普通かなと思います。'
 )
 
-# 違反報告の設定 OK
+# 違反報告の設定
 Violate.create!(
   reporter: User.find(1),
   reported: User.find(2),
@@ -167,3 +168,5 @@ AdminNotification.create!(
   violate: Violate.find(1),
   action: 'violate'
 )
+
+puts "seedの実行が完了しました"
