@@ -40,9 +40,9 @@
             <div class="ml-2">
               <span id="post_<%= @post.id %>"><%= render "public/likes/like", post: @post %></span>
             </div>
-            <i class="ml-2 mt-1 fa-solid fa-eye pt-1"></i><%= @post.view_counts.count %>
+            <i class="ml-2 mt-1 fa-solid fa-eye pt-1 pr-1"></i><%= @post.view_counts.count %>
             <div class="ml-2 mt-1">
-              <i class="fa-regular fa-clock pt-1"></i><%= time_ago_in_words(@post.created_at)+"前に投稿" %>
+              <i class="fa-regular fa-clock pt-1 pr-1"></i><%= time_ago_in_words(@post.created_at)+"前に投稿" %>
             </div>
             <div>
               <% if @post.has_lat_lng %>
@@ -58,7 +58,7 @@
                   <%= link_to "投稿を編集する", edit_post_path(@post), class:"btn btn-info mt-3" %>
                 </div>
               <% end %>
-              <% unless @post.user == current_user %>
+              <% unless @post.written_by?(current_user) %>
                 <div>
                   <button type="button" class="btn btn-danger mt-3" data-toggle="modal" data-target="#violateModal">投稿違反を報告する</button>
                 </div>

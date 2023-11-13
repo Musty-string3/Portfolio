@@ -9,6 +9,7 @@ Rails.application.routes.draw do
   # ゲストログイン
   devise_scope :user do
     post 'guest_sign_in', to: 'users/sessions#guest_sign_in'
+    get 'users', to: 'public/registrations#new'
   end
 
   # 管理者ログイン

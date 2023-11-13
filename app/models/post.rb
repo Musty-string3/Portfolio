@@ -1,5 +1,4 @@
 class Post < ApplicationRecord
-  include WrittenBy
 
   validates :post_name, presence: true, length: { maximum: 20 }
   validates :explanation, presence: true, length: {  maximum: 100 }
@@ -45,6 +44,10 @@ class Post < ApplicationRecord
     Post.where('post_name LIKE?', keyword+'%').order(created_at: :desc)
   end
 
+  def written_by?(current_user)
+    user == current_user
+  end
+
   def like?(user)
     likes.where(user_id: user.id).exists?
   end
@@ -58,12 +61,12 @@ class Post < ApplicationRecord
   end
 
   # いいね通知
-  def create_notification_like!(current_user, post, user)
+  def create_notification_like!(current_user, user)
     unless current_user == user
       Notification.find_or_create_by!(
         visitor_id: current_user.id,
-        visited_id: user_id,
-        post_id: post.id,
+        visited_id: user.id,
+        post_id: id,
         action: 'like'
       )
     end
@@ -73,13 +76,13 @@ class Post < ApplicationRecord
   def create_notification_comment!(current_user, comment_id)
     temp_ids = Comment.where(post_id: id).where.not(user_id: current_user.id).distinct.pluck(:user_id)
     temp_ids.each do |temp_id|
-      save_notification_comment(current_user, comment_id, temp_id['user_id'])
+      save_notification_comment(current_user, comment_id, temp_id)
     end
     save_notification_comment(current_user, comment_id, user_id) if temp_ids.blank?
   end
 
   def save_notification_comment(current_user, comment_id, visited_id)
-    unless current_user == visited_id
+    unless current_user.id == visited_id
       current_user.myself_notifications.find_or_create_by!(
         post_id: id,
         comment_id: comment_id,
