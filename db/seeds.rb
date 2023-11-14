@@ -17,7 +17,7 @@ Admin.create!(
 # ユーザー
 5.times do |n|
   User.create(
-    email: "#{SecureRandom.urlsafe_base64(10)}@hoge",
+    email: "#{SecureRandom.urlsafe_base64(10)}@hoge.com",
     password: SecureRandom.urlsafe_base64(10),
     name: "デフォルトユーザー(No.#{n + 1})",
     introduction: "デフォルトユーザー(No.#{n + 1})です!",
