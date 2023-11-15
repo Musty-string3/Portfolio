@@ -38,7 +38,7 @@
                   <%= link_to '通知', notifications_path, class: 'nav-link text-dark' %>
                   <% if current_user.unchecked_notifications > 0 %>
                     <span class="fa-layers" style="position: relative;">
-                      <span class="icon_layers_counter"><%= current_user.unchecked_notifications %></span>
+                      <span class="icon_layers_counter">+<%= current_user.unchecked_notifications %></span>
                     </span>
                   <% end %>
                 </li>
@@ -61,7 +61,7 @@
                       レビュー一覧
                     <% else %>
                       <p class="icon_layers">レビュー一覧</p>
-                       <span class="n-circle"><%= Rate.unchecked_rates_notifications %></span>
+                       <span class="n-circle">+<%= Rate.unchecked_rates_notifications %></span>
                     <% end %>
                   <% end %>
                 </li>
@@ -71,7 +71,7 @@
                       違反通知
                     <% else %>
                       <p class="icon_layers">違反通知</p>
-                       <span class="n-circle"><%= Violate.unchecked_violate_notifications %></span>
+                       <span class="n-circle">+<%= Violate.unchecked_violate_notifications %></span>
                     <% end %>
                   <% end %>
                 </li>

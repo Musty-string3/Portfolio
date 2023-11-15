@@ -4,12 +4,8 @@ class Admin::CommentsController < ApplicationController
   def index
     post_comments = params[:post_comments]
     @keyword = params[:keyword]
-    if @keyword.present? && @keyword != ""
-      @model = params[:model]
-      @comments = Comment.search_by_keyword_and_model(@keyword, @model)
-    else
-      @comments = Comment.load_for_posts(post_comments)
-    end
+    @model = params[:model]
+    @comments = Comment.search_keyword_present(post_comments, @keyword, @model).page(params[:page]).per(10)
   end
 
   def destroy

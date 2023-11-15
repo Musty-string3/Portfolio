@@ -1,9 +1,9 @@
 <!--管理者、投稿一覧-->
 <div class="container">
-  <% if @user_post %>
-    <h3 class="text-center pb-3"><%= @posts.first.user.name %>さんの投稿一覧</h3>
+  <% if @user_id %>
+    <h3 class="text-center"><%= @posts.first.user.name %>さんの投稿一覧</h3>
   <% else %>
-    <h3 class="text-center pb-3">投稿一覧</h3>
+    <h3 class="text-center">投稿一覧</h3>
   <% end %>
   <%= render 'admin/search/search_form', search_path: @search_path %>
   <%= render 'layouts/flash' %>

@@ -4,6 +4,6 @@ class Admin::RatesController < ApplicationController
   def index
     @rate = Rate.for_users_created_desc
     @average_rate = Rate.average(:star).to_i
-    AdminNotification.update_unchecked_rate_actions
+    AdminNotification.update_unchecked_actions('rate')
   end
 end

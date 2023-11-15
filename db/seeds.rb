@@ -9,9 +9,9 @@
 puts "seedの実行を開始"
 
 # 管理者ログイン設定
-Admin.create!(
-  email: ENV['ADMIN_EMAIL'],
-  password: ENV['ADMIN_PASSWORD']
+Admin.create(
+  # email: ENV['ADMIN_EMAIL'],
+  # password: ENV['ADMIN_PASSWORD']
 )
 
 # ユーザー

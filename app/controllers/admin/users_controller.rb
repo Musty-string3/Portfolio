@@ -4,12 +4,8 @@ class Admin::UsersController < ApplicationController
 
   def index
     @keyword = params[:keyword]
+    @users = User.search_keyword_present(@keyword)
     @search_path = admin_root_path
-    if @keyword.present? && @keyword != ""
-      @users = User.search_for(@keyword)
-    else
-      @users = User.all.order(created_at: :desc)
-    end
   end
 
   def show

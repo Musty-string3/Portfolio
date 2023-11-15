@@ -2,7 +2,6 @@ class Comment < ApplicationRecord
   belongs_to :user
   belongs_to :post
   has_many :notifications, dependent: :destroy
-  # コメントに対するいいね
   has_many :comment_likes, dependent: :destroy
 
   validates :text, presence: true
@@ -11,7 +10,11 @@ class Comment < ApplicationRecord
 
   def comment_like(comment, user)
     comment_likes.where(comment_id: comment.id, user_id: user.id).empty?
-    # empty?とはexists?の逆の意味で、0件ならtureを返し、1件以上ならfalseを返す
+  end
+
+  def self.search_keyword_present(post_comments, keyword, model)
+    return search_by_keyword_and_model(keyword, model) if keyword.present?
+    load_for_posts(post_comments)
   end
 
   def self.search_by_keyword_and_model(keyword, model)

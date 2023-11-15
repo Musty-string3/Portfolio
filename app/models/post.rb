@@ -25,7 +25,6 @@ class Post < ApplicationRecord
 
   scope :for_users_created_desc, -> {includes(:user).all.order(created_at: :desc)}
 
-  # タグの保存、編集
   def save_tag(sent_tags, post)
     post.tags.destroy_all
     current_tags = self.tags.pluck(:name) unless self.tags.nil?
@@ -38,10 +37,6 @@ class Post < ApplicationRecord
       new_post_tag = Tag.find_or_create_by(name: new)
       self.tags << new_post_tag
     end
-  end
-
-  def self.search_for(keyword)
-    Post.where('post_name LIKE?', keyword+'%').order(created_at: :desc)
   end
 
   def written_by?(current_user)
@@ -60,7 +55,6 @@ class Post < ApplicationRecord
     view_counts.where(created_at: Time.zone.now.all_day, post_id: post).count
   end
 
-  # いいね通知
   def create_notification_like!(current_user, user)
     unless current_user == user
       Notification.find_or_create_by!(
@@ -72,7 +66,6 @@ class Post < ApplicationRecord
     end
   end
 
-  # コメント通知
   def create_notification_comment!(current_user, comment_id)
     temp_ids = Comment.where(post_id: id).where.not(user_id: current_user.id).distinct.pluck(:user_id)
     temp_ids.each do |temp_id|
@@ -80,7 +73,6 @@ class Post < ApplicationRecord
     end
     save_notification_comment(current_user, comment_id, user_id) if temp_ids.blank?
   end
-
   def save_notification_comment(current_user, comment_id, visited_id)
     unless current_user.id == visited_id
       current_user.myself_notifications.find_or_create_by!(
@@ -94,6 +86,16 @@ class Post < ApplicationRecord
 
   def has_lat_lng
     lat.present? && lng.present?
+  end
+
+  def self.search_keyword_present?(keyword, user_id)
+    return search_for(keyword) if keyword.present?
+    return for_user_created_desc(user_id) if user_id.present?
+    for_users_created_desc
+  end
+
+  def self.search_for(keyword)
+    Post.where('post_name LIKE?', keyword+'%').order(created_at: :desc)
   end
 
   def self.for_user_created_desc(user_id)

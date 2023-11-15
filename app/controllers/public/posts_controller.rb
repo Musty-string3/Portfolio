@@ -79,7 +79,6 @@ class Public::PostsController < ApplicationController
     end
   end
 
-
   def set_post
     @post = Post.find(params[:id])
   end

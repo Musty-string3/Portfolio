@@ -67,9 +67,9 @@ class User < ApplicationRecord
     profile_image.variant(resize: "#{width}x#{height}", gravity: "center", crop: "#{width}x#{height}+0+0").processed
   end
 
-  # processedがあるとバリデーションエラーの際にActiveStorage::FileNotFoundErrorになるためprocessedなしのメソッド
-  def get_profile_image_edit(width, height)
-    profile_image.variant(resize: "#{width}x#{height}", gravity: "center", crop: "#{width}x#{height}+0+0")
+  def self.search_keyword_present(keyword)
+    return search_for(keyword) if keyword.present?
+    all.order(created_at: :desc)
   end
 
   def self.search_for(keyword)

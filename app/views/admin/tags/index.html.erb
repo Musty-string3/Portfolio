@@ -1,7 +1,7 @@
 <!--管理者のタグ一覧-->
 <div class="container">
-  <% if @post_tag.present? %>
-    <h3 class="text-center"><%= @post_name %>の投稿のタグ一覧</h3>
+  <% if @post_id.present? %>
+    <h3 class="text-center"><%= @tags.first.posts.first.post_name %>の投稿のタグ一覧</h3>
   <% else %>
     <h3 class="text-center">タグ一覧</h3>
   <% end %>
@@ -41,4 +41,7 @@
       <h3 class="text-center">タグはありません</h3>
     <% end %>
   <% end %>
+  <div class="row justify-content-center">
+    <%= paginate @tags if @tags.present? %>
+  </div>
 </div>
