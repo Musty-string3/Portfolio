@@ -7,6 +7,7 @@ class Public::MessageGroupsController < ApplicationController
   end
   
   private
+  
   def messages_params
     params.require(:message_group).permit(:room_group_id, :text).merge(user_id: current_user.id)
   end

@@ -12,10 +12,6 @@ class Public::CommentLikesController < ApplicationController
   def destroy
     CommentLike.find_by(
     user_id: current_user, comment_id: params[:comment_id]).destroy
-
-    # CommentLike.find(params[:id])で取得したいときは
-    # link_to 〇〇_path(id: comment.comment_likes.first.id)でターミナルに
-    # Parameters:{ "id"=>"1" }のように送られてくる
   end
   
   private

@@ -26,7 +26,7 @@ class User < ApplicationRecord
   #class_name: "Relation"でRelationクラスの参照、foreign_key: カラム名で保存するカラムの指定
 
   #フォロー一覧
-  has_many :followings, through: :relations, source: :followed #フォロー中のユーザー一覧
+  has_many :followings, through: :relations, source: :followed       #フォロー中のユーザー一覧
   has_many :followers, through: :reverse_relations, source: :follow  #フォロワーのユーザー一覧
 
   # 通知機能のアソシエーション
@@ -58,7 +58,6 @@ class User < ApplicationRecord
 
   has_one_attached :profile_image
 
-
   def get_profile_image(width, height)
     unless profile_image.attached?
       file_path = Rails.root.join('app/assets/images/profile_image.jpg')
@@ -82,6 +81,10 @@ class User < ApplicationRecord
 
   def written_by?(current_user, user)
     user == current_user
+  end
+
+  def received_notifications_from_someone
+    other_notifications.where.not(visitor_id: self.id)
   end
 
   def create_notification_follow!(current_user)

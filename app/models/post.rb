@@ -104,9 +104,10 @@ class Post < ApplicationRecord
 
   def self.sort_by_like(params_index)
     posts = includes(:likes)
-    if params_index == "like"
+    case params_index
+    when "like"
       posts.sort_by {|x| x.likes.size}.reverse
-    elsif params_index == "likes_in_week"
+    when "likes_in_week"
       to  = Time.current.at_end_of_day
       from  = (to - 6.day).at_beginning_of_day
       posts.sort_by {|x| x.likes.where(created_at: from...to).size}.reverse

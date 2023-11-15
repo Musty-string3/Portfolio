@@ -1,7 +1,6 @@
 class Public::NotificationsController < ApplicationController
   def index
-    notifications = current_user.other_notifications.where.not(visitor_id: current_user.id)
-    notifications.update_all(checked: true)
-    @notifications = notifications.includes(:visited, :post).order(created_at: :desc)
+    my_notifications = current_user.received_notifications_from_someone
+    @notifications = my_notifications.update_checked_status
   end
 end
