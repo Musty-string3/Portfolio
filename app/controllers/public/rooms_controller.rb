@@ -23,6 +23,7 @@ class Public::RoomsController < ApplicationController
     @messages = Message.where(room_id: @room.id)
     @message = Message.new
     @entries = Entry.where(room_id: @room.id)
+    # TODO Enumerable = イーナマラブル
     @current_entry = @entries.find {|entry| entry.user_id == current_user.id}
     @another_entry = @entries.find {|entry| entry.user_id != current_user.id}
   end
@@ -31,8 +32,11 @@ class Public::RoomsController < ApplicationController
 
   def room_join?
     room = params[:id]
-    chat_partner = Entry.find_matching_entry(room, current_user)
-    unless chat_partner
+    chat_partner = Entry.find_by(
+      user_id: Entry.where(room_id: room).where.not(user_id: current_user.id).pluck(:user_id),
+      room_id: room
+    )
+    if chat_partner.blank?
       flash[:alert] = "指定されたDMルームは利用できません。"
       redirect_to rooms_path
     end

@@ -7,8 +7,8 @@ class Public::UsersController < ApplicationController
 
   def show
     @user = User.find(params[:id])
-    @user_posts = Post.where_records_for_user(@user)
-    @entries_count = Entry.count_by_user(@user)
+    @user_posts = Post.includes(:user).where(user_id: @user.id)
+    @entries_count = Entry.where(user_id: @user.id).count
     @room_id = Entry.check_chatroom(@user, current_user)
     @isRoom = false
     if @room_id
@@ -49,7 +49,6 @@ class Public::UsersController < ApplicationController
   end
 
   def timeline
-    # @posts = @user.followings_posts
     @posts = Post.where(user_id: current_user.followings_posts)
   end
 

@@ -3,6 +3,6 @@ class Public::TagsController < ApplicationController
 
   def show
     @tag = Tag.find(params[:id])
-    @tag_posts = Post.related_to_tag(@tag)
+    @tag_posts = Post.joins(:user, :tags).where(tags:{name: @tag.name})
   end
 end

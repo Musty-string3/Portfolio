@@ -5,7 +5,7 @@ class Admin::PostsController < ApplicationController
   def index
     @keyword = params[:keyword]
     @user_id = params[:user_id]
-    @posts = Post.search_keyword_present?(@keyword, @user_id)
+    @posts = Post.search_keyword_present(@keyword, @user_id)
     @search_path = admin_posts_path
   end
 

@@ -37,10 +37,9 @@ class Public::SessionsController < Devise::SessionsController
 
   protected
 
-  # 退会しているか？
   def user_status
     @user = User.find_by(email: params[:user][:email])
-    return if !@user
+    return if @user.blank?
     if @user.valid_password?(params[:user][:password]) && @user.is_deleted
       redirect_to new_user_session_path, notice: "お客様は退会済みです。申し訳ございませんが、別のメールアドレスをお使いください。"
     end

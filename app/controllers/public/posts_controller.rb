@@ -70,9 +70,10 @@ class Public::PostsController < ApplicationController
   private
 
   def sort_condition(text)
-    if text == "like"
+    case text
+    when "like"
       "いいね順"
-    elsif text == "likes_in_week"
+    when "likes_in_week"
       "直近1週間のいいね順"
     else
       "新着投稿順"
@@ -84,7 +85,7 @@ class Public::PostsController < ApplicationController
   end
 
   def current_user?
-    post = Post.find_by_user_post(params[:id], current_user)
+    post = Post.find_by(id: params[:id], user_id: current_user.id)
     if post.blank?
       flash[:alert] = "別のユーザーの投稿は操作できません。"
       redirect_to user_path(current_user.id)

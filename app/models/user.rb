@@ -43,18 +43,11 @@ class User < ApplicationRecord
   # 管理者通知のアソシエーション
   has_many :admin_notifications, foreign_key: 'visitor_id', dependent: :destroy
 
-  # 投稿に紐付いたタグテーブルのidカラムとnameカラムをjoins(内部結合)にて新テーブルを作成
-  scope :tag_joins_posts, -> { Tag.joins(:posts).select(:id, :name) }
-
   validates :last_name, presence: true
   validates :first_name, presence: true
   validates :name, presence: true, uniqueness: true, length: { maximum: 20 }
   validates :introduction, length: { maximum: 100 }
   validates :encrypted_password, length: {minimum: 6}
-
-  def full_name
-    "#{first_name} #{last_name}"
-  end
 
   has_one_attached :profile_image
 
@@ -66,15 +59,10 @@ class User < ApplicationRecord
     profile_image.variant(resize: "#{width}x#{height}", gravity: "center", crop: "#{width}x#{height}+0+0").processed
   end
 
-  def self.search_keyword_present(keyword)
-    return search_for(keyword) if keyword.present?
-    all.order(created_at: :desc)
+  def full_name
+    "#{first_name} #{last_name}"
   end
-
-  def self.search_for(keyword)
-    User.where('name LIKE?', keyword+'%').order(created_at: :desc)
-  end
-
+  
   def follow?(user)
     followings.include?(user)
   end
@@ -83,8 +71,13 @@ class User < ApplicationRecord
     user == current_user
   end
 
-  def received_notifications_from_someone
-    other_notifications.where.not(visitor_id: self.id)
+  def self.search_keyword_present(keyword)
+    return search_for(keyword) if keyword.present?
+    all.order(created_at: :desc)
+  end
+
+  def self.search_for(keyword)
+    User.where('name LIKE?', keyword+'%').order(created_at: :desc)
   end
 
   def create_notification_follow!(current_user)
@@ -105,7 +98,6 @@ class User < ApplicationRecord
     other_notifications.where(checked: false).count
   end
 
-  # ゲストログイン
   def self.guest
     find_or_create_by(email: 'guest@sample.com') do |user|
       user.password = SecureRandom.urlsafe_base64

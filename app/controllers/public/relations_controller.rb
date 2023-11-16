@@ -20,7 +20,7 @@ class Public::RelationsController < ApplicationController
 
   private
 
-  # フォローした時に非同期でDMボタンを表示させるため
+  # フォローした時に非同期でDMボタンを表示させる
   def is_room
     @user = User.find(params[:user_id])
     @room_id = Entry.check_chatroom(@user, current_user)

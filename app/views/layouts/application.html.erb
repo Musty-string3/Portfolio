@@ -57,21 +57,21 @@
                 </li>
                 <li class="nav-item" >
                   <%= link_to admin_rates_path, class: 'nav-link text-dark' do %>
-                    <% if Rate.unchecked_rates_notifications == 0 %>
+                    <% if Rate.unchecked_items_notifications('rate') == 0 %>
                       レビュー一覧
                     <% else %>
                       <p class="icon_layers">レビュー一覧</p>
-                       <span class="n-circle">+<%= Rate.unchecked_rates_notifications %></span>
+                       <span class="n-circle">+<%= Rate.unchecked_items_notifications('rate') %></span>
                     <% end %>
                   <% end %>
                 </li>
                 <li class="nav-item" >
                   <%= link_to admin_violates_path, class: 'nav-link text-dark' do %>
-                    <% if Violate.unchecked_violate_notifications == 0 %>
+                    <% if Violate.unchecked_items_notifications('violate') == 0 %>
                       違反通知
                     <% else %>
                       <p class="icon_layers">違反通知</p>
-                       <span class="n-circle">+<%= Violate.unchecked_violate_notifications %></span>
+                       <span class="n-circle">+<%= Violate.unchecked_items_notifications('violate') %></span>
                     <% end %>
                   <% end %>
                 </li>

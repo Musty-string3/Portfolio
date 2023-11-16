@@ -12,15 +12,6 @@ class Violate < ApplicationRecord
 
   scope :ordered_by_created_at_desc, -> {includes(:post, :reporter, :reported).all.order(created_at: :desc)}
 
-  def self.find?(current_user, reported, post, status)
-    find_by(
-      reporter_id: current_user.id,
-      reported_id: reported,
-      post_id: post,
-      status: status
-    )
-  end
-
   def create_notification_violate!(current_user)
     temp = AdminNotification.find_by(visitor_id: current_user.id, violate_id: id, action: 'violate')
     if temp.nil?
@@ -31,7 +22,4 @@ class Violate < ApplicationRecord
     end
   end
 
-  def self.unchecked_violate_notifications
-    AdminNotification.where(action: 'violate', checked: false).count
-  end
 end

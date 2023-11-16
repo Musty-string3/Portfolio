@@ -1,4 +1,5 @@
 class Post < ApplicationRecord
+  include Sortable
 
   validates :post_name, presence: true, length: { maximum: 20 }
   validates :explanation, presence: true, length: {  maximum: 100 }
@@ -23,21 +24,6 @@ class Post < ApplicationRecord
   has_many :view_counts, dependent: :destroy
   has_many :violates, dependent: :destroy
 
-  scope :for_users_created_desc, -> {includes(:user).all.order(created_at: :desc)}
-
-  def save_tag(sent_tags, post)
-    post.tags.destroy_all
-    current_tags = self.tags.pluck(:name) unless self.tags.nil?
-    old_tags = current_tags - sent_tags
-    new_tags = sent_tags - current_tags
-    old_tags.each do |old|
-      self.tags.delete　Tag.find_by(name: old)
-    end
-    new_tags.each do |new|
-      new_post_tag = Tag.find_or_create_by(name: new)
-      self.tags << new_post_tag
-    end
-  end
 
   def written_by?(current_user)
     user == current_user
@@ -53,6 +39,24 @@ class Post < ApplicationRecord
 
   def today_view_count(post)
     view_counts.where(created_at: Time.zone.now.all_day, post_id: post).count
+  end
+  
+  def has_lat_lng
+    lat.present? && lng.present?
+  end
+
+  def save_tag(sent_tags, post)
+    post.tags.destroy_all
+    current_tags = self.tags.pluck(:name) unless self.tags.nil?
+    old_tags = current_tags - sent_tags
+    new_tags = sent_tags - current_tags
+    old_tags.each do |old|
+      self.tags.delete　Tag.find_by(name: old)
+    end
+    new_tags.each do |new|
+      new_post_tag = Tag.find_or_create_by(name: new)
+      self.tags << new_post_tag
+    end
   end
 
   def create_notification_like!(current_user, user)
@@ -84,11 +88,7 @@ class Post < ApplicationRecord
     end
   end
 
-  def has_lat_lng
-    lat.present? && lng.present?
-  end
-
-  def self.search_keyword_present?(keyword, user_id)
+  def self.search_keyword_present(keyword, user_id)
     return search_for(keyword) if keyword.present?
     return for_user_created_desc(user_id) if user_id.present?
     for_users_created_desc
@@ -114,18 +114,6 @@ class Post < ApplicationRecord
     else
       includes(:user).order(created_at: :desc)
     end
-  end
-
-  def self.where_records_for_user(user)
-    includes(:user).where(user_id: user.id)
-  end
-
-  def self.related_to_tag(tag)
-    joins(:user, :tags).where(tags:{name: tag.name})
-  end
-
-  def self.find_by_user_post(post, current_user)
-    find_by(user_id: current_user.id, id: post)
   end
 
 end

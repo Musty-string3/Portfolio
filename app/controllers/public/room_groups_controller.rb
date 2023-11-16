@@ -1,8 +1,7 @@
 class Public::RoomGroupsController < ApplicationController
   before_action :authenticate_user!
-  before_action :room_group_join?, except: %i[index new create]
+  before_action :room_group_join?, only: %i[show edit update destroy]
   before_action :set_room_groups, only: %i[show edit update destroy]
-  # ↑ ユーザーが加入していない別のグループに入ってこないための処理
 
   def index
     @groups = RoomGroup.includes(:user_groups).all
@@ -29,10 +28,10 @@ class Public::RoomGroupsController < ApplicationController
   def show
     @leader = UserGroup.find_by(room_group_id: @group.id, is_leader: true)
     @group_users = UserGroup.includes(:user).where(room_group_id: @group.id)
-    @current_user_group = UserGroup.user_group_join?(current_user, @group)
+    @current_user_group = UserGroup.user_group_join(current_user, @group)
     # message_groupsの作成
     @message_group = MessageGroup.new
-    @message_groups = MessageGroup.includes(:user).where(room_group_id: @group)
+    @message_groups = MessageGroup.includes(:user).where(room_group_id: @group.id)
     # 退会機能
     @room_group = RoomGroup.find(params[:id])
     @group_leader = UserGroup.find_by(
@@ -42,9 +41,9 @@ class Public::RoomGroupsController < ApplicationController
     )
     if @group_leader
       @is_leader = true
-      @current_user_group = UserGroup.user_group_join?(current_user, @room_group)
+      @current_user_group = UserGroup.user_group_join(current_user, @room_group)
     else
-      @current_user_group = UserGroup.user_group_join?(current_user, @room_group)
+      @current_user_group = UserGroup.user_group_join(current_user, @room_group)
     end
   end
 
@@ -73,7 +72,10 @@ class Public::RoomGroupsController < ApplicationController
   end
 
   def room_group_join?
-    group = UserGroup.find_matching_room(params[:id], current_user)
+    group = UserGroup.find_by(
+      user_id: current_user.id,
+      room_group_id: params[:id]
+    )
     if group.blank?
       redirect_to room_groups_path
       flash[:alert] = "参加していないチャットルームには入れません。"

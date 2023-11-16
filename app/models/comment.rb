@@ -8,8 +8,8 @@ class Comment < ApplicationRecord
 
   scope :all_created_desc, -> {includes(:user, :post).all.order(created_at: :desc)}
 
-  def comment_like(comment, user)
-    comment_likes.where(comment_id: comment.id, user_id: user.id).empty?
+  def comment_like(comment, current_user)
+    comment_likes.where(comment_id: comment.id, user_id: current_user.id).empty?
   end
 
   def self.search_keyword_present(post_comments, keyword, model)

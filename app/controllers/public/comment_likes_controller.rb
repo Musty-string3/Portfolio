@@ -11,7 +11,9 @@ class Public::CommentLikesController < ApplicationController
 
   def destroy
     CommentLike.find_by(
-    user_id: current_user, comment_id: params[:comment_id]).destroy
+      user_id: current_user, 
+      comment_id: params[:comment_id]
+    ).destroy
   end
   
   private
