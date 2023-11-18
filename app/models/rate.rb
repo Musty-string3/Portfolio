@@ -1,11 +1,5 @@
-# require './app/models/concerns/unchecked'
 class Rate < ApplicationRecord
-  # include Unchecked
   include Sortable
-
-  def self.unchecked_items_notifications(action)
-    AdminNotification.where(action: action, checked: false).count
-  end
 
   belongs_to :user
   has_many :admin_notifications, dependent: :destroy
@@ -13,6 +7,10 @@ class Rate < ApplicationRecord
   with_options presence: true do
     validates :user
     validates :star
+  end
+
+  def self.count_unchecked_notifications
+    AdminNotification.where(action: 'rate', checked: false).count
   end
 
   def create_notification_rate!(current_user)

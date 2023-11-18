@@ -2,15 +2,15 @@
 <ul class="pl-0">
   <% notifications.each do |notification| %>
     <li class="border-bottom pb-1 pt-1 list_none">
-      <%= link_to user_path(notification.visitor.id) do %>
+      <%= link_to user_path(notification.visitor.id), class:'text-dark' do %>
         <%= image_tag notification.visitor.get_profile_image(75, 75), class:"border border-dark rounded-circle", width: 50, height: 50 %>
         <span class="h5"><%= notification.visitor.name %></span>
       <% end %>さんが
       <% if notification.action == 'like' %>
-        <%= link_to notification.post.post_name, post_path(notification.post_id) %>
+        <%= link_to notification.post.post_name, post_path(notification.post_id), class:'text-dark border-bottom border-dark' %>
         の投稿にいいねしました。
       <% elsif notification.action == 'comment' %>
-        <%= link_to notification.post.post_name, post_path(notification.comment.post) %>
+        <%= link_to notification.post.post_name, post_path(notification.comment.post), class:'text-dark border-bottom border-dark' %>
         の投稿にコメントしました。
         <i class="pr-1 fa-regular fa-clock"></i><%= time_ago_in_words(notification.created_at) %>前
         <br>

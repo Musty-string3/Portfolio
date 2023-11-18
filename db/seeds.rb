@@ -85,30 +85,23 @@ end
 puts "３種類の投稿の設定完了"
 
 # タグの設定
-tags_sets = [
-  ["京都", "清水寺", "観光地", "世界遺産"],
-  ["北海道", "時計台", "観光地"],
-  ["福井県", "海", "観光地", "絶景"]
-]
-tags_sets.each do |tags|
-  tags.each do |tag_name|
-    Tag.create!(name: tag_name)
-  end
+tags_sets = ["京都", "清水寺", "観光地", "世界遺産", "北海道", "時計台", "福井県", "海", "絶景"]
+tags_sets.each do |tag_name|
+  Tag.create!(name: tag_name)
 end
 
 # タグの中間テーブルの設定
-11.times do |i|
-  if i + 1 < 5
-    tag = Tag.find(i + 1)
-    PostTag.create!(tag: tag, post: Post.find(1))
-  elsif i + 1 < 8
-    tag = Tag.find(i + 1)
-    PostTag.create!(tag: tag, post: Post.find(2))
-  else
-    tag = Tag.find(i + 1)
-    PostTag.create!(tag: tag, post: Post.find(3))
-  end
-end
+PostTag.create!(tag: Tag.find(1), post: Post.find(1))
+PostTag.create!(tag: Tag.find(2), post: Post.find(1))
+PostTag.create!(tag: Tag.find(3), post: Post.find(1))
+PostTag.create!(tag: Tag.find(4), post: Post.find(1))
+PostTag.create!(tag: Tag.find(3), post: Post.find(2))
+PostTag.create!(tag: Tag.find(5), post: Post.find(2))
+PostTag.create!(tag: Tag.find(6), post: Post.find(2))
+PostTag.create!(tag: Tag.find(7), post: Post.find(3))
+PostTag.create!(tag: Tag.find(8), post: Post.find(3))
+PostTag.create!(tag: Tag.find(9), post: Post.find(3))
+PostTag.create!(tag: Tag.find(3), post: Post.find(3))
 
 puts "タグの設定完了"
 

@@ -157,11 +157,9 @@ jQuery(document).on('turbolinks:load', function(){
 
     // タグ
     // TODO タグの編集画面に遷移したときにも発火させたい
-    jQuery(document).on('turbolinks:load', function(){
-      console.log("OK");
-    })
-    $('#post_tag').on('input', function() {
-      const tagText = $(this).val().trim();
+
+    function tag_input() {
+      const tagText = $('#post_tag').val().trim();
       const tags = tagText.split('　');
       const check_post_tags = $("#check_post_tags")
       check_post_tags.empty();
@@ -173,7 +171,10 @@ jQuery(document).on('turbolinks:load', function(){
           check_post_tags.append(tagElement);
         }
       });
-    });
+    }
+
+    jQuery(document).on('turbolinks:load', tag_input);
+    $('#post_tag').on('input', tag_input);
 
     // バリデーションチェックする入力欄のclass制御
     $(".valid-check").on("blur input", function () {

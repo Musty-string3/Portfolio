@@ -1,10 +1,4 @@
-# require './app/models/concerns/unchecked'
 class Violate < ApplicationRecord
-  # include Unchecked
-
-  def self.unchecked_items_notifications(action)
-    AdminNotification.where(action: action, checked: false).count
-  end
 
   belongs_to :reporter, class_name: 'User', foreign_key: 'reporter_id'  # 報告したユーザー
   belongs_to :reported, class_name: 'User', foreign_key: 'reported_id'  # 報告されたユーザー
@@ -18,6 +12,10 @@ class Violate < ApplicationRecord
   # 0 = 不正、不適切な投稿, 1 = 著作権違反, 2 = 誹謗中傷、悪口, 3 = その他
 
   scope :ordered_by_created_at_desc, -> {includes(:post, :reporter, :reported).all.order(created_at: :desc)}
+
+  def self.count_unchecked_notifications
+    AdminNotification.where(action: 'violate', checked: false).count
+  end
 
   def create_notification_violate!(current_user)
     temp = AdminNotification.find_by(visitor_id: current_user.id, violate_id: id, action: 'violate')
