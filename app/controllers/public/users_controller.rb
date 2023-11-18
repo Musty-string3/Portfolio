@@ -32,7 +32,7 @@ class Public::UsersController < ApplicationController
       flash[:notice] = "ユーザー情報を変更しました"
       redirect_to user_path(current_user)
     else
-      flash[:alert] = "会員情報の編集に失敗しました。再度内容をご確認ください。"
+      flash[:alert] = "会員情報の編集に失敗しました"
       render :edit_information
     end
   end
@@ -45,7 +45,7 @@ class Public::UsersController < ApplicationController
   end
 
   def likes
-    @posts = current_user.liked_posts
+    @posts = current_user.liked_posts.where.not(user_id: current_user.id)
   end
 
   def timeline

@@ -44,7 +44,11 @@
 
       <div class="form-group">
         <%= f.label :tag, "タグ (全角の空白で区切ると複数タグ登録できます)" %>
-        <%= f.text_field :tag, placeholder: "タグを入力", class: "form-control w-100" %>
+        <% if post.new_record? %>
+          <%= f.text_field :tag, placeholder: "タグを入力", class: "form-control w-100" %>
+        <% else %>
+          <%= f.text_field :tag, value: @tag_list, placeholder: "タグを入力", class: "form-control w-100" %>
+        <% end %>
       </div>
       <div>
         <p>タグ：<span id="check_post_tags"></span></p>
@@ -57,6 +61,7 @@
       </div>
 
       <div class="row justify-content-around mt-3">
+        <%= link_to '戻る', :back, class:"btn btn-outline-dark" %>
         <% if post.new_record? %>
           <%= f.submit "投稿する", id: "submit-btn", class:"btn btn-outline-info" %>
         <% else %>

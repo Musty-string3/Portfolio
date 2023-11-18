@@ -1,5 +1,11 @@
+# require './app/models/concerns/unchecked'
 class Rate < ApplicationRecord
-  include Sortable  # app/models/concerns/sortable.rbが使える
+  # include Unchecked
+  include Sortable
+
+  def self.unchecked_items_notifications(action)
+    AdminNotification.where(action: action, checked: false).count
+  end
 
   belongs_to :user
   has_many :admin_notifications, dependent: :destroy

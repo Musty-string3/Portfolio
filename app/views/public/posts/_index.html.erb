@@ -33,7 +33,7 @@
               <%= post.post_name %>
             <% end %>
           </h5>
-          <p class="card-text"><%= post.explanation %></p>
+          <p class="card-text"><%= truncate(post.explanation, length: 60, omission: "...") %></p>
           <% post.tags.each do |tag| %>
             <%= link_to tag_path(tag.id), class:"text-dark" do %>
               #<%= tag.name %>
@@ -43,9 +43,9 @@
           <span id="post_<%= post.id %>"><%= render "public/likes/like", post: post %></span>
           <%= post.comments.count %>コメント
           <br>
-          <i class="fa-solid fa-eye"></i><%= post.view_counts.count %>
+          <i class="fa-solid fa-eye pr-1"></i><%= post.view_counts.count %>
           <br>
-          <i class="fa-regular fa-clock"></i><%= time_ago_in_words(post.created_at)+"前に投稿" %>
+          <i class="fa-regular fa-clock pr-1"></i><%= time_ago_in_words(post.created_at)+"前に投稿" %>
         </div>
       </div>
     </div>

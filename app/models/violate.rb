@@ -1,4 +1,11 @@
+# require './app/models/concerns/unchecked'
 class Violate < ApplicationRecord
+  # include Unchecked
+
+  def self.unchecked_items_notifications(action)
+    AdminNotification.where(action: action, checked: false).count
+  end
+
   belongs_to :reporter, class_name: 'User', foreign_key: 'reporter_id'  # 報告したユーザー
   belongs_to :reported, class_name: 'User', foreign_key: 'reported_id'  # 報告されたユーザー
   belongs_to :post

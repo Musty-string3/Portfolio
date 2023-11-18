@@ -156,6 +156,10 @@ jQuery(document).on('turbolinks:load', function(){
     }
 
     // タグ
+    // TODO タグの編集画面に遷移したときにも発火させたい
+    jQuery(document).on('turbolinks:load', function(){
+      console.log("OK");
+    })
     $('#post_tag').on('input', function() {
       const tagText = $(this).val().trim();
       const tags = tagText.split('　');
