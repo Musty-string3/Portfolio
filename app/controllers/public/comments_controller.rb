@@ -7,7 +7,7 @@ class Public::CommentsController < ApplicationController
     if @comment.save
       @post.create_notification_comment!(current_user, @comment.id)
     else
-      flash.now[:alert] = "コメントの作成に失敗しました"
+      flash.now[:error] = "コメントの作成に失敗しました"
     end
   end
 
