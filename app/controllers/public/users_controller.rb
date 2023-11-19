@@ -4,6 +4,7 @@ class Public::UsersController < ApplicationController
   before_action :authenticate_user!
   before_action :current_user?, only: %i[edit_information update withdrawal likes timeline]
   before_action :guest_user, only: %i[edit_information update withdrawal]
+  before_action :withdrawal_user, only: %i[show]
 
   def show
     @user = User.find(params[:id])
@@ -66,6 +67,15 @@ class Public::UsersController < ApplicationController
     if current_user.email == 'guest@sample.com'
       redirect_back fallback_location: root_path
       flash[:alert] = "ゲストユーザーのプロフィール編集はできません。"
+    end
+  end
+
+  def withdrawal_user
+    user_id = params[:id].to_i
+    user = User.find_by(id: user_id, is_deleted: true)
+    if user.present?
+      redirect_to user_path(current_user.id)
+      flash[:alert] = '選択したユーザーは退会しています'
     end
   end
 
