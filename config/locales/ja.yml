@@ -19,6 +19,7 @@ ja:
         name: "ニックネーム"
         introduction: "自己紹介"
       post:
+        images: "投稿画像"
         post_name: "投稿名"
         explanation: "投稿の説明"
       room_group:
