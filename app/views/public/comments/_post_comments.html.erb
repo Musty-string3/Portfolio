@@ -1,5 +1,7 @@
 <!--コメントの表示（非同期通信）-->
-<%= render 'layouts/flash' %>
+<div class="text-center pt-3 pb-1 text-danger">
+  <%= flash.now[:alert] if flash.now[:alert] %>
+</div>
 <% if post.comments.count > 0%>
   <p>コメント件数<%= post.comments.count %>件</p>
 <% end %>

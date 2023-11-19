@@ -1,17 +1,8 @@
 <!--グループチャットの編集画面-->
 <div class="container">
   <div class="col-12 col-md-10 mx-auto">
-    <span class="float-left pt-1">
-      <%= link_to room_group_path(@group.id) do %>
-        <i class="fa-solid fa-arrow-left fa-xl text-dark"></i>
-      <% end %>
-    </span>
     <h3 class="text-center pb-3">グループチャットの編集</h3>
-    <!--エラーメッセージ-->
-    <div class="text-center">
-      <%= render 'layouts/error_messages', resource: @group %>
-    </div>
-    <!--入力フォーム-->
+    <%= render 'layouts/error_messages', resource: @group %>
     <%= form_with model: @group, url: room_group_path(@group.id), method: :patch do |f| %>
       <%= render 'public/room_groups/form', group: @group, f: f %>
     <% end %>

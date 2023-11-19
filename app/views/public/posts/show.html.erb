@@ -3,12 +3,7 @@
   <%= render 'layouts/flash' %>
   <div class="row">
     <div class="col-12 col-md-10 mx-auto">
-      <div class="d-flex">
-        <%= link_to :back do %>
-          <i class="fa-solid fa-arrow-left fa-xl mt-3 text-dark"></i>
-        <% end %>
-        <h2 class="mx-auto">Post</h2>
-      </div>
+      <h2 class="text-center">Post</h2>
       <div class="row mt-3">
         <div class="col-lg-6">
           <%= link_to user_path(@post.user.id), class:"text-dark" do %>

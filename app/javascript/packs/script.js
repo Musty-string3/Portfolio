@@ -155,27 +155,6 @@ jQuery(document).on('turbolinks:load', function(){
       });
     }
 
-    // タグ
-    // TODO タグの編集画面に遷移したときにも発火させたい
-
-    function tag_input() {
-      const tagText = $('#post_tag').val().trim();
-      const tags = tagText.split('　');
-      const check_post_tags = $("#check_post_tags")
-      check_post_tags.empty();
-
-      // 各タグに # を付けて表示
-      tags.forEach(tag => {
-        if (tag.trim() !== '') {
-          const tagElement = $('<span></span>').text('#' + tag.trim() + ' ');
-          check_post_tags.append(tagElement);
-        }
-      });
-    }
-
-    jQuery(document).on('turbolinks:load', tag_input);
-    $('#post_tag').on('input', tag_input);
-
     // バリデーションチェックする入力欄のclass制御
     $(".valid-check").on("blur input", function () {
       const max_length = $(this).data("max-length");

@@ -24,7 +24,6 @@ class Post < ApplicationRecord
   has_many :view_counts, dependent: :destroy
   has_many :violates, dependent: :destroy
 
-
   def written_by?(current_user)
     user == current_user
   end
@@ -40,7 +39,7 @@ class Post < ApplicationRecord
   def today_view_count(post)
     view_counts.where(created_at: Time.zone.now.all_day, post_id: post).count
   end
-  
+
   def has_lat_lng
     lat.present? && lng.present?
   end
@@ -115,5 +114,5 @@ class Post < ApplicationRecord
       includes(:user).order(created_at: :desc)
     end
   end
-
+  
 end

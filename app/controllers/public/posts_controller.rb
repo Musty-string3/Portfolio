@@ -16,7 +16,7 @@ class Public::PostsController < ApplicationController
 
   def create
     @post = current_user.posts.new(post_params)
-    tag_list = params[:post][:tag].split('　')
+    tag_list = params[:post][:tag].gsub(/[　\s]+/, '　').strip.split('　')
     if @post.save
       @post.save_tag(tag_list, @post)
       redirect_to post_path(@post)
@@ -50,7 +50,7 @@ class Public::PostsController < ApplicationController
 
   def update
     @post_images_url = @post.images.map{|image| url_for image}
-    tag_list = params[:post][:tag].split('　')
+    tag_list = params[:post][:tag].gsub(/[　\s]+/, '　').strip.split('　')
     if @post.update(post_params)
       @post.save_tag(tag_list, @post)
       redirect_to post_path(@post)

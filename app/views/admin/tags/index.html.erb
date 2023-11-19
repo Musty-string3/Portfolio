@@ -1,7 +1,7 @@
 <!--管理者のタグ一覧-->
 <div class="container">
-  <% if @post_id.present? %>
-    <h3 class="text-center"><%= @tags.first.posts.first.post_name %>の投稿のタグ一覧</h3>
+  <% if @post_name.present? %>
+    <h3 class="text-center">"<%= @post_name %>"のタグ一覧</h3>
   <% else %>
     <h3 class="text-center">タグ一覧</h3>
   <% end %>
@@ -17,19 +17,21 @@
         </thead>
         <tbody>
           <% @tags.each do |tag| %>
+            <% if tag.posts && tag.posts.length > 0 %>
             <tr>
               <td><%= tag.id %></td>
               <td>
-                <%= link_to admin_tags_path(tag_name: tag.name), class:"border-bottom border-dark text-dark" do %>
-                  <%= tag.name %>
-                <% end %>
+                <%= tag.name %>
               </td>
               <td>
-                <%= link_to admin_post_path(tag.posts.ids), class:"border-bottom border-dark text-dark" do %>
-                  <%= tag.posts.first.post_name %>
+                <% tag.posts.each do |post| %>
+                  <%= link_to admin_post_path(post.id), class:"border-dark btn btn-outline-info mb-1" do %>
+                    <%= post.post_name %>
+                  <% end %>
                 <% end %>
               </td>
             </tr>
+            <% end %>
           <% end %>
         </tbody>
       </div>

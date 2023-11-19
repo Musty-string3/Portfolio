@@ -61,7 +61,6 @@
       </div>
 
       <div class="row justify-content-around mt-3">
-        <%= link_to '戻る', :back, class:"btn btn-outline-dark" %>
         <% if post.new_record? %>
           <%= f.submit "投稿する", id: "submit-btn", class:"btn btn-outline-info" %>
         <% else %>
@@ -113,4 +112,24 @@
       return false;
     }
   });
+
+  function tag_input() {
+    const tagText = $('#post_tag').val()
+    const tags = tagText.split('　');
+    const check_post_tags = $("#check_post_tags")
+    check_post_tags.empty();
+
+    // 各タグに # を付けて表示
+    tags.forEach(tag => {
+      if (tag.trim() !== '') {
+        const tagElement = $('<span></span>').text('#' + tag.trim() + ' ');
+        check_post_tags.append(tagElement);
+      }
+    });
+  }
+
+  $(document).on('turbolinks:load', function() {
+    tag_input();
+  });
+  $('#post_tag').on('input', tag_input);
 </script>
