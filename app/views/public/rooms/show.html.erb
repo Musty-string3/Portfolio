@@ -1,19 +1,24 @@
 <!--１対１のDM画面-->
 <div class="container">
-  <div class="row">
-    <div class="col-12 col-md-10 mx-auto d-flex">
-      <h5 class="mx-auto d-none d-md-block">
-        <%= image_tag @current_entry.user.get_profile_image(60, 60), class:"border border-dark rounded-circle", width: 40, height: 40 %>
-        <%= @current_entry.user.name %>(あなた)と
-        <%= link_to user_path(@another_entry.user.id) do %>
-          <%= image_tag @another_entry.user.get_profile_image(60, 60), class:"border border-dark rounded-circle", width: 40, height: 40 %>
-        <% end %>
-        <%= @another_entry.user.name %>さんのチャットルームです
-      </h5>
-      <h5 class="d-block d-md-none">DM</h5>
-    </div>
-    <div class="border-bottom pt-2"></div>
+  <!--タブレットサイズ以上version-->
+  <h5 class="text-center d-none d-md-block">
+    <%= image_tag @current_entry.user.get_profile_image(60, 60), class:"border border-dark rounded-circle", width: 40, height: 40 %>
+    あなたと
+    <%= link_to user_path(@another_entry.user.id), class:"text-dark" do %>
+      <%= image_tag @another_entry.user.get_profile_image(60, 60), class:"border border-dark rounded-circle", width: 40, height: 40 %>
+      <%= @another_entry.user.name %>
+    <% end %>
+  </h5>
+  <!--スマホversion-->
+  <div class="text-center d-block d-md-none">
+    <h3 class="">DM</h3>
+      <%= link_to user_path(@another_entry.user.id), class:"text-dark" do %>
+        <%= image_tag @another_entry.user.get_profile_image(40, 40), class:"border border-dark rounded-circle", width: 25, height: 25 %>
+        <%= @another_entry.user.name%>
+      <% end %>
+    </p>
   </div>
+  <div class="border-bottom pb-1"></div>
   <div id="messages">
     <%= render 'public/messages/messages', messages: @messages %>
   </div>

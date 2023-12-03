@@ -1,19 +1,20 @@
 <!--トップ画面-->
 <div class="container">
   <%= render 'layouts/flash' %>
-  <div class="row pt-3">
-    <div class="col-10 col-lg-12 mx-auto top_bg_image">
-      <h1 class="col text-center pt-4 swiper-btn">
+  <div class="row">
+    <div class="col-12 mx-auto top_bg_image">
+      <h1 class="col text-center pt-4 swiper-btn d-none d-md-block">
         あなたのお気に入りの<br>
         観光地を共有しよう
       </h1>
+      <h3 class="text-center pt-5 d-block d-md-none">
+        観光地を共有しよう
+      </h3>
       <p class="text-center swiper-btn">Discover Your Dream Destinations</p>
-      <div class="row d-flex align-items-center pt-5">
-        <div class="mx-auto">
-          <%= link_to "新規登録はこちら", new_user_registration_path, class: 'm-3 btn btn-success' %>
-          <%= link_to "ログイン", new_user_session_path, class: 'm-3 btn btn-primary' %>
-          <%= link_to "ゲストログイン", guest_sign_in_path, method: :post, class: 'm-3 btn btn-info' %>
-        </div>
+      <div class="row justify-content-center pt-5">
+        <%= link_to "新規登録はこちら", new_user_registration_path, class: 'm-3 btn btn-success' %>
+        <%= link_to "ログイン", new_user_session_path, class: 'm-3 btn btn-primary' %>
+        <%= link_to "ゲストログイン", guest_sign_in_path, method: :post, class: 'm-3 btn btn-info' %>
       </div>
     </div>
   </div>
@@ -50,17 +51,18 @@
                 <% end %>
               </h5>
               <p class="card-text"><%= post.explanation %></p>
-              <% post.tags.each do |tag| %>
-                <%= link_to tag_path(tag.id), class:"text-dark" do %>
-                  #<%= tag.name %>
+              <div class="d-flex flex-wrap">
+                <% post.tags.each do |tag| %>
+                  <%= link_to tag_path(tag.id), class:"text-dark pr-1" do %>
+                    #<%= tag.name %>
+                  <% end %>
                 <% end %>
-              <% end %>
-              <br>
-              <i class="fa-regular fa-heart"></i><%= post.likes.count %>いいね
-              <%= post.comments.count %>コメント
-              <br>
-              <i class="fa-solid fa-eye"></i><%= post.view_counts.count %>
-              <br>
+              </div>
+              <div class="pt-1 pb-1">
+                <i class="fa-regular fa-heart"></i><%= post.likes.count %>いいね
+                <span class="pl-1"><%= post.comments.count %>コメント</span>
+                <i class="fa-solid fa-eye pl-1"></i><%= post.view_counts.count %>
+              </div>
               <i class="fa-regular fa-clock"></i><%= time_ago_in_words(post.created_at)+"前に投稿" %>
             </div>
           </div>

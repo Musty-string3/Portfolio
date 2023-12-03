@@ -1,27 +1,24 @@
 <!--フォロー、フォロワー一覧-->
 <div class="row">
-  <div class="col-10 col-md-8 mx-auto">
+  <div class="col-11 col-lg-8 mx-auto">
     <div class="row justify-content-center">
       <% if users.present? %>
-        <table class="table">
-          <thead>
-            <th class="col-5">ユーザー</th>
-            <th class="col-2">投稿数</th>
-            <th class="col-2">フォロー数</th>
-            <th class="col-2">フォロワー数</th>
-          </thead>
+        <table class="table table-hover">
           <tbody>
             <% @users.each do |user| %>
-              <tr>
-                <td>
-                  <%= link_to user_path(user) do %>
-                    <%= image_tag user.get_profile_image(50, 50), class:"border border-dark rounded-circle", width: 35, height: 35 %>
-                    <%= user == current_user ? "#{user.name}（自分）" : user.name %>
-                  <% end %>
+              <tr onclick='window.location="<%= user_path(user) %>"' role="link">
+                <td class="col-1">
+                  <%= image_tag user.get_profile_image(75, 75), class:"rounded-circle border border-dark", width: 50, height: 50 %>
                 </td>
-                <td><%= user.posts.count %></td>
-                <td><%= user.followings.count %></td>
-                <td><%= user.followers.count %></td>
+                <td>
+                  <h5><%= user.name %></h5>
+                  <div class="d-none d-md-block"><%= user.introduction %></div>
+                  <div class="d-flex flex-wrap">
+                    フォロー数<span class="ml-1"><%= user.followings.count %></span>
+                    フォロワー数<span class="ml-1"><%= user.followers.count %></span>
+                    投稿数<span class="ml-1"><%= user.posts.count %></span>
+                  </div>
+                </td>
               </tr>
             <% end %>
           </tbody>
