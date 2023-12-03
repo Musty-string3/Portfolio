@@ -2,8 +2,8 @@
 <div class="container">
   <% if @model == 'user' %>
     <div class="d-flex justify-content-center">
-      <h4>ユーザー検索</h4>
-      <div class="h5 ml-3 mt-1">
+      <h4 class="text-center">ユーザー検索</h4>
+      <div class="h5 ml-3 mt-1 d-none d-md-block">
         検索名：<%= @keyword %>
         <% if @keyword.present? %>
           <span class="h6">
@@ -17,7 +17,8 @@
     <% if @records.present? %>
       <%= render 'public/searches/search_user', users: @records %>
     <% else %>
-    <h5 class="pt-2 text-center">検索したユーザーは見つかりませんでした。</h5>
+      <p class="pt-2 text-center">検索したユーザーは見つかりませんでした。</p>
+      <div class="text-center pt-2"><%= image_tag '24446281', size: '300x200' %></div>
     <% end %>
   <% elsif @model == 'post' %>
     <h4 class="d-flex justify-content-center">
@@ -40,7 +41,8 @@
         <%= render 'admin/posts/index', posts: @records %>
       <% end %>
     <% else %>
-      <h5 class="pt-2 text-center">検索した投稿は見つかりませんでした。</h5>
+      <p class="pt-2 text-center">検索した投稿は見つかりませんでした。</p>
+      <div class="text-center pt-2"><%= image_tag '24446281', size: '300x200' %></div>
     <% end %>
     <%= render 'public/posts/new_post_btn' %>
   <% end %>
