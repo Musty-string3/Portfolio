@@ -2,6 +2,7 @@
 <ul class="pl-0">
   <% notifications.each do |notification| %>
     <li class="border-bottom pb-1 pt-1 list_none">
+      <!--TODO レスポンシブ対応わからない-->
       <div class="d-flex">
         <%= link_to user_path(notification.visitor.id), class:'text-dark' do %>
           <%= image_tag notification.visitor.get_profile_image(50, 50), class:"border border-dark rounded-circle", width: 30, height: 30 %>
