@@ -48,7 +48,7 @@
         <% if @user == current_user %>
           <h4 class="mx-auto pb-3">あなたの投稿一覧</h4>
         <% else %>
-          <h4 class="mx-auto pb-3"><%= @user.name %>さんの投稿一覧</h4>
+          <h4 class="mx-auto pb-3 m-2"><%= @user.name %>さんの投稿一覧</h4>
         <% end %>
       </div>
       <% if @user_posts.present? %>

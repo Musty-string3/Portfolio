@@ -1,31 +1,39 @@
 <!--通知一覧-->
-<ul class="pl-0">
-  <% notifications.each do |notification| %>
-    <li class="border-bottom pb-1 pt-1 list_none">
-      <!--TODO レスポンシブ対応わからない-->
-      <div class="d-flex">
-        <%= link_to user_path(notification.visitor.id), class:'text-dark' do %>
-          <%= image_tag notification.visitor.get_profile_image(50, 50), class:"border border-dark rounded-circle", width: 30, height: 30 %>
-          <span class="h5">
-            <%= notification.visitor.name %>
-            <span class="d-none d-lg-block">さんから通知が届きました！</span>
-          </span>
+<div class="row">
+  <div class="col-10 mx-auto">
+    <div class="row justify-content-center">
+      <ul class="pl-0">
+        <% notifications.each do |notification| %>
+          <li class="border-bottom pb-2 pt-2 list_none">
+            <div class="d-flex">
+              <%= link_to user_path(notification.visitor.id), class:'text-dark' do %>
+                <%= image_tag notification.visitor.get_profile_image(50, 50), class:"border border-dark rounded-circle", width: 30, height: 30 %>
+                <span class="h5"><%= notification.visitor.name %></span>
+              <% end %>
+              <span class="d-none d-lg-inline">さんから通知が届きました！</span>
+              <i class="pr-1 fa-regular fa-clock pt-1"></i><%= time_ago_in_words(notification.created_at) %>前
+            </div>
+            <div class="row">
+              <div class="col-10 mx-auto">
+                <div class="row justify-content-start">
+                  <% if notification.action == 'like' %>
+                    <%= link_to notification.post.post_name, post_path(notification.post_id), class:'text-dark h6 border-bottom border-dark' %>
+                    の投稿にいいねしました
+                  <% elsif notification.action == 'comment' %>
+                    <div>
+                      <%= link_to notification.post.post_name, post_path(notification.comment.post), class:'text-dark h6 border-bottom border-dark' %>
+                      の投稿にコメントされました！
+                      <p class="ml-2 mb-0">「<%= truncate(notification.comment.text, length: 20, omission: "...") %>」</p>
+                    </div>
+                  <% else %>
+                    あなたをフォローしました
+                  <% end %>
+                </div>
+              </div>
+            </div>
+          </li>
         <% end %>
-        <i class="pr-1 fa-regular fa-clock"></i><%= time_ago_in_words(notification.created_at) %>前
-      </div>
-      <div>
-        <% if notification.action == 'like' %>
-          <%= link_to notification.post.post_name, post_path(notification.post_id), class:'text-dark border-bottom border-dark' %>
-          の投稿にいいねしました。
-        <% elsif notification.action == 'comment' %>
-          <%= link_to notification.post.post_name, post_path(notification.comment.post), class:'text-dark border-bottom border-dark' %>
-          の投稿にコメントしました。
-          <br>
-          <span class="ml-2">「<%= truncate(notification.comment.text, length: 20, omission: "...") %>」</span>
-        <% else %>
-          あなたをフォローしました。
-        <% end %>
-      </div>
-    </li>
-  <% end %>
-</ul>
+      </ul>
+    </div>
+  </div>
+</div>
