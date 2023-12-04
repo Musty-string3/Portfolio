@@ -18,8 +18,7 @@
       <%= render 'public/searches/search_user', users: @records %>
     <% else %>
       <p class="pt-2 text-center">検索したユーザーは見つかりませんでした。</p>
-      <div class="text-center pt-2"><%= image_tag '24446281', size: '300x200' %></div>
-      <div class="text-center pt-2"><%= image_tag asset_path('24446281'), size: '300x200' %></div>
+      <div class="text-center pt-2"><%= image_tag asset_path('24446281.png'), size: '300x200' %></div>
     <% end %>
   <% elsif @model == 'post' %>
     <div class="d-flex justify-content-center">
@@ -43,7 +42,7 @@
       <% end %>
     <% else %>
       <p class="pt-2 text-center">検索した投稿は見つかりませんでした。</p>
-      <div class="text-center pt-2"><%= image_tag '24446281', size: '300x200' %></div>
+      <div class="text-center pt-2"><%= image_tag asset_path('24446281.png'), size: '300x200' %></div>
     <% end %>
     <%= render 'public/posts/new_post_btn' %>
   <% end %>
