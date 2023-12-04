@@ -109,7 +109,7 @@
     <div class="bg-light pb-5 pt-5 bg-height-color">
       <%= yield %>
     </div>
-    <footer class="d-block d-lg-none pt-3 pb-3 fixed-bottom bg-white">
+    <footer class="d-block d-lg-none pt-3 pb-3 fixed-bottom bg-phone">
       <div class="col-10 mx-auto">
         <div class="row justify-content-around">
           <%= link_to user_path(current_user), class: 'text-dark' do %>
@@ -123,7 +123,7 @@
           <% end %>
           <%= link_to notifications_path, class: 'text-dark' do %>
             <i class="fa-solid fa-bell fa-xl"></i>
-            <% unless current_user.unchecked_notifications > 0 %>
+            <% if current_user.unchecked_notifications > 0 %>
               <span class="fa-layers" style="position: relative;">
                 <span class="phone_icon_layers_counter">+<%= current_user.unchecked_notifications %></span>
               </span>
