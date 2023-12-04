@@ -96,9 +96,11 @@
                 </li>
               <% end %>
             </ul>
-            <% if user_signed_in? %>
-              <%= render 'public/searches/form' %>
-            <% end %>
+            <div class="d-none d-lg-block">
+              <% if user_signed_in? %>
+                <%= render 'public/searches/form' %>
+              <% end %>
+            </div>
           </div>
         </div>
       </nav>

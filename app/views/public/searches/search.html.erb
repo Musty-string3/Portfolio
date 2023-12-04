@@ -2,7 +2,7 @@
 <div class="container">
   <% if @model == 'user' %>
     <div class="d-flex justify-content-center">
-      <h4 class="text-center">ユーザー検索</h4>
+      <h4 class="text-center pb-3">ユーザー検索</h4>
       <div class="h5 ml-3 mt-1 d-none d-md-block">
         検索名：<%= @keyword %>
         <% if @keyword.present? %>
@@ -21,9 +21,9 @@
       <div class="text-center pt-2"><%= image_tag '24446281', size: '300x200' %></div>
     <% end %>
   <% elsif @model == 'post' %>
-    <h4 class="d-flex justify-content-center">
-      投稿検索
-      <div class="h5 ml-3 mt-1">
+    <div class="d-flex justify-content-center">
+      <h4 class="text-center pb-3">投稿検索</h4>
+      <div class="h5 ml-3 mt-1 d-none d-md-block">
         検索名：<%= @keyword %>
         <% if @keyword.present? %>
           <span class="h6">
@@ -33,7 +33,7 @@
           全投稿
         <% end %>
       </div>
-    </h4>
+    </div>
     <% if @records.present? %>
       <% if user_signed_in? %>
         <%= render 'public/posts/index', posts: @records %>
