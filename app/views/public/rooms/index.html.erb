@@ -6,7 +6,7 @@
   <div class="row">
     <div class="col-10 col-lg-8 mx-auto">
       <div class="row">
-        <table class="table table-hover mt-2">
+        <table class="table table-hover text-nowrap mt-2">
           <tbody>
             <% @another_entries.each do |entry| %>
               <tr onclick='window.location="<%= room_path(entry.room.id) %>"' role="link">
