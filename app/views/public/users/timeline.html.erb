@@ -1,8 +1,9 @@
 <!--タイムライン画面-->
 <div class="container">
+  <%= render 'public/searches/phone_search_form' %>
   <h3 class="text-center mb-4">
     タイムライン
-    <p class="h6">ここはフォローしたユーザーの投稿が閲覧できます</p>
+    <p class="h6 pt-2 d-none d-md-block">ここはフォローしたユーザーの投稿が閲覧できます</p>
   </h3>
   <% if @posts.present? %>
     <%= render 'public/posts/index', posts: @posts %>

@@ -1,5 +1,6 @@
 <!--いいねした一覧画面-->
 <div class="container">
+  <%= render 'public/searches/phone_search_form' %>
   <h4 class="text-center mb-4">あなたがいいねした投稿一覧</h4>
   <% if @posts.present? %>
     <%= render 'public/posts/index', posts: @posts %>
