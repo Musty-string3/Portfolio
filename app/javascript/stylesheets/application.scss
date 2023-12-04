@@ -22,6 +22,20 @@
   -webkit-border-radius: 1em;
 }
 
+.phone_icon_layers_counter {
+  position: absolute;
+  top: -2px;
+  right: -10px;
+  display: inline-block;
+  padding: 3px 5px;
+  line-height: 1;
+  color: #fff;
+  background: #ff3333;
+  font-size: 0.6em;
+  border-radius: 1em;
+  -webkit-border-radius: 1em;
+}
+
 .icon_layers {
 	left: 0;
 	display: inline-block;

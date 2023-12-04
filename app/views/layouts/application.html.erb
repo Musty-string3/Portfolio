@@ -14,7 +14,7 @@
 
   <body>
     <header>
-      <nav class="navbar navbar-expand-lg navbar-light" style="background-color: #e3f2fd;">
+      <nav class="navbar navbar-expand-lg navbar-light d-none d-lg-block" style="background-color: #e3f2fd;">
         <div class="container">
           <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
@@ -105,10 +105,36 @@
         </div>
       </nav>
     </header>
-    <div class="border border-bottom"></div>
+    <div class="border border-bottom d-none d-lg-block"></div>
     <div class="bg-light pb-5 pt-5 bg-height-color">
       <%= yield %>
     </div>
+    <footer class="d-block d-lg-none pt-3 pb-3">
+      <div class="col-10 mx-auto">
+        <div class="row justify-content-around">
+          <%= link_to user_path(current_user), class: 'text-dark' do %>
+            <i class="fa-solid fa-user fa-xl"></i>
+          <% end %>
+          <%= link_to timeline_user_path(current_user), class: 'text-dark' do  %>
+            <i class="fa-solid fa-house fa-xl"></i>
+          <% end %>
+          <%= link_to posts_path, class: 'text-dark' do %>
+            <i class="fa-solid fa-images fa-xl"></i>
+          <% end %>
+          <%= link_to notifications_path, class: 'text-dark' do %>
+            <i class="fa-solid fa-bell fa-xl"></i>
+            <% unless current_user.unchecked_notifications > 0 %>
+              <span class="fa-layers" style="position: relative;">
+                <span class="phone_icon_layers_counter">+<%= current_user.unchecked_notifications %></span>
+              </span>
+            <% end %>
+          <% end %>
+          <%= link_to room_groups_path, class: 'text-dark' do %>
+            <i class="fa-solid fa-users fa-xl"></i>
+          <% end %>
+        </div>
+      </div>
+    </footer>
   </body>
 </html>
 
