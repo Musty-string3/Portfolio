@@ -42,7 +42,7 @@
           <%= f.text_field :text, required: true, placeholder: "メッセージを入力してください", class:"w-100 form-control" %>
           <%= f.hidden_field :room_group_id, value: @group.id %>
         </div>
-        <div class="col-3 col-sm-2 pl-0">
+        <div class="col-3 col-sm-2 pl-0 mb-5">
           <%= f.submit "送信", class:"rounded-pill btn btn-success w-100" %>
         </div>
       </div>
