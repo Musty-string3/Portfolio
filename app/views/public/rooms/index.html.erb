@@ -9,10 +9,10 @@
         <tbody>
           <% @another_entries.each do |entry| %>
             <tr onclick='window.location="<%= room_path(entry.room.id) %>"' role="link">
-              <td class="col-2">
+              <td class="col-1 text-center">
                 <%= image_tag entry.user.get_profile_image(60, 60), class:"border border-dark rounded-circle", width: 40, height: 40 %>
               </td>
-              <td class="col-6 col-lg-8">
+              <td class="col-7 col-lg-8">
                 <div>
                   <h5><%= entry.user.name %></h5>
                 </div>
