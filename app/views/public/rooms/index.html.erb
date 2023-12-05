@@ -3,32 +3,30 @@
   <h4 class="text-center d-none d-md-block">あなたと連絡を取り合っているユーザー数は<%= @entries.count %>人です</h4>
   <h4 class="text-center d-block d-md-none">DMしているユーザー数<%= @entries.count %>人</h4>
   <%= render 'layouts/flash' %>
-  <div class="row">
+  <table class="table table-hover text-nowrap mt-2">
     <div class="col-10 col-lg-8 mx-auto">
       <div class="row">
-        <table class="table table-hover text-nowrap mt-2">
-          <tbody>
-            <% @another_entries.each do |entry| %>
-              <tr onclick='window.location="<%= room_path(entry.room.id) %>"' role="link">
-                <td class="col-2 text-center">
-                  <%= image_tag entry.user.get_profile_image(60, 60), class:"border border-dark rounded-circle", width: 40, height: 40 %>
-                </td>
-                <td class="col-6 col-lg-8">
-                  <div>
-                    <h5><%= entry.user.name %></h5>
-                  </div>
-                  <div class="d-none d-md-block">
-                    <%= truncate(entry.user.introduction, length: 30, omission: "...") %>
-                  </div>
-                </td>
-                <td class="col-4 col-lg-2"><%= time_ago_in_words(entry.created_at)+'前' %></td>
-              </tr>
-            <% end %>
-          </tbody>
-        </table>
+        <tbody>
+          <% @another_entries.each do |entry| %>
+            <tr onclick='window.location="<%= room_path(entry.room.id) %>"' role="link">
+              <td class="col-2 text-center">
+                <%= image_tag entry.user.get_profile_image(60, 60), class:"border border-dark rounded-circle", width: 40, height: 40 %>
+              </td>
+              <td class="col-6 col-lg-8">
+                <div>
+                  <h5><%= entry.user.name %></h5>
+                </div>
+                <div class="d-none d-md-block">
+                  <%= truncate(entry.user.introduction, length: 30, omission: "...") %>
+                </div>
+              </td>
+              <td class="col-4 col-lg-2"><%= time_ago_in_words(entry.created_at)+'前' %></td>
+            </tr>
+          <% end %>
+        </tbody>
       </div>
     </div>
-  </div>
+  </table>
   <div class="row justify-content-center">
     <%= link_to 'マイページに戻る', user_path(@entries.first.user.id), class:"btn btn-outline-primary" %>
   </div>
