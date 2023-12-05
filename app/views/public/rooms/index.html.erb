@@ -3,9 +3,9 @@
   <h4 class="text-center d-none d-md-block">あなたと連絡を取り合っているユーザー数は<%= @entries.count %>人です</h4>
   <h4 class="text-center d-block d-md-none">DMしているユーザー数<%= @entries.count %>人</h4>
   <%= render 'layouts/flash' %>
-  <table class="table table-hover text-nowrap mt-2">
-    <div class="col-10 col-lg-8 mx-auto">
-      <div class="row">
+  <div class="col-10 col-lg-8 mx-auto">
+    <div class="row">
+      <table class="table table-hover text-nowrap mt-2">
         <tbody>
           <% @another_entries.each do |entry| %>
             <tr onclick='window.location="<%= room_path(entry.room.id) %>"' role="link">
@@ -24,9 +24,9 @@
             </tr>
           <% end %>
         </tbody>
-      </div>
+      </table>
     </div>
-  </table>
+  </div>
   <div class="row justify-content-center">
     <%= link_to 'マイページに戻る', user_path(@entries.first.user.id), class:"btn btn-outline-primary" %>
   </div>
