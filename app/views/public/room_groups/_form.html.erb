@@ -19,7 +19,9 @@
   <% if group.new_record? %>
     <%= f.submit "グループチャットを作成する", class:"btn btn-outline-success" %>
   <% else %>
-    <%= f.submit "グループチャットを更新する", class:"mr-3 btn btn-outline-success" %>
-    <%= link_to "グループチャットを削除する", room_group_path(), method: :delete, data: {confirm: "グループチャットを削除しますか？"}, class:"btn btn-outline-danger" %>
+    <%= f.submit "グループチャットを更新する", class:"mr-3 btn btn-outline-success d-none d-lg-block" %>
+    <%= link_to "グループチャットを削除する", room_group_path(), method: :delete, data: {confirm: "グループチャットを削除しますか？"}, class:"btn btn-outline-danger d-none d-lg-block" %>
+    <%= f.submit "更新", class:"mr-3 btn btn-outline-success d-block d-lg-none" %>
+    <%= link_to "削除", room_group_path(), method: :delete, data: {confirm: "グループチャットを削除しますか？"}, class:"btn btn-outline-danger d-block d-lg-none" %>
   <% end %>
 </div>
