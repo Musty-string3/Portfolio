@@ -34,13 +34,13 @@ class DeviseCreateUsers < ActiveRecord::Migration[6.1]
 
 
       t.timestamps null: false
-      t.string :last_name, null: false                    #名
-      t.string :first_name, null: false                   #姓
-      t.string :name, null: false                         #ニックネーム
-      t.text :introduction      #自己紹介文章
-      t.boolean :is_deleted, null: false, default: false  #退会ステータス(デフォルト=退会してない)
+      t.string :last_name, null: false
+      t.string :first_name, null: false
+      t.string :name, null: false
+      t.text :introduction
+      t.boolean :is_deleted, null: false, default: false
     end
-
+    
     add_index :users, :email,                unique: true
     add_index :users, :reset_password_token, unique: true
     # add_index :users, :confirmation_token,   unique: true

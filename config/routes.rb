@@ -25,7 +25,7 @@ Rails.application.routes.draw do
       member do
         get 'edit_information', as: 'edit'
         patch 'withdrawal'
-        get :likes  # いいね一覧
+        get :likes
         get 'timeline'
       end
       resource :relations, only: %i[create destroy]

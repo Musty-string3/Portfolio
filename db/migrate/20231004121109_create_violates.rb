@@ -6,7 +6,6 @@ class CreateViolates < ActiveRecord::Migration[6.1]
       t.text :text
       t.integer :status, null: false
       t.references :post, null: false, foreign_key: true
-      t.boolean :checked, default: false, null: false
 
       t.timestamps
     end

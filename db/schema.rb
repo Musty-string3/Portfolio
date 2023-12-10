@@ -105,7 +105,7 @@ ActiveRecord::Schema.define(version: 2023_10_10_113334) do
   create_table "message_groups", force: :cascade do |t|
     t.integer "user_id", null: false
     t.integer "room_group_id", null: false
-    t.text "text"
+    t.text "text", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["room_group_id"], name: "index_message_groups_on_room_group_id"
@@ -127,7 +127,7 @@ ActiveRecord::Schema.define(version: 2023_10_10_113334) do
     t.integer "comment_id"
     t.integer "visitor_id", null: false
     t.integer "visited_id", null: false
-    t.string "action", default: "", null: false
+    t.string "action", null: false
     t.boolean "checked", default: false, null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
@@ -234,7 +234,6 @@ ActiveRecord::Schema.define(version: 2023_10_10_113334) do
     t.text "text"
     t.integer "status", null: false
     t.integer "post_id", null: false
-    t.boolean "checked", default: false, null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["post_id"], name: "index_violates_on_post_id"
