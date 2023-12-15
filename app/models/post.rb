@@ -23,6 +23,8 @@ class Post < ApplicationRecord
   has_many :notifications, dependent: :destroy
   has_many :view_counts, dependent: :destroy
   has_many :violates, dependent: :destroy
+  
+  has_many :week_likes, lambda { where(created_at: (Time.current.at_end_of_day - 6.day).at_beginning_of_day...Time.current.at_end_of_day) }, class_name: 'Like' 
 
   def written_by?(current_user)
     user == current_user
@@ -102,14 +104,11 @@ class Post < ApplicationRecord
   end
 
   def self.sort_by_like(params_index)
-    posts = includes(:likes)
     case params_index
     when "like"
-      posts.sort_by {|x| x.likes.size}.reverse
+      left_joins(:likes).group(:id).order("count(likes.post_id) desc")
     when "likes_in_week"
-      to  = Time.current.at_end_of_day
-      from  = (to - 6.day).at_beginning_of_day
-      posts.sort_by {|x| x.likes.where(created_at: from...to).size}.reverse
+      left_joins(:week_likes).group(:id).order("count(likes.post_id) desc")
     else
       includes(:user).order(created_at: :desc)
     end
