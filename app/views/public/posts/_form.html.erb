@@ -44,7 +44,8 @@
 
       <div class="form-group">
         <%= f.label :tag, "タグ (全角の空白で区切ると複数タグ登録できます)" %>
-        <% if post.new_record? %>
+        <!--TODO create失敗時のタグが出力されない-->
+        <% if post.new_record?  %>
           <%= f.text_field :tag, placeholder: "タグを入力", class: "form-control w-100" %>
         <% else %>
           <%= f.text_field :tag, value: @tag_list, placeholder: "タグを入力", class: "form-control w-100" %>

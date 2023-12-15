@@ -2,10 +2,12 @@ class Public::RelationsController < ApplicationController
   before_action :is_room, only: %i[create destroy]
 
   def followings
+    @user = User.find(params[:user_id])
     @users = User.find(params[:user_id]).followings
   end
 
   def followers
+    @user = User.find(params[:user_id])
     @users = User.find(params[:user_id]).followers
   end
 

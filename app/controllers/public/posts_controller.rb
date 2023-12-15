@@ -22,7 +22,8 @@ class Public::PostsController < ApplicationController
       redirect_to post_path(@post)
       flash[:notice] = "投稿されました"
     else
-      @tag_list = Tag.new
+      @tag_list = params[:post][:tag]
+      # byebug
       flash[:alert] = "投稿に失敗しました"
       render :new
     end

@@ -1,5 +1,7 @@
 <!--フォロー一覧画面-->
 <div class="container">
-  <h3 class="text-center pt-3 pb-3">フォロワー</h3>
+  <h3 class="text-center pt-3 pb-3">
+    <%= @user == current_user ? 'フォロワー' : "#{@user.name}さんのフォロワー" %>
+  </h3>
   <%= render 'follow_list', users: @users %>
 </div>
