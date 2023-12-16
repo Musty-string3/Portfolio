@@ -11,7 +11,6 @@ class Public::PostsController < ApplicationController
 
   def new
     @post = Post.new
-    @tag_list = Tag.new
   end
 
   def create
@@ -22,8 +21,7 @@ class Public::PostsController < ApplicationController
       redirect_to post_path(@post)
       flash[:notice] = "投稿されました"
     else
-      @tag_list = params[:post][:tag]
-      # byebug
+      @tags = params[:post][:tag]
       flash[:alert] = "投稿に失敗しました"
       render :new
     end

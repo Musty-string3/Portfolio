@@ -23,8 +23,8 @@ class Post < ApplicationRecord
   has_many :notifications, dependent: :destroy
   has_many :view_counts, dependent: :destroy
   has_many :violates, dependent: :destroy
-  
-  has_many :week_likes, lambda { where(created_at: (Time.current.at_end_of_day - 6.day).at_beginning_of_day...Time.current.at_end_of_day) }, class_name: 'Like' 
+
+  has_many :week_likes, lambda { where(created_at: (Time.current.at_end_of_day - 6.day).at_beginning_of_day...Time.current.at_end_of_day) }, class_name: 'Like'
 
   def written_by?(current_user)
     user == current_user
@@ -107,11 +107,15 @@ class Post < ApplicationRecord
     case params_index
     when "like"
       left_joins(:likes).group(:id).order("count(likes.post_id) desc")
+      # posts.sort_by {|x| x.likes.size}.reverse
+      # ↑↑↑
+      # 以前まではこのようなコードで書いていたが、検索件数が多くなるとrailsサーバーに負荷がかかる。(110行目)
+      # Rubyのソートではなくデータベースでソートし、railsサーバはソート結果を取得する記述に変更した。(109行目)
     when "likes_in_week"
       left_joins(:week_likes).group(:id).order("count(likes.post_id) desc")
     else
       includes(:user).order(created_at: :desc)
     end
   end
-  
+
 end

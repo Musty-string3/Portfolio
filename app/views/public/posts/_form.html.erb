@@ -43,13 +43,8 @@
       </div>
 
       <div class="form-group">
-        <%= f.label :tag, "タグ (全角の空白で区切ると複数タグ登録できます)" %>
-        <!--TODO create失敗時のタグが出力されない-->
-        <% if post.new_record?  %>
-          <%= f.text_field :tag, placeholder: "タグを入力", class: "form-control w-100" %>
-        <% else %>
-          <%= f.text_field :tag, value: @tag_list, placeholder: "タグを入力", class: "form-control w-100" %>
-        <% end %>
+        <%= f.label :tag, "タグ (空白で区切ると複数タグ登録できます)" %>
+        <%= f.text_field :tag, value: @tags, placeholder: "タグを入力", class: "form-control w-100" %>
       </div>
       <div>
         <p>タグ：<span id="check_post_tags"></span></p>
@@ -116,7 +111,7 @@
 
   function tag_input() {
     const tagText = $('#post_tag').val()
-    const tags = tagText.split('　');
+    const tags = tagText.split(/\s+/);
     const check_post_tags = $("#check_post_tags")
     check_post_tags.empty();
 
