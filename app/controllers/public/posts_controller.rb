@@ -44,7 +44,7 @@ class Public::PostsController < ApplicationController
 
   def edit
     @post_images_url = @post.images.map{|image| url_for image}
-    @tag_list = @post.tags.pluck(:name).join('　')
+    @tags = @post.tags.pluck(:name).join('　')
   end
 
   def update
