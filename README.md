@@ -8,13 +8,23 @@ https://portfolio-mfts.com/
 <br>
 ※レスポンシブ対応していますので、スマートフォンからでも利用できます。
 <br>
+<br>
+※画面に入りきらない部分は切り取り、画面のサイズを変更して表示しています。
 
-・投稿一覧
-![スクリーンショット 2023-12-10 165720](https://github.com/Musty-string3/Portfolio/assets/138371972/0bb3148e-19d5-447c-b802-55f58329bc6d)
+・トップページ画面
+![スクリーンショット 2023-12-17 110439](https://github.com/Musty-string3/Portfolio/assets/138371972/ee697273-ddfd-4b59-bdc8-db93cfd02711)
+・投稿一覧画面
+![スクリーンショット 2023-12-17 110639](https://github.com/Musty-string3/Portfolio/assets/138371972/cf5db233-2c9a-42d8-9962-7fb10ec149db)
+・投稿詳細画面
+![スクリーンショット 2023-12-17 111621](https://github.com/Musty-string3/Portfolio/assets/138371972/17c53811-370a-43c3-b87b-560ed366447d)
+・DM画面
+![スクリーンショット 2023-12-17 111414](https://github.com/Musty-string3/Portfolio/assets/138371972/54e85464-9fe6-401f-8e54-5c590cc9b4d1)
+・管理者投稿詳細画面
+![スクリーンショット 2023-12-17 111840](https://github.com/Musty-string3/Portfolio/assets/138371972/28faa59d-4095-424d-97bc-a2b90da2d98d)
+・ユーザー画面
 <br>
+![スクリーンショット 2023-12-17 112139](https://github.com/Musty-string3/Portfolio/assets/138371972/c18d13d2-9b72-4230-b700-3413350479fb)
 <br>
-・管理者投稿詳細
-![スクリーンショット 2023-12-10 115531](https://github.com/Musty-string3/Portfolio/assets/138371972/7d96d42f-8715-486b-bc4e-3e128d1eea34)
 
 ### サイトテーマ
 訪れてみたい観光地や絶景スポットを検索したり、おすすめの観光地を画像と文章を使って投稿することができるSNSアプリケーション。
@@ -37,10 +47,8 @@ https://portfolio-mfts.com/
 ・[ER図](https://drive.google.com/file/d/1ZHs71UDLzyGY1xz7aUCpAIkTQD1Kj2Kx/view?usp=sharing)
 <br>
 ・[テーブル定義書](https://docs.google.com/spreadsheets/d/1C2OvCG1tq4fb6f-WZ8_k6HbQAxL5LO7q3VX3m3E6ph8/edit?usp=sharing)
-未完成
 <br>
 ・[アプリケーション詳細設計書](https://docs.google.com/spreadsheets/d/1YGal3kW0m1_xQ2BkjpuFXbKufiPfGzwLXzzrgtBfCGM/edit?usp=sharing)
-未完成
 <br>
 ・[テスト仕様書](https://docs.google.com/spreadsheets/d/1N3pCvhcvuvnswRpplxmZ9w_hFBibk_51/edit?usp=sharing&ouid=100955468655227652432&rtpof=true&sd=true)
 
