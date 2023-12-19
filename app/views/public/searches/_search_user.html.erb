@@ -10,7 +10,7 @@
             </td>
             <td class="col-11">
               <h5><%= user.name %></h5>
-              <div><%= user.introduction %></div>
+              <div><%= truncate(user.introduction, length: 15, omission: "...") %></div>
               <div>
                 フォロー数<span class="ml-1"><%= user.followings.count %></span>
                 フォロワー数<span class="ml-1"><%= user.followers.count %></span>
