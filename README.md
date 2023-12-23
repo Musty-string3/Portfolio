@@ -38,7 +38,7 @@ https://portfolio-mfts.com/
 ![スクリーンショット 2023-12-17 111840](https://github.com/Musty-string3/Portfolio/assets/138371972/28faa59d-4095-424d-97bc-a2b90da2d98d)
 ・ユーザー画面（スマートフォンからの閲覧）
 <br>
-![IMG_2172](https://github.com/Musty-string3/Portfolio/assets/138371972/f46b7892-cb37-49fa-a9f9-c1d9d3d5d20b)
+![IMG_2180](https://github.com/Musty-string3/Portfolio/assets/138371972/ff4e3f19-9987-48f2-a3a1-d0c1dd442bbc)
 <br>
 
 ## 使用技術
