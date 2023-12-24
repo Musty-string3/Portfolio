@@ -1,16 +1,13 @@
 class Public::RoomsController < ApplicationController
   before_action :authenticate_user!
+  before_action :entry_exists?, only: %i[create]
   before_action :room_join?, only: %i[show]
 
   def create
-    current_room_id = Entry.find_by(user_id: current_user.id).room_id
-    unless Entry.find_by(room_id: current_room_id, user_id: params[:entry][:user_id])
-      room = Room.create
-      Entry.create(room_id: room.id, user_id: current_user.id)
-      Entry.create(room_id: room.id, user_id: params[:entry][:user_id])
-    end
+    room = Room.create
+    Entry.create(room_id: room.id, user_id: current_user.id)
+    Entry.create(room_id: room.id, user_id: params[:entry][:user_id])
     redirect_to room_path(room)
-
   end
 
   def index
@@ -33,6 +30,11 @@ class Public::RoomsController < ApplicationController
   end
 
   private
+
+  def entry_exists?
+    partner_user = User.find(params[:entry][:user_id])
+    current_room_id = Entry.check_chatroom(partner_user, current_user)
+  end
 
   def room_join?
     room = params[:id]
