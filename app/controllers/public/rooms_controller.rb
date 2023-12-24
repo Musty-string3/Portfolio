@@ -8,8 +8,8 @@ class Public::RoomsController < ApplicationController
       room = Room.create
       Entry.create(room_id: room.id, user_id: current_user.id)
       Entry.create(room_id: room.id, user_id: params[:entry][:user_id])
-      redirect_to room_path(room)
     end
+    redirect_to room_path(room)
 
   end
 
