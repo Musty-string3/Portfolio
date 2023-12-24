@@ -3,10 +3,14 @@ class Public::RoomsController < ApplicationController
   before_action :room_join?, only: %i[show]
 
   def create
-    room = Room.create
-    Entry.create(room_id: room.id, user_id: current_user.id)
-    Entry.create(room_id: room.id, user_id: params[:entry][:user_id])
-    redirect_to room_path(room)
+    current_room_id = Entry.find_by(user_id: current_user.id).room_id
+    unless Entry.find_by(room_id: current_room_id, user_id: params[:entry][:user_id])
+      room = Room.create
+      Entry.create(room_id: room.id, user_id: current_user.id)
+      Entry.create(room_id: room.id, user_id: params[:entry][:user_id])
+      redirect_to room_path(room)
+    end
+
   end
 
   def index
@@ -23,7 +27,7 @@ class Public::RoomsController < ApplicationController
     @messages = Message.where(room_id: @room.id)
     @message = Message.new
     @entries = Entry.where(room_id: @room.id)
-    # TODO Enumerable = イーナマラブル
+    # 下記はEnumerable = イーナマラブルを使って動作している
     @current_entry = @entries.find {|entry| entry.user_id == current_user.id}
     @another_entry = @entries.find {|entry| entry.user_id != current_user.id}
   end
