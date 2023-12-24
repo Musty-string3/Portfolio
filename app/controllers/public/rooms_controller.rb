@@ -35,9 +35,9 @@ class Public::RoomsController < ApplicationController
     partner_user = User.find(params[:entry][:user_id])
     current_room_id = Entry.check_chatroom(partner_user, current_user)
     if current_room_id == false
-      redirect_back fallback_location: root_path
-    else
       redirect_to room_path(current_room_id)
+    else
+      redirect_back fallback_location: root_path
     end
   end
 
