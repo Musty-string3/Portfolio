@@ -41,24 +41,17 @@ https://portfolio-mfts.com/
 ![IMG_2180](https://github.com/Musty-string3/Portfolio/assets/138371972/ff4e3f19-9987-48f2-a3a1-d0c1dd442bbc)
 <br>
 
-## 使用技術
-- Ruby 3.1.2
-- Rails 6.1.7.4
-- JavaScript
-- JQuery
-- Bootstrap
-- MySQL
-- Nginx
-- Puma
-- AWS
-  - cloud9
-  - VPC
-  - EC2
-  - RDS
-  - CloudWatch
-  - Route53
-- CircleCi CI/CD
-- Certbot
+## 開発環境
+- OS：Linux(CentOS)
+- 言語：HTML,CSS,JavaScript,Ruby,SQL(MySQL,SQLite)
+- フレームワーク：Ruby on Rails
+- CSSフレームワーク：Bootstrap
+- JSライブラリ：jQuery
+- IDE：Cloud9
+- 外部API：Google Map API
+- AWS：VPC,EC2,RDS,CloudWatch,Route53
+- Webサーバー：Nginx
+- アプリケーションサーバー：Puma
 
 
 ## 機能一覧
@@ -141,14 +134,6 @@ https://portfolio-mfts.com/
 - Rspecを用いたテスト
 - erb以外のテンプレートエンジン(slim/haml)を用いてhtml.erbを書き換える
 - Rubyの静的コード解析ツールであるRubocopを使ってコーディング規約の確認
-
-## 開発環境
-- OS：Linux(CentOS)
-- 言語：HTML,CSS,JavaScript,Ruby,SQL
-- フレームワーク：Ruby on Rails
-- JSライブラリ：jQuery
-- IDE：Cloud9
-- 外部API：Google Map API
 
 ## 使用素材
 [イラストAC](https://www.ac-illust.com/)
