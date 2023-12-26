@@ -7,12 +7,9 @@
   <% if @posts.present? %>
     <%= render 'public/posts/index', posts: @posts %>
   <% else %>
-    <h4 class="text-center pt-3">
-      ここにはフォローしたユーザーの最新の投稿が<br>
-      タイムラインとして表示されます。<br>
-      まだフォローしているユーザーがいないので<br>
-      気になったユーザーがいればフォローしてみよう！
-    </h4>
+    <h5 class="text-center pt-3">
+      フォローしているユーザーがいません
+    </h5>
   <% end %>
   <%= render 'public/posts/new_post_btn' %>
 </div>

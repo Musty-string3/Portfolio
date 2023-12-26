@@ -52,7 +52,7 @@ https://portfolio-mfts.com/
 - AWS：VPC,EC2,RDS,CloudWatch,Route53
 - Webサーバー：Nginx
 - アプリケーションサーバー：Puma
-- CI/CD：GithubAction
+- CI/CD：Github Action
 
 
 ## 機能一覧

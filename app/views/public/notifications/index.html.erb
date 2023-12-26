@@ -5,9 +5,34 @@
       <h3 class="mx-auto">あなたへの通知</h3>
     </div>
   </div>
-  <% if @notifications.nil? %>
-    <h4 class="text-center pt-3">通知はありません。</h4>
+  <% if @notifications.present? %>
+    <div class="row">
+      <div class="col-10 mx-auto">
+        <div class="row justify-content-center">
+          <ul class="pl-0">
+            <% @notifications.each do |notification| %>
+              <li class="border-bottom pb-2 pt-2 list_none">
+                <%= link_to user_path(notification.visitor.id), class:'text-dark' do %>
+                  <%= image_tag notification.visitor.get_profile_image(50, 50), class:"border border-dark rounded-circle", width: 30, height: 30 %>
+                  <span class="h5"><%= notification.visitor.name %></span>
+                <% end %>
+                <% case notification.action %>
+                  <% when 'like' %>
+                    さんが<%= link_to notification.post.post_name, post_path(notification.post_id), class:'text-dark h5' %>の投稿にいいね<i class="fa-solid fa-heart text-danger"></i>しました
+                  <% when 'comment' %>
+                    さんが<%= link_to notification.post.post_name, post_path(notification.comment.post), class:'text-dark h5' %>の投稿にコメントしました！
+                    <p class="ml-3 mb-0"><i class="fa-regular fa-comment-dots fa-lg"></i>「<%= truncate(notification.comment.text, length: 35, omission: "...") %>」</p>
+                  <% else %>
+                    さんに<i class="fa-solid fa-user-plus"></i>フォローされました
+                <% end %>
+                <i class="pr-1 pl-2 fa-regular fa-clock pt-1"></i><%= time_ago_in_words(notification.created_at) %>前
+              </li>
+            <% end %>
+          </ul>
+        </div>
+      </div>
+    </div>
   <% else %>
-    <%= render 'notification', notifications: @notifications %>
+    <h4 class="text-center pt-3">通知はありません。</h4>
   <% end %>
 </div>

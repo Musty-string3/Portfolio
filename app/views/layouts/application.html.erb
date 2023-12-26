@@ -108,15 +108,11 @@
                 <li class="nav-item" >
                   <%= link_to "ゲストログイン", guest_sign_in_path, method: :post, class: 'nav-link text-dark' %>
                 </li>
-                <li class="nav-item" >
-                  <%= link_to "管理者ログイン", new_admin_session_path, class: 'nav-link text-dark' %>
-                </li>
               <% end %>
             </ul>
             <div class="d-none d-lg-block">
-              <% if user_signed_in? %>
-                <%= render 'public/searches/form' %>
-              <% end %>
+              <%= render 'public/searches/form' if user_signed_in? %>
+              <%= link_to "管理者ログイン", new_admin_session_path, class: 'text-dark' unless admin_signed_in? || user_signed_in? %>
             </div>
           </div>
         </div>
