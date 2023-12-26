@@ -16,7 +16,7 @@
     <% end %>
   <% end %>
   <% if comment.user == current_user || !current_user&.name %>
-    <%= link_to "削除", post_comment_path(comment.post, comment), method: :delete, remote: true, data: {confirm: "コメントを削除しますか？"}, class:"float-right mr-3 mt-1 btn btn-outline-danger" %>
+    <%= link_to "削除", post_comment_path(comment.post, comment), method: :delete, remote: true, data: {confirm: "コメントを削除しますか？"}, class:"float-right mr-3 mt-1 pt-0 pb-0 btn btn-outline-danger" %>
   <% end %>
   <div class="pt-1 pb-1 ml-4">
     <p class="mb-0"><%= comment.text %></p>
