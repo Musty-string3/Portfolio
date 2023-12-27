@@ -84,13 +84,16 @@ https://portfolio-mfts.com/
 
 
 ## 各種設計書
-・[ER図](https://drive.google.com/file/d/1ZHs71UDLzyGY1xz7aUCpAIkTQD1Kj2Kx/view?usp=sharing)
-<br>
 ・[テーブル定義書](https://docs.google.com/spreadsheets/d/1C2OvCG1tq4fb6f-WZ8_k6HbQAxL5LO7q3VX3m3E6ph8/edit?usp=sharing)
 <br>
 ・[アプリケーション詳細設計書](https://docs.google.com/spreadsheets/d/1YGal3kW0m1_xQ2BkjpuFXbKufiPfGzwLXzzrgtBfCGM/edit?usp=sharing)
 <!--<br>-->
 <!--・[テスト仕様書](https://docs.google.com/spreadsheets/d/1N3pCvhcvuvnswRpplxmZ9w_hFBibk_51/edit?usp=sharing&ouid=100955468655227652432&rtpof=true&sd=true)-->
+
+## ER図
+![スクリーンショット 2023-12-27 222633](https://github.com/Musty-string3/Portfolio/assets/138371972/b59c8fe4-a70a-41d6-9deb-157875ca1c16)
+<br>
+[ER図](https://drive.google.com/file/d/1ZHs71UDLzyGY1xz7aUCpAIkTQD1Kj2Kx/view?usp=sharing)
 
 
 ## AWS構成
