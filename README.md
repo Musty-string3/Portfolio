@@ -92,8 +92,6 @@ https://portfolio-mfts.com/
 
 ## ER図
 ![スクリーンショット 2023-12-27 222633](https://github.com/Musty-string3/Portfolio/assets/138371972/b59c8fe4-a70a-41d6-9deb-157875ca1c16)
-<br>
-[ER図](https://drive.google.com/file/d/1ZHs71UDLzyGY1xz7aUCpAIkTQD1Kj2Kx/view?usp=sharing)
 
 
 ## AWS構成
