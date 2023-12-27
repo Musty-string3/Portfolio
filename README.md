@@ -91,7 +91,7 @@ https://portfolio-mfts.com/
 <!--・[テスト仕様書](https://docs.google.com/spreadsheets/d/1N3pCvhcvuvnswRpplxmZ9w_hFBibk_51/edit?usp=sharing&ouid=100955468655227652432&rtpof=true&sd=true)-->
 
 ## ER図
-![スクリーンショット 2023-12-27 222633](https://github.com/Musty-string3/Portfolio/assets/138371972/b59c8fe4-a70a-41d6-9deb-157875ca1c16)
+![スクリーンショット 2023-12-27 223416](https://github.com/Musty-string3/Portfolio/assets/138371972/8b23c28c-795f-4144-b143-a95a8f285370)
 
 
 ## AWS構成
