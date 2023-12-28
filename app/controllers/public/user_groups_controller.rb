@@ -8,14 +8,12 @@ class Public::UserGroupsController < ApplicationController
     unless UserGroup.find_by(user_id: current_user.id, room_group_id: params[:group_id])
       if room_group.count > room_group.user_groups.count
         UserGroup.create(
-          user_id: current_user.id, 
+          user_id: current_user.id,
           room_group_id: params[:group_id]
         )
-        redirect_to room_group_path(params[:group_id])
-        flash[:notice] = "グループチャットに参加しました。"
+        redirect_to room_group_path(params[:group_id]), notice: "グループチャットに参加しました。"
       else
-        redirect_back fallback_location: root_path
-        flash[:alert] = "グループチャットに参加できませんでした。"
+        redirect_back fallback_location: root_path, alert: "グループチャットに参加できませんでした。"
       end
     end
   end
@@ -23,8 +21,8 @@ class Public::UserGroupsController < ApplicationController
   def index
     @user_groups = UserGroup.includes(:user).where(room_group_id: params[:room_group_id])
     @user_group_leader = UserGroup.find_by(
-      user_id: current_user.id, 
-      room_group_id: params[:room_group_id], 
+      user_id: current_user.id,
+      room_group_id: params[:room_group_id],
       is_leader: true
     )
     # リーダーのみが指定のユーザーを退会させる機能

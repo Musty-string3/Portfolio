@@ -3,17 +3,11 @@ class Public::CommentLikesController < ApplicationController
   before_action :set_comment_likes
 
   def create
-    CommentLike.create(
-      comment_id: params[:comment_id],
-      user_id: current_user.id
-    )
+    CommentLike.create(comment_id: params[:comment_id],user_id: current_user.id)
   end
 
   def destroy
-    CommentLike.find_by(
-      user_id: current_user, 
-      comment_id: params[:comment_id]
-    ).destroy
+    CommentLike.find_by(user_id: current_user, comment_id: params[:comment_id]).destroy
   end
   
   private

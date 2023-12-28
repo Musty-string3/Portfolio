@@ -11,12 +11,9 @@ class Public::RoomsController < ApplicationController
   end
 
   def index
-    @entries = Entry.includes(:user).where(user_id: current_user.id)
-    room_id = []
-    @entries.each do |entry|
-      room_id << entry.room_id
-    end
-    @another_entries = Entry.where(room_id: room_id).where.not(user_id: current_user.id)
+    @entries = Entry.joins(:user).where(user_id: current_user.id)
+    room_ids = @entries.pluck(:room_id)
+    @another_entries = Entry.where(room_id: room_ids).where.not(user_id: current_user.id)
   end
 
   def show

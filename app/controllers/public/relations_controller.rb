@@ -1,14 +1,13 @@
 class Public::RelationsController < ApplicationController
+  before_action :set_user
   before_action :is_room, only: %i[create destroy]
 
   def followings
-    @user = User.find(params[:user_id])
-    @users = User.find(params[:user_id]).followings
+    @users = @user.followings
   end
 
   def followers
-    @user = User.find(params[:user_id])
-    @users = User.find(params[:user_id]).followers
+    @users = @user.followers
   end
 
   def create
@@ -21,10 +20,13 @@ class Public::RelationsController < ApplicationController
   end
 
   private
+  
+  def set_user
+    @user = User.find(params[:user_id])
+  end
 
   # フォローした時に非同期でDMボタンを表示させる
   def is_room
-    @user = User.find(params[:user_id])
     @room_id = Entry.check_chatroom(@user, current_user)
     @isRoom = false
     if @room_id

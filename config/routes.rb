@@ -42,7 +42,7 @@ Rails.application.routes.draw do
     resources :notifications, only: %i[index]
     resources :rooms, only: %i[index show create]
     resources :messages, only: %i[create]
-    resources :room_groups do #グループチャット
+    resources :room_groups do
       resources :message_groups, only: %i[create]
       resources :user_groups, only: %i[create index destroy]
     end
