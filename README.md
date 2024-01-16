@@ -29,8 +29,7 @@ https://portfolio-mfts.com/
 ・トップページ画面
 ![スクリーンショット 2023-12-17 110439](https://github.com/Musty-string3/Portfolio/assets/138371972/ee697273-ddfd-4b59-bdc8-db93cfd02711)
 ・投稿一覧画面
-![スクリーンショット 2023-12-17 110639](https://github.com/Musty-string3/Portfolio/assets/138371972/cf5db233-2c9a-42d8-9962-7fb10ec149db)
-・投稿詳細画面
+![スクリーンショット 2024-01-16 193658](https://github.com/Musty-string3/Portfolio/assets/138371972/87e0aa6e-b586-49ca-beed-58851aa57f4b)・投稿詳細画面
 ![スクリーンショット 2023-12-17 111621](https://github.com/Musty-string3/Portfolio/assets/138371972/17c53811-370a-43c3-b87b-560ed366447d)
 ・DM画面
 ![スクリーンショット 2023-12-17 111414](https://github.com/Musty-string3/Portfolio/assets/138371972/54e85464-9fe6-401f-8e54-5c590cc9b4d1)
