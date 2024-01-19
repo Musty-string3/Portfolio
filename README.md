@@ -42,8 +42,8 @@ https://portfolio-mfts.com/
 
 ## 開発環境
 - OS：Linux(CentOS)
-- 言語：HTML,CSS,JavaScript,Ruby,SQL(MySQL,SQLite)
-- フレームワーク：Ruby on Rails
+- 言語：HTML,CSS,JavaScript,Ruby(3.1.2),SQL(MySQL,SQLite)
+- フレームワーク：Ruby on Rails(6.1.7.4)
 - CSSフレームワーク：Bootstrap
 - JSライブラリ：jQuery
 - IDE：Cloud9
@@ -100,8 +100,8 @@ https://portfolio-mfts.com/
 
 
 ## 意識した、こだわった部分
-##### 美しいコードを書くために
-第三者目線から見ても理解しやすいコードを書くことを重点的に意識しました。<br>
+##### 可読性のあるコードを書くために
+第三者目線から見ても理解しやすい可読性のあるコードを書くことを重点的に意識しました。<br>
 また、重複している箇所は部分テンプレート、メソッド化を行い、DRY原則の徹底を行いました。
 
 ##### N+1問題の対策
