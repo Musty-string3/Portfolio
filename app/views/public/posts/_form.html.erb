@@ -72,19 +72,23 @@
             <div class="modal-header">
               <div class="modal-title" id="exampleModalLabel">
                 <h4>GoogleMap</h4>
-                <%= f.label :lat,"緯度" %>
-                <%= f.text_field :lat, placeholder: "緯度", id: :lat %>
-                <%= f.label :lng,"経度" %>
-                <%= f.text_field :lng, placeholder: "経度", id: :lng %>
+                <%= f.hidden_field :lat, placeholder: "緯度", id: :lat %>
+                <%= f.hidden_field :lng, placeholder: "経度", id: :lng %>
               </div>
               <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
               </button>
             </div>
             <div class="modal-body">
-              <input id="address" type="text" placeholder="清水寺">
-              <input type="button" value="検索" onclick="codeAddress()">
-              <span>検索をするとマーカーが使えるようになります。</span>
+              <div class="row">
+                <div class="col-8">
+                  <input id="address" type="text" placeholder="清水寺", class="form-control">
+                </div>
+                <div class="col-2">
+                  <input type="button" value="検索" onclick="codeAddress()", class="btn btn-outline-info">
+                </div>
+              </div>
+              <p>検索をするとマーカーが使えるようになります。</p>
               <div class="container-fluid">
                 <div class="row">
                   <div id='map' style="height: 800px; width: 800px;"></div>
