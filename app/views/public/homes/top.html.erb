@@ -61,7 +61,7 @@
                 <% end %>
               </div>
               <div class="pt-1 pb-1">
-                <i class="fa-regular fa-heart"></i><%= post.likes.count %>いいね
+                <span id="post_<%= post.id %>"><%= render "public/likes/like", post: post %></span>
                 <span class="pl-1"><%= post.comments.count %>コメント</span>
                 <i class="fa-solid fa-eye pl-1"></i><%= post.view_counts.count %>
               </div>

@@ -1,10 +1,16 @@
 <!--投稿にいいねした時の非同期通信-->
-<% if post.like?(current_user) %>
-  <%= link_to post_likes_path(post), method: :delete, remote: true, class:"text-dark" do %>
-    <i class="fa-solid fa-heart text-danger"></i><%= post.likes.count %>いいね
+<% if user_signed_in? %>
+  <% if post.like?(current_user) %>
+    <%= link_to post_likes_path(post), method: :delete, remote: true, class:"text-dark" do %>
+      <i class="fa-solid fa-heart text-danger"></i><%= post.likes.count %>いいね
+    <% end %>
+  <% else %>
+    <%= link_to post_likes_path(post), method: :post, remote: true, class:"text-dark" do %>
+      <i class="fa-regular fa-heart text-dark"></i><%= post.likes.count %>いいね
+    <% end %>
   <% end %>
 <% else %>
-  <%= link_to post_likes_path(post), method: :post, remote: true, class:"text-dark" do %>
+  <%= link_to new_user_session_path, class:"text-dark" do %>
     <i class="fa-regular fa-heart text-dark"></i><%= post.likes.count %>いいね
   <% end %>
 <% end %>
